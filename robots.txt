@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://merdekamotor-garut.example.com/sitemap.xml
+Sitemap: https://merdeka-motor-garut.vercel.app/sitemap.xml
