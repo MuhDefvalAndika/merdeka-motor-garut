@@ -1,0 +1,1869 @@
+<!DOCTYPE html>
+  <html lang="id">
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merdeka Motor Garut — Sparepart Motor Original & Berkualitas</title>
+  <meta name="description" content="Merdeka Motor Garut — pusat sparepart motor asli dan berkualitas. Mesin, kelistrikan, rem, body, ban, hingga oli. Cek stok & konsultasi langsung via WhatsApp.">
+  <meta name="keywords" content="sparepart motor garut, toko sparepart garut, sparepart motor original, bengkel motor garut, aki motor garut, kampas rem motor garut">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#1D1D1F">
+  <meta name="author" content="Merdeka Motor Garut">
+  <!-- GANTI URL di bawah ke domain asli sebelum deploy ke Vercel -->
+  <link rel="canonical" href="https://merdekamotor-garut.example.com/">
+
+  <!-- Open Graph (preview saat link dibagikan di WhatsApp/Facebook) -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="id_ID">
+  <meta property="og:site_name" content="Merdeka Motor Garut">
+  <meta property="og:title" content="Merdeka Motor Garut — Sparepart Motor Original & Berkualitas">
+  <meta property="og:description" content="Pusat sparepart motor asli dan berkualitas di Garut. Mesin, kelistrikan, rem, body, ban, hingga oli. Cek stok & konsultasi langsung via WhatsApp.">
+  <meta property="og:url" content="https://merdekamotor-garut.example.com/">
+  <meta property="og:image" content="https://merdekamotor-garut.example.com/images/og-cover.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Merdeka Motor Garut — Sparepart Motor Original & Berkualitas">
+  <meta name="twitter:description" content="Pusat sparepart motor asli dan berkualitas di Garut. Cek stok & konsultasi langsung via WhatsApp.">
+  <meta name="twitter:image" content="https://merdekamotor-garut.example.com/images/og-cover.jpg">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231D1D1F'/%3E%3Ccircle cx='16' cy='16' r='6.5' fill='%23C8102E'/%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231D1D1F'/%3E%3Ccircle cx='16' cy='16' r='6.5' fill='%23C8102E'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+  <!--
+    =====================================================================
+    DAFTAR FILE MEDIA YANG PERLU DISIAPKAN
+    (letakkan di folder "images/" sejajar file HTML ini)
+    Video TIDAK perlu file lokal — pakai embed YouTube, lihat komentar
+    "CARA PAKAI" di dekat variabel videoData pada <script> di bawah.
+    =====================================================================
+    images/hero-1.jpg                  -> foto hero carousel 1, disarankan lanskap 1600x1600 (crop cover)
+    images/hero-2.jpg                  -> foto hero carousel 2, 1600x1600
+    images/hero-3.jpg                  -> foto hero carousel 3, 1600x1600
+    images/hero-4.jpg                  -> foto hero carousel 4, 1600x1600
+    images/hero-5.jpg                  -> foto hero carousel 5, 1600x1600
+    images/part-kampas-rem.jpg         -> foto produk, disarankan persegi 800x800
+    images/part-shock-belakang.jpg     -> foto produk, 800x800
+    images/part-aki.jpg                -> foto produk (dipakai juga di section "Part Unggulan"), 800x800
+    images/part-busi-iridium.jpg       -> foto produk, 800x800
+    images/part-vbelt.jpg              -> foto produk, 800x800
+    images/part-filter-udara.jpg       -> foto produk, 800x800
+    images/part-lampu-led.jpg          -> foto produk, 800x800
+    images/part-spion.jpg              -> foto produk, 800x800
+    images/part-rantai-gear.jpg        -> foto produk, 800x800
+    images/part-ban-tubeless.jpg       -> foto produk, 800x800
+    images/part-oli-mesin.jpg          -> foto produk, 800x800
+    images/part-oli-gardan.jpg         -> foto produk, 800x800
+    images/og-cover.jpg                -> gambar untuk preview link (WhatsApp/Facebook/Twitter), 1200x630
+    =====================================================================
+    CARA NAMBAH PART BARU
+    Tinggal tambah satu object baru di array "partsData" (cari di <script>,
+    variabel const partsData). Field yang wajib diisi:
+      kategori    -> salah satu dari: mesin, kelistrikan, rem, body, roda, oli
+      nama        -> nama part yang tampil ke pelanggan
+      kode        -> kode katalog part
+      kompatibel  -> daftar motor yang cocok, dipisah koma
+      img         -> nama file gambar di folder images/ (tanpa "images/")
+      deskripsi   -> deskripsi singkat 1 kalimat
+    Kalau part sudah lebih dari ~40-50 item, sebaiknya pindah ke Google
+    Sheets atau database (tanya developer) biar lebih gampang di-update.
+    =====================================================================
+  -->
+
+  <script type="application/ld+json" id="ldjson-website">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Merdeka Motor Garut",
+    "url": "https://merdekamotor-garut.example.com/",
+    "inLanguage": "id-ID"
+  }
+  </script>
+
+  <script type="application/ld+json" id="ldjson-cabang">
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "AutoPartsStore",
+      "name": "Merdeka Motor Garut — Cabang Pusat (Kerkof)",
+      "telephone": "+6281462323794",
+      "priceRange": "$$",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Jl. Merdeka No.85A, Jayaraga",
+        "addressLocality": "Tarogong Kidul",
+        "addressRegion": "Kabupaten Garut",
+        "addressCountry": "ID"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+        "opens": "08:00",
+        "closes": "17:00"
+      },
+      "url": "https://maps.app.goo.gl/eNGyS82haaU9MoyYA"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "AutoPartsStore",
+      "name": "Merdeka Motor Garut — Cabang Ciparay",
+      "telephone": "+6285320375848",
+      "priceRange": "$$",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Ciparay",
+        "addressRegion": "Kabupaten Garut",
+        "addressCountry": "ID"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+        "opens": "08:00",
+        "closes": "21:00"
+      },
+      "url": "https://maps.app.goo.gl/ejKf44Tg94auAKgRA"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "AutoPartsStore",
+      "name": "Merdeka Motor Garut — Cabang Sanding",
+      "telephone": "+6288901674177",
+      "priceRange": "$$",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Muara Sanding, Garut Kota",
+        "addressRegion": "Kabupaten Garut",
+        "addressCountry": "ID"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+        "opens": "08:00",
+        "closes": "17:00"
+      },
+      "url": "https://maps.app.goo.gl/ZF9XySFgfcDsFwtq5"
+    }
+  ]
+  </script>
+
+  <style>
+    :root{
+      --ink:#1D1D1F;
+      --ink-soft:#6E6E73;
+      --ink-faint:#86868B;
+      --bg:#FFFFFF;
+      --bg-soft:#F5F5F7;
+      --bg-soft-2:#FBFBFD;
+      --line:#D2D2D7;
+      --line-soft:#E8E8ED;
+      --accent:#C8102E;
+      --accent-deep:#96081F;
+      --accent-soft:#FBEAEC;
+      --wa:#25D366;
+      --radius-lg:24px;
+      --radius-md:16px;
+      --radius-sm:10px;
+      --ease:cubic-bezier(.22,1,.36,1);
+      --maxw:1180px;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    @media (prefers-reduced-motion: reduce){
+      html{scroll-behavior:auto;}
+      *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+    }
+    body{
+      font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+      background:var(--bg);
+      color:var(--ink);
+      line-height:1.55;
+      -webkit-font-smoothing:antialiased;
+      overflow-x:hidden;
+    }
+    h1,h2,h3{
+      font-family:'Inter',sans-serif;
+      font-weight:800;
+      letter-spacing:-0.02em;
+      line-height:1.05;
+    }
+    .mono{font-family:'JetBrains Mono',monospace;}
+    a{color:inherit;text-decoration:none;}
+    img{max-width:100%;display:block;}
+    button{font-family:inherit;}
+    .container{max-width:var(--maxw); margin:0 auto; padding:0 24px;}
+    .eyebrow{
+      font-size:13px;
+      letter-spacing:0.01em;
+      text-transform:none;
+      color:var(--accent);
+      font-weight:700;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      line-height:1;
+    }
+    .eyebrow.center{justify-content:center;}
+    .eyebrow.on-dark{color:var(--accent);}
+
+    :focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:4px;}
+
+    .skip-link{
+      position:absolute; left:16px; top:-48px; z-index:300; background:var(--ink); color:#fff;
+      padding:12px 18px; border-radius:999px; font-size:13px; font-weight:700; transition:top .2s var(--ease);
+    }
+    .skip-link:focus{top:16px;}
+
+    .reveal{opacity:0; transform:translateY(16px); transition:opacity .6s var(--ease), transform .6s var(--ease); transition-delay:var(--d,0s);}
+    .reveal.in{opacity:1; transform:translateY(0);}
+    .reveal-group.in .reveal-child{opacity:1; transform:translateY(0);}
+    .reveal-child{opacity:0; transform:translateY(14px); transition:opacity .55s var(--ease), transform .55s var(--ease);}
+
+    .img-slot{
+      position:relative; overflow:hidden;
+      background:var(--bg-soft);
+    }
+    .img-slot img{
+      position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+      opacity:0; transition:opacity .35s var(--ease);
+    }
+    .img-slot.loaded img{opacity:1;}
+    .img-slot.loaded .slot-label{display:none;}
+    .img-slot .slot-label{
+      position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+      gap:6px; text-align:center; padding:12px; color:var(--ink-faint);
+    }
+    .img-slot .slot-label .ic{width:24px; height:24px; opacity:.4;}
+    .img-slot .slot-label b{
+      font-family:'JetBrains Mono',monospace; font-size:10.5px; font-weight:600;
+      color:var(--ink-soft); letter-spacing:0.02em; word-break:break-all;
+    }
+    .img-slot .slot-label span{font-size:10px; color:var(--ink-faint); letter-spacing:0.02em;}
+
+    /* ---------- Utility bar ---------- */
+    .util-bar{background:var(--ink); color:rgba(255,255,255,0.72); font-size:12px;}
+    .util-inner{
+      max-width:var(--maxw); margin:0 auto; padding:9px 24px;
+      display:flex; align-items:center; justify-content:center; gap:24px;
+    }
+    .util-links{display:flex; gap:26px; list-style:none; align-items:center;}
+    .util-links a{font-weight:500; letter-spacing:0.01em; transition:color .2s;}
+    .util-links a:hover{color:#fff;}
+    @media (max-width:640px){.util-links{gap:16px;} .util-links li:nth-child(3){display:none;}}
+
+    /* ---------- Nav ---------- */
+    header{position:sticky; top:0; z-index:100;}
+    .nav-main{
+      background:rgba(255,255,255,0.86); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--line-soft); transition:box-shadow .3s ease;
+    }
+    .nav-main.scrolled{box-shadow:0 1px 0 var(--line);}
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 24px; max-width:var(--maxw); margin:0 auto; gap:20px; height:52px;
+    }
+    .brand{display:flex; align-items:center; gap:9px; flex-shrink:0;}
+    .brand .dot{width:9px;height:9px;background:var(--accent);border-radius:50%; flex-shrink:0;}
+    .brand-word{
+      font-size:16px; font-weight:700; letter-spacing:-0.01em; color:var(--ink);
+      white-space:nowrap; display:flex; align-items:center; gap:4px;
+    }
+    .brand-word span.dim{color:var(--ink-faint); font-weight:500;}
+    .nav-links{display:flex; gap:2px; list-style:none; align-items:center;}
+    .nav-links a{
+      color:var(--ink-soft); font-size:13.5px; font-weight:500;
+      letter-spacing:0; padding:9px 14px; border-radius:999px;
+      transition:color .2s, background .2s;
+    }
+    .nav-links a:not(.nav-cta):hover{color:var(--ink); background:var(--bg-soft);}
+    .nav-cta{
+      background:var(--ink) !important; color:#fff !important; font-weight:600 !important;
+      padding:9px 18px !important; margin-left:8px;
+      transition:background .2s, transform .2s;
+    }
+    .nav-cta:hover{background:var(--accent) !important; transform:translateY(-1px);}
+    .cart-btn{
+      position:relative; display:flex; align-items:center; justify-content:center;
+      width:38px; height:38px; border-radius:50%; background:var(--bg-soft); border:1px solid var(--line-soft);
+      cursor:pointer; margin-left:6px; flex-shrink:0; transition:background .2s, border-color .2s, transform .2s;
+    }
+    .cart-btn:hover{background:var(--bg); border-color:var(--ink); transform:translateY(-1px);}
+    .cart-btn svg{width:17px; height:17px; stroke:var(--ink); fill:none; stroke-width:1.8;}
+    .cart-badge{
+      position:absolute; top:-4px; right:-4px; min-width:17px; height:17px; padding:0 4px;
+      border-radius:999px; background:var(--accent); color:#fff; font-size:10px; font-weight:800;
+      display:flex; align-items:center; justify-content:center; line-height:1; opacity:0; transform:scale(0.6);
+      transition:opacity .2s var(--ease), transform .2s var(--ease); font-family:'JetBrains Mono',monospace;
+    }
+    .cart-badge.show{opacity:1; transform:scale(1);}
+    .burger{display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:8px;}
+    .burger span{width:20px; height:2px; background:var(--ink); display:block; border-radius:2px; transition:transform .25s var(--ease), opacity .25s var(--ease);}
+    .burger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+    .burger[aria-expanded="true"] span:nth-child(2){opacity:0;}
+    .burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+    .mobile-menu{display:none; flex-direction:column; background:var(--bg); border-top:1px solid var(--line-soft);}
+    .mobile-menu.open{display:flex;}
+    .mobile-menu a{color:var(--ink); padding:15px 24px; border-bottom:1px solid var(--line-soft); font-size:14.5px; font-weight:600; transition:background .2s;}
+    .mobile-menu a:hover{background:var(--bg-soft);}
+    .mobile-menu a.mobile-cta{color:var(--accent);}
+    .mobile-menu a:last-child{border-bottom:none;}
+
+    /* ---------- Floating WA button (site-wide) ---------- */
+    .wa-float{
+      position:fixed; right:22px; bottom:22px; z-index:90;
+      width:54px; height:54px; border-radius:50%; background:var(--wa);
+      display:flex; align-items:center; justify-content:center;
+      box-shadow:0 10px 26px rgba(37,211,102,0.4);
+      transition:transform .25s var(--ease), box-shadow .25s var(--ease);
+    }
+    .wa-float:hover{transform:translateY(-3px) scale(1.04); box-shadow:0 14px 32px rgba(37,211,102,0.5);}
+    .wa-float svg{width:26px; height:26px; fill:#fff;}
+    @media (max-width:640px){
+      .wa-float{right:16px; bottom:16px; width:50px; height:50px;}
+      .wa-float svg{width:24px; height:24px;}
+      .wish-bar.show ~ .wa-float, .wish-bar.show + .wa-float{ bottom:16px; }
+    }
+
+    /* ---------- Hero carousel ---------- */
+    .hero{background:var(--bg); padding:20px 0 0;}
+    .hero-carousel{
+      position:relative; width:100%;
+      border-radius:var(--radius-lg); overflow:hidden;
+      aspect-ratio:16/9; max-height:560px;
+      background:#0B0B0C;
+    }
+    @media (max-width:640px){
+      .hero-carousel{aspect-ratio:4/5; max-height:520px; border-radius:var(--radius-md);}
+    }
+    .hero-track{
+      display:flex; height:100%; width:100%;
+      overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth;
+      -webkit-overflow-scrolling:touch; scrollbar-width:none;
+    }
+    .hero-track::-webkit-scrollbar{display:none;}
+    .hero-slide{
+      flex:0 0 100%; scroll-snap-align:start; scroll-snap-stop:always;
+      position:relative; height:100%;
+    }
+    .hero-slide .img-slot{width:100%; height:100%; background:#0B0B0C;}
+    .hero-slide .img-slot img{object-fit:cover;}
+    .hero-slide .img-slot::after{
+      content:""; position:absolute; inset:0;
+      background:linear-gradient(180deg, rgba(0,0,0,0.16) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0.05) 65%, rgba(0,0,0,0.55) 100%);
+      pointer-events:none;
+    }
+    .hero-arrow{
+      position:absolute; top:50%; transform:translateY(-50%); z-index:5;
+      width:42px; height:42px; border-radius:50%; background:rgba(255,255,255,0.92); border:none; cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      box-shadow:0 8px 20px rgba(0,0,0,0.22);
+      transition:background .2s, transform .2s;
+    }
+    .hero-arrow:hover{background:#fff; transform:translateY(-50%) scale(1.06);}
+    .hero-arrow.prev{left:16px;}
+    .hero-arrow.next{right:16px;}
+    .hero-arrow svg{width:18px; height:18px; stroke:var(--ink); fill:none; stroke-width:2;}
+    .hero-dots{
+      position:absolute; left:50%; bottom:18px; transform:translateX(-50%); z-index:5;
+      display:flex; gap:9px; padding:8px 10px; border-radius:999px; background:rgba(0,0,0,0.22); backdrop-filter:blur(6px);
+    }
+    .hero-dot{
+      width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.55);
+      border:none; padding:0; cursor:pointer; transition:background .2s, transform .2s, width .2s;
+    }
+    .hero-dot[aria-current="true"]{background:#fff; width:20px; border-radius:4px;}
+    .hero-counter{
+      position:absolute; top:16px; right:16px; z-index:5;
+      background:rgba(0,0,0,0.35); backdrop-filter:blur(6px); color:#fff;
+      font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; letter-spacing:0.02em;
+      padding:6px 10px; border-radius:999px;
+    }
+    .hero-overlay-text{
+      position:absolute; left:0; right:0; bottom:0; z-index:4; padding:28px 28px 32px;
+      color:#fff; pointer-events:none;
+    }
+    .hero-overlay-text .eyebrow{color:#FFD3D9; margin-bottom:10px;}
+    .hero-overlay-text h1{
+      font-size:clamp(26px,4.2vw,44px); letter-spacing:-0.02em; text-shadow:0 2px 18px rgba(0,0,0,0.35);
+      max-width:640px;
+    }
+    .hero-overlay-text h1 .accent{color:#FF6B7F;}
+    @media (max-width:640px){
+      .hero-arrow{width:36px; height:36px;}
+      .hero-arrow.prev{left:10px;} .hero-arrow.next{right:10px;}
+      .hero-overlay-text{padding:20px 20px 26px;}
+    }
+
+    .hero-caption{background:var(--bg); padding:40px 0 20px; text-align:center;}
+    .hero-caption-inner{max-width:640px; margin:0 auto;}
+    .hero-caption p{font-size:15.5px; color:var(--ink-soft); max-width:460px; margin:0 auto 28px;}
+    .btn-row{display:flex; gap:14px; flex-wrap:wrap; align-items:center;}
+    .btn-row.center{justify-content:center;}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:6px; padding:14px 26px; border-radius:999px;
+      font-weight:600; font-size:15px; letter-spacing:0; border:1.5px solid transparent;
+      cursor:pointer; transition:all .25s var(--ease); min-height:48px;
+    }
+    .btn-primary{background:var(--accent); color:#fff;}
+    .btn-primary:hover{background:var(--accent-deep); transform:translateY(-1px);}
+    .btn-outline{border-color:var(--line); color:var(--ink); background:var(--bg);}
+    .btn-outline:hover{border-color:var(--ink); transform:translateY(-1px);}
+    .btn-link{color:var(--accent); font-weight:600; padding:14px 4px;}
+    .btn-link:hover{color:var(--accent-deep);}
+
+    section{padding:64px 0;}
+    section.tight{padding:48px 0;}
+    #top + section{padding-top:48px;}
+    .section-head{max-width:640px; margin-bottom:44px;}
+    .section-head h2{font-size:clamp(28px,4vw,40px); margin-top:10px; color:var(--ink);}
+    .section-head p{color:var(--ink-soft); font-size:15px; margin-top:10px; max-width:460px;}
+
+    /* ---------- Tabs (segmented control) ---------- */
+    .tabs{
+      display:flex; gap:2px; background:var(--bg-soft); border:1px solid var(--line-soft);
+      border-radius:999px; padding:4px; margin-bottom:20px;
+      overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; max-width:100%;
+    }
+    .tabs::-webkit-scrollbar{display:none;}
+    .tab{
+      padding:10px 18px; border-radius:999px; font-size:13px; font-weight:600;
+      color:var(--ink-soft); cursor:pointer; transition:all .2s; border:none; background:none;
+      font-family:'Inter',sans-serif; white-space:nowrap; flex-shrink:0; min-height:40px;
+    }
+    .tab[aria-selected="true"]{background:#fff; color:var(--ink); box-shadow:0 1px 3px rgba(0,0,0,0.08);}
+    .tab:not([aria-selected="true"]):hover{color:var(--ink);}
+
+    .filters-row{display:flex; flex-wrap:wrap; gap:12px; margin-bottom:16px; align-items:center;}
+
+    .search-inline{
+      display:flex; align-items:center; gap:10px; background:var(--bg-soft); border:1.5px solid transparent;
+      border-radius:999px; padding:12px 18px; max-width:360px; width:100%;
+      transition:border-color .2s, background .2s;
+    }
+    .search-inline--wide{max-width:480px;}
+    .search-inline:focus-within{border-color:var(--ink); background:var(--bg); box-shadow:0 0 0 4px rgba(29,29,31,0.06);}
+    .search-inline svg{width:16px; height:16px; stroke:var(--ink-faint); flex-shrink:0;}
+    .search-inline input{border:none; outline:none; font-size:14px; flex:1; min-width:0; background:none; color:var(--ink);}
+    .search-inline input::placeholder{color:var(--ink-faint);}
+
+    /* ---------- Ask more (tanya part lain per cabang) ---------- */
+    .ask-more{
+      margin-top:36px; background:var(--bg-soft-2); border:1px solid var(--line-soft); border-radius:var(--radius-lg);
+      padding:32px; display:flex; flex-wrap:wrap; gap:24px; align-items:center; justify-content:space-between;
+    }
+    .ask-more-text{flex:1 1 320px; min-width:240px;}
+    .ask-more-text h3{font-size:19px; margin:8px 0 6px; color:var(--ink); font-weight:800; letter-spacing:-0.01em;}
+    .ask-more-text p{font-size:13.5px; color:var(--ink-soft); max-width:420px; line-height:1.55;}
+    .ask-more-form{display:flex; gap:10px; flex-wrap:wrap; flex-shrink:0; align-items:center;}
+    .ask-more-select{max-width:220px; background:var(--bg);}
+    .ask-more-btn{white-space:nowrap;}
+    @media (max-width:640px){
+      .ask-more{padding:24px 20px; flex-direction:column; align-items:stretch;}
+      .ask-more-form{flex-direction:column; align-items:stretch;}
+      .ask-more-select{max-width:100%;}
+    }
+
+    .motor-select-wrap{
+      display:flex; align-items:center; gap:10px; background:var(--bg-soft); border:1.5px solid transparent;
+      border-radius:999px; padding:12px 16px 12px 18px; max-width:280px; width:100%;
+      transition:border-color .2s, background .2s;
+    }
+    .motor-select-wrap:focus-within{border-color:var(--ink); background:var(--bg); box-shadow:0 0 0 4px rgba(29,29,31,0.06);}
+    .motor-select-wrap svg{width:16px; height:16px; stroke:var(--ink-faint); flex-shrink:0;}
+    .motor-select-wrap select{
+      border:none; outline:none; font-size:14px; flex:1; min-width:0; background:none; color:var(--ink);
+      font-family:'Inter',sans-serif; font-weight:600; cursor:pointer;
+    }
+
+    /* ---------- Part grid ---------- */
+    .part-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:22px; align-items:stretch;}
+    .part-card{
+      background:var(--bg); border:1px solid var(--line-soft); border-radius:var(--radius-md);
+      overflow:hidden; transition:box-shadow .3s var(--ease), transform .3s var(--ease), border-color .3s;
+      display:flex; flex-direction:column; height:100%; position:relative;
+    }
+    .part-card:hover{box-shadow:0 14px 28px rgba(0,0,0,0.06); transform:translateY(-2px); border-color:var(--line);}
+    .part-card .img-slot{aspect-ratio:1/1; border-radius:0; border:none; border-bottom:1px solid var(--line-soft); cursor:pointer;}
+    .part-card .body{padding:18px; display:flex; flex-direction:column; gap:6px; flex:1;}
+    .part-card .kode{font-size:10.5px; color:var(--accent); font-weight:700; letter-spacing:0.02em;}
+    .part-card h3{font-size:15.5px; color:var(--ink); letter-spacing:-0.005em; font-family:'Inter',sans-serif; font-weight:700; text-transform:none; line-height:1.3; cursor:pointer;}
+    .part-card .kompat{font-size:12px; color:var(--ink-soft); line-height:1.5;}
+    .part-card .row-bottom{
+      display:flex; align-items:center; justify-content:flex-end; margin-top:auto;
+      padding-top:14px; border-top:1px solid var(--line-soft); gap:10px;
+    }
+    .part-card .cek-btn{
+      background:var(--ink); color:#fff; border:none; border-radius:999px;
+      padding:10px 16px; font-size:11.5px; font-weight:700; cursor:pointer; transition:background .2s;
+      display:flex; align-items:center; gap:5px; white-space:nowrap; width:100%; justify-content:center; min-height:40px;
+    }
+    .part-card .cek-btn:hover{background:var(--accent);}
+    .part-card .cek-btn svg{width:12px; height:12px; flex-shrink:0;}
+    .part-card .wish-check{
+      position:absolute; top:10px; left:10px; z-index:3;
+      width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,0.92);
+      border:1.5px solid var(--line); cursor:pointer; display:flex; align-items:center; justify-content:center;
+      transition:all .2s var(--ease); backdrop-filter:blur(4px);
+    }
+    .part-card .wish-check:hover{border-color:var(--ink);}
+    .part-card .wish-check svg{position:absolute; inset:0; margin:auto; transition:opacity .15s, transform .15s;}
+    .part-card .wish-check .ic-cart{width:14px; height:14px; stroke:var(--ink); fill:none; stroke-width:1.8; opacity:1;}
+    .part-card .wish-check .ic-check{width:14px; height:14px; stroke:#fff; fill:none; stroke-width:3; opacity:0; transform:scale(0.6);}
+    .part-card .wish-check[aria-checked="true"]{background:var(--accent); border-color:var(--accent);}
+    .part-card .wish-check[aria-checked="true"] .ic-cart{opacity:0;}
+    .part-card .wish-check[aria-checked="true"] .ic-check{opacity:1; transform:scale(1);}
+    .empty-state{
+      grid-column:1/-1; text-align:center; padding:50px 20px; color:var(--ink-soft);
+      border:1.5px dashed var(--line); border-radius:var(--radius-md); font-size:14px;
+    }
+    .results-count{font-size:12.5px; color:var(--ink-faint); margin:-4px 0 20px;}
+
+    /* ---------- Wishlist bar ---------- */
+    .wish-bar{
+      position:fixed; left:50%; bottom:22px; transform:translateX(-50%) translateY(140%);
+      z-index:95; background:var(--ink); color:#fff; border-radius:999px;
+      padding:10px 10px 10px 20px; display:flex; align-items:center; gap:16px;
+      box-shadow:0 16px 40px rgba(0,0,0,0.28); transition:transform .35s var(--ease); max-width:calc(100% - 32px);
+    }
+    .wish-bar.show{transform:translateX(-50%) translateY(0);}
+    .wish-bar .wish-count{font-size:13.5px; font-weight:600; white-space:nowrap;}
+    .wish-bar .wish-count b{color:var(--accent); font-weight:800;}
+    .wish-bar .wish-send{
+      background:var(--wa); color:#06331a; border:none; border-radius:999px; padding:10px 18px;
+      font-size:13px; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:6px; white-space:nowrap;
+      transition:filter .2s, transform .2s; min-height:40px;
+    }
+    .wish-bar .wish-send:hover{filter:brightness(0.96); transform:translateY(-1px);}
+    .wish-bar .wish-send svg{width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2;}
+    .wish-bar .wish-clear{
+      background:none; border:none; color:rgba(255,255,255,0.55); cursor:pointer; padding:8px;
+      display:flex; align-items:center; justify-content:center; transition:color .2s;
+    }
+    .wish-bar .wish-clear:hover{color:#fff;}
+    .wish-bar .wish-clear svg{width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:2;}
+    @media (max-width:480px){
+      .wish-bar{padding:9px 9px 9px 16px; gap:10px; bottom:16px;}
+      .wish-bar .wish-count{font-size:12.5px;}
+      .wish-bar .wish-send{padding:9px 14px; font-size:12.5px;}
+    }
+
+    /* ---------- Product preview modal ---------- */
+    .modal-overlay{
+      position:fixed; inset:0; z-index:200; background:rgba(20,20,22,0.5); backdrop-filter:blur(3px);
+      display:flex; align-items:flex-end; justify-content:center;
+      opacity:0; pointer-events:none; transition:opacity .3s var(--ease);
+    }
+    .modal-overlay.show{opacity:1; pointer-events:auto;}
+    @media (min-width:701px){ .modal-overlay{align-items:center; padding:24px;} }
+    .modal-card{
+      background:var(--bg); width:100%; max-width:720px; max-height:92vh; overflow-y:auto;
+      border-radius:24px 24px 0 0; transform:translateY(100%); transition:transform .35s var(--ease);
+      position:relative;
+    }
+    .modal-overlay.show .modal-card{transform:translateY(0);}
+    @media (min-width:701px){
+      .modal-card{border-radius:var(--radius-lg); transform:translateY(24px) scale(0.97); opacity:0; transition:transform .3s var(--ease), opacity .3s var(--ease);}
+      .modal-overlay.show .modal-card{transform:translateY(0) scale(1); opacity:1;}
+    }
+    .modal-close{
+      position:absolute; top:14px; right:14px; z-index:3; width:36px; height:36px; border-radius:50%;
+      background:rgba(255,255,255,0.92); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center;
+      box-shadow:0 6px 16px rgba(0,0,0,0.15); transition:background .2s, transform .2s;
+    }
+    .modal-close:hover{background:#fff; transform:scale(1.06);}
+    .modal-close svg{width:16px; height:16px; stroke:var(--ink); fill:none; stroke-width:2;}
+    .modal-body{display:flex; flex-direction:column;}
+    @media (min-width:701px){ .modal-body{flex-direction:row;} }
+    .modal-media{flex:1 1 50%; aspect-ratio:1/1; position:relative;}
+    .modal-media .img-slot{position:absolute; inset:0; width:100%; height:100%;}
+    .modal-info{flex:1 1 50%; padding:26px 26px 30px;}
+    .modal-info .kode{font-size:11px; color:var(--accent); font-weight:700; letter-spacing:0.02em; font-family:'JetBrains Mono',monospace;}
+    .modal-info h3{font-size:22px; margin:8px 0 12px; color:var(--ink); font-weight:800; letter-spacing:-0.01em;}
+    .modal-spec{list-style:none; margin:16px 0 24px;}
+    .modal-spec li{display:flex; justify-content:space-between; gap:14px; padding:10px 0; border-bottom:1px solid var(--line-soft); font-size:13.5px;}
+    .modal-spec li .k{color:var(--ink-soft); font-weight:500;}
+    .modal-spec li .v{color:var(--ink); font-weight:600; text-align:right;}
+    .modal-actions{display:flex; gap:10px; flex-wrap:wrap;}
+    .modal-actions .btn{flex:1; justify-content:center; white-space:nowrap;}
+    .modal-actions .wish-check-lg{
+      position:relative; flex:0 0 auto; width:50px; height:50px; border-radius:50%; border:1.5px solid var(--line); background:var(--bg);
+      cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .2s;
+    }
+    .modal-actions .wish-check-lg svg{position:absolute; inset:0; margin:auto; width:19px; height:19px; stroke:var(--ink-soft); fill:none; stroke-width:2; transition:all .2s;}
+    .modal-actions .wish-check-lg .ic-check{opacity:0; transform:scale(0.6); stroke-width:2.6;}
+    .modal-actions .wish-check-lg[aria-checked="true"]{background:var(--accent-soft); border-color:var(--accent);}
+    .modal-actions .wish-check-lg[aria-checked="true"] .ic-cart{opacity:0;}
+    .modal-actions .wish-check-lg[aria-checked="true"] .ic-check{opacity:1; transform:scale(1); stroke:var(--accent);}
+
+    /* ---------- Cart drawer & checkout modal (reuse .modal-overlay/.modal-card) ---------- */
+    .drawer-inner{padding:26px 26px 28px;}
+    .drawer-inner h3{font-size:19px; color:var(--ink); margin-bottom:4px; font-weight:800; letter-spacing:-0.01em;}
+    .drawer-inner .sub{font-size:13px; color:var(--ink-soft); margin-bottom:18px;}
+    .cart-list{list-style:none; display:flex; flex-direction:column; gap:12px; max-height:44vh; overflow-y:auto; margin-bottom:18px;}
+    .cart-row{display:flex; align-items:center; gap:12px; padding:10px; border:1px solid var(--line-soft); border-radius:var(--radius-sm);}
+    .cart-row .thumb{width:52px; height:52px; border-radius:8px; flex-shrink:0; overflow:hidden;}
+    .cart-row .thumb .img-slot{width:100%; height:100%;}
+    .cart-row .thumb .slot-label b, .cart-row .thumb .slot-label span{display:none;}
+    .cart-row .thumb .slot-label .ic{width:16px; height:16px;}
+    .cart-row .info{flex:1; min-width:0;}
+    .cart-row .info .nm{font-size:13.5px; font-weight:700; color:var(--ink); line-height:1.3; margin-bottom:2px;}
+    .cart-row .info .pr{font-size:12.5px; color:var(--ink-soft);}
+    .cart-row .rm{
+      flex-shrink:0; width:30px; height:30px; border-radius:50%; background:var(--bg-soft); border:none;
+      cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .2s;
+    }
+    .cart-row .rm:hover{background:var(--accent-soft);}
+    .cart-row .rm svg{width:13px; height:13px; stroke:var(--ink-soft); fill:none; stroke-width:2.2;}
+    .cart-row .rm:hover svg{stroke:var(--accent);}
+    .cart-empty{text-align:center; padding:36px 10px; color:var(--ink-soft); font-size:13.5px;}
+    .cart-empty svg{width:36px; height:36px; stroke:var(--line); fill:none; stroke-width:1.4; margin:0 auto 12px; display:block;}
+    .cart-count-row{display:flex; justify-content:space-between; align-items:baseline; padding:14px 0; border-top:1px solid var(--line-soft); margin-bottom:16px;}
+    .cart-count-row .lbl{font-size:13px; color:var(--ink-soft); font-weight:600;}
+    .cart-count-row .val{font-size:15px; font-weight:700; color:var(--ink);}
+    .checkout-summary{
+      background:var(--bg-soft); border-radius:var(--radius-sm); padding:12px 14px; margin-bottom:20px;
+      font-size:12.5px; color:var(--ink-soft); line-height:1.6; max-height:120px; overflow-y:auto;
+    }
+    .checkout-summary b{color:var(--ink); font-weight:700;}
+    .back-link{
+      display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:600; color:var(--ink-soft);
+      cursor:pointer; margin-bottom:14px; transition:color .2s;
+    }
+    .back-link:hover{color:var(--ink);}
+    .back-link svg{width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:2.2;}
+
+    /* ---------- Detail (part unggulan) ---------- */
+    .detail-section{background:var(--bg-soft);}
+    .detail-wrap{display:flex; flex-wrap:wrap; gap:56px; align-items:center;}
+    .detail-visual{flex:1 1 400px; min-width:260px; position:relative; border-radius:var(--radius-lg); overflow:hidden;}
+    .detail-visual::before{content:""; display:block; padding-top:100%;}
+    .detail-visual .img-fill{position:absolute; inset:0;}
+    .detail-info{flex:1 1 460px; min-width:280px;}
+    .detail-visual .slot-label .ic{width:32px; height:32px;}
+    .detail-spec{list-style:none; margin:24px 0 28px;}
+    .detail-spec li{
+      display:flex; justify-content:space-between; align-items:baseline; gap:16px; padding:13px 0;
+      border-bottom:1px solid var(--line-soft); font-size:14px;
+    }
+    .detail-spec li .k{color:var(--ink-soft); font-weight:500;}
+    .detail-spec li .v{color:var(--ink); font-weight:600; text-align:right;}
+    .detail-spec li .v.mono{font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--accent); font-weight:600;}
+
+    /* ---------- Video ---------- */
+    .video-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px;}
+    .video-card{border-radius:var(--radius-md); overflow:hidden; border:1px solid var(--line-soft); background:var(--bg);}
+    .video-frame{
+      aspect-ratio:16/9; position:relative; overflow:hidden; background:var(--bg-soft);
+    }
+    .video-frame .vid-label{
+      position:absolute; inset:0; z-index:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+      gap:6px; text-align:center; padding:12px; color:var(--ink-faint); pointer-events:none;
+    }
+    .video-frame .vid-label b{
+      font-family:'JetBrains Mono',monospace; font-size:10.5px; font-weight:600;
+      color:var(--ink-soft); letter-spacing:0.02em;
+    }
+    .video-frame .vid-label span{font-size:10px; color:var(--ink-faint); letter-spacing:0.02em;}
+    .video-frame.has-src .vid-label{display:none;}
+    .video-frame video{
+      position:absolute; inset:0; z-index:0; width:100%; height:100%; object-fit:cover; background:var(--bg-soft);
+    }
+    .video-frame .play{
+      position:absolute; inset:0; display:flex; align-items:center; justify-content:center; z-index:2;
+      background:none; border:none; cursor:pointer; padding:0; width:100%;
+    }
+    .video-frame .play span{
+      width:54px; height:54px; border-radius:50%; background:#fff; display:flex;
+      align-items:center; justify-content:center; box-shadow:0 8px 22px rgba(0,0,0,0.14);
+      transition:transform .2s, background .2s;
+    }
+    .video-frame .play:hover span{transform:scale(1.06);}
+    .video-frame .play svg{width:18px; height:18px; fill:var(--ink); margin-left:3px;}
+    .video-frame.is-playing .play{display:none;}
+    .video-card .cap{padding:16px 18px 18px; font-weight:600; font-size:14.5px; color:var(--ink);}
+
+    /* ---------- Testimoni ---------- */
+    .testi-section{background:var(--bg-soft);}
+    .testi-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px; align-items:stretch;}
+    .testi-card{
+      background:var(--bg); border:1px solid var(--line-soft); border-radius:var(--radius-md);
+      padding:26px; display:flex; flex-direction:column; gap:14px; height:100%;
+      transition:box-shadow .3s var(--ease), transform .3s var(--ease), border-color .3s;
+    }
+    .testi-card:hover{box-shadow:0 14px 28px rgba(0,0,0,0.05); transform:translateY(-2px); border-color:var(--line);}
+    .testi-stars{display:flex; gap:2px;}
+    .testi-stars svg{width:15px; height:15px; fill:#F5A623;}
+    .testi-stars svg.empty{fill:var(--line-soft);}
+    .testi-text{font-size:14px; color:var(--ink); line-height:1.6; flex:1;}
+    .testi-who{display:flex; align-items:center; gap:12px; padding-top:14px; border-top:1px solid var(--line-soft);}
+    .testi-avatar{
+      width:38px; height:38px; border-radius:50%; background:var(--accent-soft); color:var(--accent);
+      display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; flex-shrink:0;
+    }
+    .testi-name{font-size:13.5px; font-weight:700; color:var(--ink);}
+    .testi-meta{font-size:11.5px; color:var(--ink-faint);}
+
+    /* ---------- Cabang (locations) ---------- */
+    .cabang-section{background:var(--bg);}
+    .cabang-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px; align-items:stretch;}
+    .loc-card{
+      background:var(--bg-soft-2); border:1px solid var(--line-soft); border-radius:var(--radius-md);
+      padding:28px; transition:box-shadow .3s var(--ease), transform .3s var(--ease), border-color .3s;
+      display:flex; flex-direction:column; height:100%; position:relative;
+    }
+    .loc-card:hover{box-shadow:0 14px 28px rgba(0,0,0,0.05); transform:translateY(-2px); border-color:var(--line);}
+    .loc-card .top-row{display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:16px;}
+    .loc-card .pin{
+      width:40px; height:40px; border-radius:50%; background:var(--accent-soft);
+      display:flex; align-items:center; justify-content:center; flex-shrink:0;
+    }
+    .loc-card .pin svg{width:19px; height:19px; stroke:var(--accent); fill:none; stroke-width:1.8;}
+    .status-badge{
+      display:inline-flex; align-items:center; gap:6px; padding:6px 11px; border-radius:999px;
+      font-size:11px; font-weight:700; white-space:nowrap; flex-shrink:0;
+    }
+    .status-badge .dot{width:6px; height:6px; border-radius:50%; flex-shrink:0;}
+    .status-badge.open{background:#E7F8EE; color:#1E8E4E;}
+    .status-badge.open .dot{background:#1E8E4E; box-shadow:0 0 0 3px rgba(30,142,78,0.18);}
+    .status-badge.closed{background:var(--bg-soft); color:var(--ink-faint);}
+    .status-badge.closed .dot{background:var(--ink-faint);}
+    .loc-card h3{font-size:17px; color:var(--ink); margin-bottom:4px; text-transform:none; font-family:'Inter',sans-serif; font-weight:700; letter-spacing:-0.01em;}
+    .loc-card .area{font-size:13px; color:var(--ink-soft); margin-bottom:16px; line-height:1.5;}
+    .loc-row{display:flex; gap:10px; margin:0 0 6px; font-size:13px; align-items:baseline;}
+    .loc-row .k{font-size:11px; color:var(--ink-faint); text-transform:uppercase; letter-spacing:0.04em; width:44px; flex-shrink:0;}
+    .loc-row .v{color:var(--ink); font-size:13px; font-weight:500;}
+    .loc-actions{display:flex; gap:8px; margin-top:auto; padding-top:18px;}
+    .loc-actions a{
+      flex:1; text-align:center; padding:12px 8px; border-radius:999px; font-size:12.5px; font-weight:700;
+      display:flex; align-items:center; justify-content:center; gap:6px; transition:filter .2s, background .2s, transform .2s; min-height:44px;
+    }
+    .loc-actions a:hover{transform:translateY(-1px);}
+    .wa-btn{background:var(--wa); color:#06331a;}
+    .wa-btn:hover{filter:brightness(0.96);}
+    .maps-btn{background:var(--bg); color:var(--ink); border:1px solid var(--line);}
+    .maps-btn:hover{border-color:var(--ink);}
+
+    /* ---------- Konsultasi ---------- */
+    .konsul-section{background:var(--bg-soft);}
+    .konsul-wrap{
+      background:var(--bg); border:1px solid var(--line-soft); border-radius:var(--radius-lg); overflow:hidden;
+    }
+    .konsul-inner{padding:48px;}
+    .kat-picker{display:flex; flex-wrap:wrap; gap:10px; margin:20px 0 30px;}
+    .kat-btn{
+      background:var(--bg-soft); border:1.5px solid transparent; border-radius:999px; padding:11px 18px;
+      display:flex; align-items:center; gap:8px; cursor:pointer; transition:all .2s; min-height:44px;
+    }
+    .kat-btn svg{width:16px; height:16px; stroke:var(--ink-soft); fill:none; stroke-width:1.8;}
+    .kat-btn span{font-size:13px; font-weight:600; color:var(--ink-soft); text-align:center;}
+    .kat-btn:hover{border-color:var(--line);}
+    .kat-btn[aria-pressed="true"]{border-color:var(--accent); background:var(--accent-soft);}
+    .kat-btn[aria-pressed="true"] svg{stroke:var(--accent);}
+    .kat-btn[aria-pressed="true"] span{color:var(--accent);}
+    .form-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+    .form-grid .full{grid-column:1/-1;}
+    .field label{
+      display:block; font-size:12px; text-transform:none;
+      letter-spacing:0; color:var(--ink); margin-bottom:7px; font-weight:600;
+    }
+    .field input, .field select, .field textarea{
+      width:100%; padding:13px 14px; border:1.5px solid transparent; border-radius:var(--radius-sm);
+      font-family:'Inter',sans-serif; font-size:16px; background:var(--bg-soft); color:var(--ink);
+      transition:border-color .2s, box-shadow .2s, background .2s;
+    }
+    .field textarea{resize:vertical; min-height:96px;}
+    .field input:focus, .field select:focus, .field textarea:focus{border-color:var(--ink); outline:none; background:var(--bg); box-shadow:0 0 0 4px rgba(29,29,31,0.06);}
+    .field input[aria-invalid="true"], .field textarea[aria-invalid="true"]{border-color:var(--accent); background:var(--accent-soft);}
+    .field .err{font-size:12px; color:var(--accent); margin-top:5px; display:none;}
+    .field .err.show{display:block;}
+    .field{margin-bottom:16px;}
+    .submit-btn{
+      width:100%; background:var(--accent); color:#fff; border:none; padding:16px;
+      border-radius:999px; font-weight:700; letter-spacing:0; font-size:15px; cursor:pointer;
+      margin-top:6px; transition:background .2s, transform .2s; min-height:52px;
+    }
+    .submit-btn:hover{background:var(--accent-deep); transform:translateY(-1px);}
+    .submit-btn:disabled{opacity:.5; cursor:not-allowed; transform:none;}
+    .fallback-link{margin-top:12px; font-size:12.5px; color:var(--ink-soft); display:none; text-align:center;}
+    .fallback-link.show{display:block;}
+    .fallback-link a{color:var(--accent); font-weight:700; text-decoration:underline;}
+
+    footer{background:var(--bg); border-top:1px solid var(--line-soft); color:var(--ink-faint); padding:32px 0; text-align:center; font-size:12.5px;}
+    footer .brand-foot{justify-content:center; margin-bottom:10px; color:var(--ink); font-size:14px; font-weight:700; display:flex; align-items:center; gap:8px;}
+    footer .brand-foot .dot{width:8px;height:8px;background:var(--accent);border-radius:50%;}
+    footer .foot-links{display:flex; gap:18px; justify-content:center; margin-top:10px; flex-wrap:wrap;}
+    footer .foot-links a{color:var(--ink-soft); font-weight:600; transition:color .2s;}
+    footer .foot-links a:hover{color:var(--accent);}
+
+    @media (max-width:1100px){
+      .part-grid{grid-template-columns:repeat(3,1fr);}
+    }
+    @media (max-width:860px){
+      .nav-links{display:none;}
+      .burger{display:flex;}
+      .part-grid{grid-template-columns:repeat(2,1fr);}
+      .cabang-grid{grid-template-columns:1fr;}
+      .testi-grid{grid-template-columns:1fr;}
+      .detail-wrap{text-align:center; justify-content:center;}
+      .detail-visual{max-width:420px; margin:0 auto; flex-basis:100%;}
+      .video-grid{grid-template-columns:1fr;}
+      .konsul-inner{padding:28px 22px;}
+      .form-grid{grid-template-columns:1fr;}
+      section{padding:56px 0;}
+      .search-inline, .motor-select-wrap{max-width:100%;}
+      .search-inline--wide{max-width:100%;}
+      .section-head{margin-bottom:28px;}
+      .ask-more-btn{width:100%; justify-content:center;}
+    }
+    @media (max-width:420px){
+      .part-grid{grid-template-columns:1fr 1fr; gap:12px;}
+      .part-card .body{padding:12px;}
+      .part-card h3{font-size:14px;}
+      .konsul-inner{padding:22px 16px;}
+    }
+  </style>
+  </head>
+  <body>
+
+  <a class="skip-link" href="#katalog">Langsung ke katalog part</a>
+
+  <div class="util-bar">
+    <div class="util-inner">
+      <ul class="util-links">
+        <li><a href="#cabang">Cabang kami</a></li>
+        <li><a href="#konsultasi">Pusat bantuan</a></li>
+        <li><a href="https://wa.me/6281462323794" target="_blank" rel="noopener">Cek status pesanan</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <header id="siteHeader">
+    <div class="nav-main" id="navMain">
+      <nav class="nav" aria-label="Navigasi utama">
+        <a href="#top" class="brand">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="brand-word">Merdeka Motor <span class="dim">Garut</span></span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="#katalog">Katalog Part</a></li>
+          <li><a href="#detail">Part Unggulan</a></li>
+          <li><a href="#video">Video</a></li>
+          <li><a href="#testimoni">Testimoni</a></li>
+          <li><a href="#cabang">Cabang</a></li>
+          <li><a href="#konsultasi" class="nav-cta">Konsultasi</a></li>
+        </ul>
+        <button type="button" class="cart-btn" id="cartBtn" aria-label="Lihat daftar pilihan">
+          <svg viewBox="0 0 24 24"><path d="M3 3h2l2.4 12.4a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.6L21 7H6"/><circle cx="9.5" cy="20.5" r="1.4" fill="currentColor" stroke="none"/><circle cx="17" cy="20.5" r="1.4" fill="currentColor" stroke="none"/></svg>
+          <span class="cart-badge" id="cartBadgeNav">0</span>
+        </button>
+        <button class="burger" id="burgerBtn" aria-label="Buka menu" aria-expanded="false" aria-controls="mobileMenu">
+          <span></span><span></span><span></span>
+        </button>
+      </nav>
+      <div class="mobile-menu" id="mobileMenu">
+        <a href="#katalog">Katalog Part</a>
+        <a href="#detail">Part Unggulan</a>
+        <a href="#video">Video</a>
+        <a href="#testimoni">Testimoni</a>
+        <a href="#cabang">Cabang</a>
+        <a href="#konsultasi" class="mobile-cta">Konsultasi</a>
+      </div>
+    </div>
+  </header>
+
+  <a class="wa-float" href="https://wa.me/6281462323794" target="_blank" rel="noopener" aria-label="Chat WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Z"/></svg>
+  </a>
+
+  <section class="hero" id="top">
+    <div class="container">
+      <div class="hero-carousel" id="heroCarousel" role="region" aria-roledescription="carousel" aria-label="Galeri foto Merdeka Motor Garut">
+        <div class="hero-track" id="heroTrack"></div>
+        <div class="hero-overlay-text">
+          <div class="eyebrow on-dark">Sparepart motor Garut sejak dulu dipercaya warga</div>
+          <h1>Sparepart motor <span class="accent">original</span> & bergaransi, cek stok langsung via WhatsApp</h1>
+        </div>
+        <button type="button" class="hero-arrow prev" id="heroPrev" aria-label="Foto sebelumnya">
+          <svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg>
+        </button>
+        <button type="button" class="hero-arrow next" id="heroNext" aria-label="Foto berikutnya">
+          <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+        <div class="hero-dots" id="heroDots"></div>
+        <div class="hero-counter" id="heroCounter" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero-caption" aria-label="Ajakan bertindak">
+    <div class="container">
+      <div class="hero-caption-inner">
+        <p>Mesin, kelistrikan, rem, body, ban, hingga oli — semua part asli dengan konsultasi mekanik gratis di 3 cabang kami di Garut.</p>
+        <div class="btn-row center">
+          <a href="#katalog" class="btn btn-primary">Lihat Katalog Part</a>
+          <a href="#konsultasi" class="btn btn-outline">Konsultasi Part</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="katalog">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow">Yang tersedia</div>
+        <h2>Katalog sparepart</h2>
+        <p>Cari lewat nama part atau kode katalog, atau filter berdasarkan kategori.</p>
+      </div>
+      <div class="tabs reveal" id="tabs" role="tablist" aria-label="Filter kategori part">
+        <button class="tab" role="tab" aria-selected="true" data-filter="all">Semua</button>
+      </div>
+      <div class="filters-row reveal">
+        <div class="search-inline search-inline--wide">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input type="text" id="katalogSearch" placeholder="Cari nama part atau kode katalog..." aria-label="Cari part">
+        </div>
+      </div>
+      <p class="results-count reveal" id="resultsCount" aria-live="polite"></p>
+      <div class="part-grid reveal-group" id="partGrid"></div>
+
+      <div class="ask-more reveal">
+        <div class="ask-more-text">
+          <div class="eyebrow">Nggak nemu yang dicari?</div>
+          <h3>Tanya part lain langsung ke cabang</h3>
+          <p>Katalog ini cuma sebagian dari stok kami. Pilih cabang terdekat, lalu tanya part apapun langsung lewat WhatsApp.</p>
+        </div>
+        <div class="ask-more-form">
+          <div class="motor-select-wrap ask-more-select">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            <select id="askMoreCabang" aria-label="Pilih cabang tujuan"></select>
+          </div>
+          <button type="button" class="btn btn-primary ask-more-btn" id="askMoreBtn">
+            <svg viewBox="0 0 24 24" width="16" height="16" style="margin-right:2px"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Z" fill="currentColor"/></svg>
+            Tanya via WhatsApp
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="detail" class="detail-section">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow">Paling dicari</div>
+        <h2>Part unggulan</h2>
+        <p>Spesifikasi lengkap sebelum kamu datang ke bengkel, biar nggak salah pasang.</p>
+      </div>
+      <div class="detail-wrap reveal">
+        <div class="detail-visual img-slot">
+          <div class="slot-label">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg>
+            <b>images/part-aki.jpg</b>
+            <span>Persegi · 1200×1200</span>
+          </div>
+          <img src="images/part-aki.jpg" alt="Foto detail Aki GS Maintenance Free" loading="lazy" decoding="async" onload="this.closest('.img-slot').classList.add('loaded')">
+        </div>
+        <div class="detail-info">
+          <div class="eyebrow">Rekomendasi mekanik</div>
+          <h3 style="margin:12px 0 8px; font-size:clamp(26px,3.6vw,36px);">Aki GS Maintenance Free</h3>
+          <p style="color:var(--ink-soft); font-size:14.5px; margin-bottom:6px;">Aki bebas perawatan dengan daya start yang lebih responsif, cocok untuk pemakaian harian dan tahan lama.</p>
+          <ul class="detail-spec">
+            <li><span class="k">Kode Katalog</span><span class="v mono">GTZ5S-GS</span></li>
+            <li><span class="k">Kompatibel</span><span class="v">Vario, Beat, Scoopy, Mio</span></li>
+            <li><span class="k">Tipe</span><span class="v">Maintenance Free (MF), bebas isi ulang air aki</span></li>
+            <li><span class="k">Garansi</span><span class="v">6 bulan resmi</span></li>
+            <li><span class="k">Estimasi Pasang</span><span class="v">±10 menit</span></li>
+          </ul>
+          <div class="btn-row" style="justify-content:flex-start;">
+            <a href="https://wa.me/6281462323794?text=Halo%20Merdeka%20Motor%2C%20saya%20mau%20tanya%20stok%20Aki%20GS%20Maintenance%20Free%20%28kode%20GTZ5S-GS%29." target="_blank" rel="noopener" class="btn btn-primary">Tanya stok via WA</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="video">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow">Tips & panduan</div>
+        <h2>Video</h2>
+        <p>Panduan singkat seputar perawatan dan pemasangan sparepart motor.</p>
+      </div>
+      <div class="video-grid reveal-group" id="videoGrid"></div>
+    </div>
+  </section>
+
+  <section id="testimoni" class="testi-section">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow">Kata pelanggan</div>
+        <h2>Testimoni</h2>
+        <p>Cerita langsung dari pelanggan yang sudah belanja dan servis di Merdeka Motor Garut.</p>
+      </div>
+      <div class="testi-grid reveal-group" id="testiGrid"></div>
+    </div>
+  </section>
+
+  <section id="cabang" class="cabang-section">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="eyebrow">Titik layanan kami</div>
+        <h2>Cabang di Garut</h2>
+        <p>Setiap cabang punya nomor &amp; alamat sendiri — pilih yang paling dekat, lalu chat langsung untuk cek stok.</p>
+      </div>
+      <div class="cabang-grid reveal-group" id="cabangGrid"></div>
+    </div>
+  </section>
+
+  <section id="konsultasi" class="konsul-section">
+    <div class="container">
+      <div class="konsul-wrap reveal">
+        <div class="konsul-inner">
+          <div class="eyebrow">Bantu saya pilih part</div>
+          <h2 style="margin:12px 0 6px; font-size:clamp(26px,3.6vw,36px);">Konsultasi sparepart</h2>
+          <p style="color:var(--ink-soft); font-size:14.5px; margin-bottom:6px; max-width:520px;">Pilih kategori part yang kamu butuhkan, isi data motor kamu, dan kami akan bantu carikan yang cocok — chat otomatis terbuka ke WhatsApp cabang pilihanmu.</p>
+
+          <form id="konsulForm" novalidate>
+            <label style="display:block; font-size:12px; color:var(--ink); margin:22px 0 10px; font-weight:600;">Kategori part yang dibutuhkan</label>
+            <div class="kat-picker" id="katPicker"></div>
+
+            <div class="form-grid">
+              <div class="field full">
+                <label for="kNama">Nama Lengkap</label>
+                <input type="text" id="kNama" required autocomplete="name" placeholder="Nama kamu" aria-describedby="kNamaErr">
+                <span class="err" id="kNamaErr">Isi nama kamu dulu ya.</span>
+              </div>
+              <div class="field">
+                <label for="kHp">Nomor HP</label>
+                <input type="tel" id="kHp" required autocomplete="tel" inputmode="numeric" placeholder="08xxxxxxxxxx" aria-describedby="kHpErr">
+                <span class="err" id="kHpErr">Masukkan nomor HP yang valid, contoh 081234567890.</span>
+              </div>
+              <div class="field">
+                <label for="kCabang">Cabang Tujuan</label>
+                <select id="kCabang" required></select>
+              </div>
+              <div class="field">
+                <label for="kMotor">Merek &amp; Tipe Motor</label>
+                <input type="text" id="kMotor" required autocomplete="off" placeholder="Contoh: Yamaha NMAX 2021" aria-describedby="kMotorErr">
+                <span class="err" id="kMotorErr">Isi merek & tipe motor kamu dulu ya.</span>
+              </div>
+              <div class="field">
+                <label for="kTahun">Tahun Motor</label>
+                <input type="text" id="kTahun" autocomplete="off" placeholder="Contoh: 2021" inputmode="numeric">
+              </div>
+              <div class="field full">
+                <label for="kKeluhan">Kebutuhan / Keluhan</label>
+                <textarea id="kKeluhan" required placeholder="Contoh: kampas rem depan sudah tipis, minta rekomendasi part yang cocok" aria-describedby="kKeluhanErr"></textarea>
+                <span class="err" id="kKeluhanErr">Ceritakan sedikit kebutuhan atau keluhannya ya.</span>
+              </div>
+            </div>
+            <button type="submit" class="submit-btn">Kirim ke WhatsApp →</button>
+            <p class="fallback-link" id="fallbackLink">Kalau WhatsApp tidak otomatis terbuka, <a id="fallbackA" href="#" target="_blank" rel="noopener">tap di sini</a>.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="brand-foot"><span class="dot" aria-hidden="true"></span>Merdeka Motor Garut</div>
+      <p>&copy; <span id="year"></span> Merdeka Motor Garut. Semua hak dilindungi.</p>
+      <div class="foot-links">
+        <a href="#katalog">Katalog Part</a>
+        <a href="#cabang">Cabang</a>
+        <a href="#konsultasi">Konsultasi</a>
+        <a href="https://wa.me/6281462323794" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Wishlist bar mengambang -->
+  <div class="wish-bar" id="wishBar">
+    <button type="button" class="wish-clear" id="wishClear" aria-label="Kosongkan pilihan">
+      <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <span class="wish-count"><b id="wishCountNum">0</b> part dipilih</span>
+    <button type="button" class="wish-send" id="wishSend">
+      <svg viewBox="0 0 24 24"><path d="M3 3h2l2.4 12.4a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.6L21 7H6"/><circle cx="9.5" cy="20.5" r="1.4" fill="currentColor" stroke="none"/><circle cx="17" cy="20.5" r="1.4" fill="currentColor" stroke="none"/></svg>
+      Lihat Pilihan
+    </button>
+  </div>
+
+  <!-- Modal preview produk -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-card" id="modalCard" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button type="button" class="modal-close" id="modalClose" aria-label="Tutup preview">
+        <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="modal-body">
+        <div class="modal-media" id="modalMedia"></div>
+        <div class="modal-info">
+          <div class="kode" id="modalKode"></div>
+          <h3 id="modalTitle"></h3>
+          <ul class="modal-spec" id="modalSpec"></ul>
+          <div class="modal-actions">
+            <button type="button" class="wish-check-lg" id="modalWish" aria-checked="false" aria-label="Tambah ke daftar pilihan">
+              <svg class="ic-cart" viewBox="0 0 24 24"><path d="M3 3h2l2.4 12.4a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.6L21 7H6"/><circle cx="9.5" cy="20.5" r="1.3" fill="currentColor" stroke="none"/><circle cx="17" cy="20.5" r="1.3" fill="currentColor" stroke="none"/></svg>
+              <svg class="ic-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+            </button>
+            <a href="#" target="_blank" rel="noopener" class="btn btn-primary" id="modalWaBtn">Cek Stok via WA</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Daftar pilihan -->
+  <div class="modal-overlay" id="cartOverlay">
+    <div class="modal-card" id="cartCard" role="dialog" aria-modal="true" aria-labelledby="cartTitle" style="max-width:460px;">
+      <button type="button" class="modal-close" id="cartClose" aria-label="Tutup daftar pilihan">
+        <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="drawer-inner">
+        <h3 id="cartTitle">Pilihan Kamu</h3>
+        <p class="sub">Cek lagi part yang mau kamu tanyakan, lalu lanjut kirim ke WhatsApp.</p>
+        <ul class="cart-list" id="cartList"></ul>
+        <div class="cart-count-row">
+          <span class="lbl">Jumlah part dipilih</span>
+          <span class="val" id="cartCount">0</span>
+        </div>
+        <button type="button" class="submit-btn" id="cartCheckoutBtn">Lanjut Kirim ke WhatsApp →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checkout: pilih cabang & data diri untuk tanya stok sekaligus -->
+  <div class="modal-overlay" id="checkoutOverlay">
+    <div class="modal-card" id="checkoutCard" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle" style="max-width:520px;">
+      <button type="button" class="modal-close" id="checkoutClose" aria-label="Tutup form">
+        <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="drawer-inner">
+        <span class="back-link" id="checkoutBack">
+          <svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg>
+          Kembali ke daftar pilihan
+        </span>
+        <h3 id="checkoutTitle">Tanya Stok Sekaligus</h3>
+        <p class="sub">Isi data ini biar cabang tujuan bisa langsung bantu cek stok semua part yang kamu pilih.</p>
+        <div class="checkout-summary" id="checkoutSummary"></div>
+
+        <form id="checkoutForm" novalidate>
+          <div class="form-grid">
+            <div class="field full">
+              <label for="coCabang">Tanya ke Cabang</label>
+              <select id="coCabang" required></select>
+            </div>
+            <div class="field full">
+              <label for="coNama">Nama Lengkap</label>
+              <input type="text" id="coNama" required autocomplete="name" placeholder="Nama kamu" aria-describedby="coNamaErr">
+              <span class="err" id="coNamaErr">Isi nama kamu dulu ya.</span>
+            </div>
+            <div class="field full">
+              <label for="coHp">Nomor HP</label>
+              <input type="tel" id="coHp" required autocomplete="tel" inputmode="numeric" placeholder="08xxxxxxxxxx" aria-describedby="coHpErr">
+              <span class="err" id="coHpErr">Masukkan nomor HP yang valid, contoh 081234567890.</span>
+            </div>
+          </div>
+          <button type="submit" class="submit-btn">Kirim Pertanyaan ke WhatsApp →</button>
+          <p class="fallback-link" id="coFallbackLink">Kalau WhatsApp tidak otomatis terbuka, <a id="coFallbackA" href="#" target="_blank" rel="noopener">tap di sini</a>.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const navMain = document.getElementById('navMain');
+    window.addEventListener('scroll', () => {
+      navMain.classList.toggle('scrolled', window.scrollY > 12);
+    }, { passive:true });
+
+    const burger = document.getElementById('burgerBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    burger.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('open');
+      burger.setAttribute('aria-expanded', String(open));
+      burger.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
+    });
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+      burger.setAttribute('aria-label', 'Buka menu');
+    }));
+
+    const icons = {
+      mesin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 14l2-4h3l1-3h4l1 3h3l2 4v4H4v-4Z"/><circle cx="9" cy="18" r="1.6"/><circle cx="16" cy="18" r="1.6"/></svg>',
+      kelistrikan: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/></svg>',
+      rem: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3"/><path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3"/></svg>',
+      body: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 17V9a2 2 0 0 1 2-2h6l4 4h2a2 2 0 0 1 2 2v4"/><circle cx="7.5" cy="17" r="2"/><circle cx="17.5" cy="17" r="2"/></svg>',
+      roda: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.4"/><path d="M12 4v4M12 16v4M4 12h4M16 12h4M6.3 6.3l2.8 2.8M14.9 14.9l2.8 2.8M6.3 17.7l2.8-2.8M14.9 9.1l2.8-2.8"/></svg>',
+      oli: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11Z"/></svg>'
+    };
+
+    const kategoriList = [
+      { key:'mesin', label:'Mesin' },
+      { key:'kelistrikan', label:'Kelistrikan' },
+      { key:'rem', label:'Rem & Suspensi' },
+      { key:'body', label:'Body & Aksesoris' },
+      { key:'roda', label:'Ban & Velg' },
+      { key:'oli', label:'Oli & Cairan' }
+    ];
+
+    /*
+      ======================================================================
+      KATALOG PART — sumber data tunggal untuk seluruh tampilan katalog.
+      Ini cuma contoh (1 item per kategori utama) supaya kelihatan pola
+      datanya. Tambah item baru dengan menyalin salah satu object di bawah
+      lalu ganti isinya. Field wajib:
+        kategori    : mesin | kelistrikan | rem | body | roda | oli
+        nama        : nama part yang tampil ke pelanggan
+        kode        : kode katalog/part number
+        kompatibel  : daftar motor yang cocok, dipisah koma
+        img         : nama file di folder images/ (tanpa prefix "images/")
+        deskripsi   : 1 kalimat singkat
+      ======================================================================
+    */
+    const partsData = [
+      { kategori:'rem', nama:'Kampas Rem Depan NMAX/Aerox', kode:'2DP-F5S10-00', kompatibel:'NMAX, Aerox, Lexi', img:'part-kampas-rem.jpg', deskripsi:'Kampas rem original dengan daya cengkeram stabil dan minim decit.' },
+      { kategori:'rem', nama:'Shockbreaker Belakang Vario', kode:'1YR-F2210-00', kompatibel:'Vario 125/150, Beat', img:'part-shock-belakang.jpg', deskripsi:'Redaman lebih stabil untuk jalan bergelombang, tahan lama.' },
+      { kategori:'kelistrikan', nama:'Aki GS Maintenance Free', kode:'GTZ5S-GS', kompatibel:'Vario, Beat, Scoopy, Mio', img:'part-aki.jpg', deskripsi:'Aki bebas perawatan dengan daya start yang lebih responsif.' },
+      { kategori:'kelistrikan', nama:'Busi Iridium Universal', kode:'1PA-E4610-00', kompatibel:'Semua matic 125–155cc', img:'part-busi-iridium.jpg', deskripsi:'Pengapian lebih stabil dan awet untuk pemakaian harian.' },
+      { kategori:'mesin', nama:'V-Belt Matic', kode:'2BL-E7641-00', kompatibel:'NMAX, Aerox, Xmax', img:'part-vbelt.jpg', deskripsi:'Tarikan lebih halus dan minim selip untuk motor matic.' },
+      { kategori:'mesin', nama:'Filter Udara Standar', kode:'B3E-E4450-00', kompatibel:'Beat, Scoopy, Genio', img:'part-filter-udara.jpg', deskripsi:'Menjaga aliran udara ke mesin tetap bersih dan optimal.' },
+      { kategori:'body', nama:'Lampu LED Headlamp', kode:'B7B-H4330-00', kompatibel:'Vario 125/150, PCX', img:'part-lampu-led.jpg', deskripsi:'Pencahayaan lebih terang dan hemat daya dibanding bohlam standar.' },
+      { kategori:'body', nama:'Spion Sepasang Universal', kode:'2SK-F8300-00', kompatibel:'Semua motor bebek & matic', img:'part-spion.jpg', deskripsi:'Desain ringkas dengan sudut pandang lebih luas.' },
+      { kategori:'roda', nama:'Rantai + Gear Set', kode:'2SK-E5401-00', kompatibel:'Vixion, MX King, Byson', img:'part-rantai-gear.jpg', deskripsi:'Satu set lengkap untuk performa transmisi yang lebih presisi.' },
+      { kategori:'roda', nama:'Ban Tubeless Sport 90/80-17', kode:'IRC-NR73-90', kompatibel:'Vixion, MX King, Sonic', img:'part-ban-tubeless.jpg', deskripsi:'Grip lebih baik di jalan basah maupun kering.' },
+      { kategori:'oli', nama:'Oli Mesin Matic 10W-30', kode:'YMH-0W30-08', kompatibel:'Semua motor matic injeksi', img:'part-oli-mesin.jpg', deskripsi:'Formula pelumas untuk mesin matic injeksi, menjaga performa harian.' },
+      { kategori:'oli', nama:'Oli Gardan Matic', kode:'YMH-GEAR-08', kompatibel:'Semua motor matic', img:'part-oli-gardan.jpg', deskripsi:'Melumasi gigi transmisi CVT agar suara lebih halus.' }
+    ];
+
+    const cabangData = [
+      { nama:"Cabang Pusat — Kerkof", area:"Jl. Merdeka No.85A, Jayaraga, Tarogong Kidul", jam:"08.00 – 17.00", buka:"08:00", tutup:"17:00", wa:"6281462323794", maps:"https://maps.app.goo.gl/eNGyS82haaU9MoyYA" },
+      { nama:"Cabang Ciparay", area:"Ciparay, Garut", jam:"08.00 – 21.00", buka:"08:00", tutup:"21:00", wa:"6285320375848", maps:"https://maps.app.goo.gl/ejKf44Tg94auAKgRA" },
+      { nama:"Cabang Sanding", area:"Muara Sanding, Garut Kota", jam:"08.00 – 17.00", buka:"08:00", tutup:"17:00", wa:"6288901674177", maps:"https://maps.app.goo.gl/ZF9XySFgfcDsFwtq5" }
+    ];
+
+    const testiData = [
+      { nama:"Rian Firmansyah", meta:"Pemilik Yamaha NMAX · Tarogong", rating:5, text:"Kampas rem yang saya beli awet dan pemasangannya cepat. Mekaniknya juga jelasin dengan sabar sebelum saya putuskan beli." },
+      { nama:"Dewi Anggraini", meta:"Pemilik Honda Vario · Garut Kota", rating:5, text:"Konsultasi via WhatsApp responsnya cepat, part yang direkomendasikan pas sama tipe motor saya. Harga juga jelas dari awal." },
+      { nama:"Asep Kurniawan", meta:"Pemilik Yamaha Vixion · Ciparay", rating:4, text:"Stok lengkap buat motor sport, rantai & gear set yang saya cari langsung ada. Cuma antrian pas weekend agak ramai." }
+    ];
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('in'); io.unobserve(entry.target); }
+      });
+    }, { threshold: 0.15 });
+    function observeReveal(){ document.querySelectorAll('.reveal:not(.in), .reveal-group:not(.in)').forEach(el => io.observe(el)); }
+    observeReveal();
+
+    function observeChildren(container){
+      const io2 = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1'; entry.target.style.transform = 'translateY(0)';
+            io2.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      container.querySelectorAll('.reveal-child').forEach(el => io2.observe(el));
+    }
+
+    function imgSlotHtml(filename, alt, eager){
+      return '<div class="img-slot">'
+        + '<div class="slot-label"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg><b>images/' + filename + '</b></div>'
+        + '<img src="images/' + filename + '" alt="' + alt + '" ' + (eager ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"') + ' decoding="async" onload="this.closest(\'.img-slot\').classList.add(\'loaded\')">'
+        + '</div>';
+    }
+
+    /* ---------- Hero carousel ---------- */
+    const heroImages = [
+      { src:'hero-1.jpg', alt:'Etalase depan toko sparepart Merdeka Motor Garut' },
+      { src:'hero-2.jpg', alt:'Rak sparepart motor original di Merdeka Motor Garut' },
+      { src:'hero-3.jpg', alt:'Mekanik Merdeka Motor Garut sedang melayani pelanggan' },
+      { src:'hero-4.jpg', alt:'Suasana bengkel dan gerai Merdeka Motor Garut' },
+      { src:'hero-5.jpg', alt:'Koleksi part original di cabang Merdeka Motor Garut' }
+    ];
+    const heroTrack = document.getElementById('heroTrack');
+    const heroDots = document.getElementById('heroDots');
+    const heroCounter = document.getElementById('heroCounter');
+    const heroPrev = document.getElementById('heroPrev');
+    const heroNext = document.getElementById('heroNext');
+    const heroCarousel = document.getElementById('heroCarousel');
+
+    heroTrack.innerHTML = heroImages.map((h, i) => `
+      <div class="hero-slide" role="group" aria-roledescription="slide" aria-label="${i + 1} dari ${heroImages.length}">
+        ${imgSlotHtml(h.src, h.alt, i === 0)}
+      </div>`).join('');
+
+    heroDots.innerHTML = heroImages.map((_, i) =>
+      `<button type="button" class="hero-dot" aria-label="Ke foto ${i + 1}" aria-current="${i === 0}"></button>`
+    ).join('');
+    const dotEls = [...heroDots.querySelectorAll('.hero-dot')];
+    const slideEls = [...heroTrack.querySelectorAll('.hero-slide')];
+
+    let heroIndex = 0;
+    function updateHeroUI(i){
+      heroIndex = i;
+      dotEls.forEach((d, di) => d.setAttribute('aria-current', String(di === i)));
+      heroCounter.textContent = `${i + 1} / ${heroImages.length}`;
+    }
+    function goToHero(i, smooth = true){
+      const clamped = (i + heroImages.length) % heroImages.length;
+      heroTrack.scrollTo({
+        left: clamped * heroTrack.clientWidth,
+        behavior: smooth && !reduceMotion ? 'smooth' : 'auto'
+      });
+    }
+    updateHeroUI(0);
+
+    heroPrev.addEventListener('click', () => { goToHero(heroIndex - 1); restartAutoplay(); });
+    heroNext.addEventListener('click', () => { goToHero(heroIndex + 1); restartAutoplay(); });
+    dotEls.forEach((dot, i) => dot.addEventListener('click', () => { goToHero(i); restartAutoplay(); }));
+
+    let heroScrollTimer;
+    heroTrack.addEventListener('scroll', () => {
+      clearTimeout(heroScrollTimer);
+      heroScrollTimer = setTimeout(() => {
+        const i = Math.round(heroTrack.scrollLeft / heroTrack.clientWidth);
+        if (i !== heroIndex) updateHeroUI(Math.min(i, heroImages.length - 1));
+      }, 80);
+    }, { passive:true });
+
+    let heroAutoplay;
+    let heroInView = true;
+    function startAutoplay(){
+      if (reduceMotion || !heroInView) return;
+      clearInterval(heroAutoplay);
+      heroAutoplay = setInterval(() => goToHero(heroIndex + 1), 5000);
+    }
+    function restartAutoplay(){ clearInterval(heroAutoplay); startAutoplay(); }
+    ['pointerdown','touchstart'].forEach(evt => heroTrack.addEventListener(evt, () => clearInterval(heroAutoplay), { passive:true }));
+    heroCarousel.addEventListener('mouseenter', () => clearInterval(heroAutoplay));
+    heroCarousel.addEventListener('mouseleave', () => restartAutoplay());
+
+    const heroVisibilityObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        heroInView = entry.isIntersecting;
+        if (heroInView) startAutoplay();
+        else clearInterval(heroAutoplay);
+      });
+    }, { threshold: 0.2 });
+    heroVisibilityObserver.observe(heroCarousel);
+
+    startAutoplay();
+
+    heroCarousel.setAttribute('tabindex','0');
+    heroCarousel.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft'){ goToHero(heroIndex - 1); restartAutoplay(); }
+      if (e.key === 'ArrowRight'){ goToHero(heroIndex + 1); restartAutoplay(); }
+    });
+
+    const tabsEl = document.getElementById('tabs');
+    kategoriList.forEach(k => {
+      const btn = document.createElement('button');
+      btn.className = 'tab'; btn.setAttribute('role','tab'); btn.setAttribute('aria-selected','false');
+      btn.dataset.filter = k.key; btn.textContent = k.label;
+      tabsEl.appendChild(btn);
+    });
+    tabsEl.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      const tabsArr = [...tabsEl.querySelectorAll('.tab')];
+      const curIdx = tabsArr.indexOf(document.activeElement);
+      if (curIdx === -1) return;
+      e.preventDefault();
+      const next = e.key === 'ArrowRight' ? (curIdx + 1) % tabsArr.length : (curIdx - 1 + tabsArr.length) % tabsArr.length;
+      tabsArr[next].focus();
+      tabsArr[next].click();
+    });
+
+    /* ---------- Tanya part lain langsung ke cabang (WA) ---------- */
+    const askMoreCabang = document.getElementById('askMoreCabang');
+    const askMoreBtn = document.getElementById('askMoreBtn');
+    cabangData.forEach((c, i) => {
+      const opt = document.createElement('option');
+      opt.value = i; opt.textContent = c.nama;
+      askMoreCabang.appendChild(opt);
+    });
+    askMoreBtn.addEventListener('click', () => {
+      const cabang = cabangData[askMoreCabang.value];
+      const pesan = `Halo Merdeka Motor (${cabang.nama}), saya mau tanya ketersediaan sparepart yang tidak ada di katalog website. Bisa dibantu?`;
+      window.open(`https://wa.me/${cabang.wa}?text=${encodeURIComponent(pesan)}`, '_blank');
+    });
+
+    let currentFilter = 'all';
+    let currentSearch = '';
+
+    /* ---------- Daftar pilihan part (untuk tanya stok sekaligus) ---------- */
+    const wishSet = new Set();
+    const wishBar = document.getElementById('wishBar');
+    const wishCountNum = document.getElementById('wishCountNum');
+    const wishClear = document.getElementById('wishClear');
+    const wishSend = document.getElementById('wishSend');
+    const cartBtn = document.getElementById('cartBtn');
+    const cartBadgeNav = document.getElementById('cartBadgeNav');
+
+    function updateWishBar(){
+      wishCountNum.textContent = wishSet.size;
+      wishBar.classList.toggle('show', wishSet.size > 0);
+      cartBadgeNav.textContent = wishSet.size;
+      cartBadgeNav.classList.toggle('show', wishSet.size > 0);
+      document.querySelectorAll('.wish-check').forEach(el => {
+        const checked = wishSet.has(el.dataset.kode);
+        el.setAttribute('aria-checked', String(checked));
+        el.setAttribute('aria-label', (checked ? 'Hapus ' : 'Tambah ') + 'dari daftar pilihan');
+      });
+      if (modalWish.dataset.kode) {
+        modalWish.setAttribute('aria-checked', String(wishSet.has(modalWish.dataset.kode)));
+      }
+      if (cartOverlay.classList.contains('show')) renderCartList();
+    }
+    function toggleWish(kode){
+      if (wishSet.has(kode)) wishSet.delete(kode); else wishSet.add(kode);
+      updateWishBar();
+    }
+    wishClear.addEventListener('click', () => { wishSet.clear(); updateWishBar(); });
+    wishSend.addEventListener('click', openCartDrawer);
+    cartBtn.addEventListener('click', openCartDrawer);
+
+    /* ---------- Modal preview produk ---------- */
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalCard = document.getElementById('modalCard');
+    const modalMedia = document.getElementById('modalMedia');
+    const modalKode = document.getElementById('modalKode');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalSpec = document.getElementById('modalSpec');
+    const modalWaBtn = document.getElementById('modalWaBtn');
+    const modalWish = document.getElementById('modalWish');
+    const modalClose = document.getElementById('modalClose');
+    let lastFocusedEl = null;
+
+    function openModal(p){
+      lastFocusedEl = document.activeElement;
+      modalMedia.innerHTML = imgSlotHtml(p.img, p.nama);
+      modalKode.textContent = p.kode;
+      modalTitle.textContent = p.nama;
+      modalSpec.innerHTML = `
+        <li><span class="k">Kompatibel</span><span class="v">${p.kompatibel}</span></li>
+        <li><span class="k">Kategori</span><span class="v">${kategoriList.find(k => k.key === p.kategori)?.label || '-'}</span></li>
+        <li><span class="k">Catatan</span><span class="v">${p.deskripsi}</span></li>
+      `;
+      modalWaBtn.href = `https://wa.me/6281462323794?text=${encodeURIComponent('Halo Merdeka Motor, saya mau cek stok ' + p.nama + ' (kode ' + p.kode + ').')}`;
+      modalWish.dataset.kode = p.kode;
+      modalWish.setAttribute('aria-checked', String(wishSet.has(p.kode)));
+      modalOverlay.classList.add('show');
+      document.body.style.overflow = 'hidden';
+      modalClose.focus();
+    }
+    function closeModal(){
+      modalOverlay.classList.remove('show');
+      document.body.style.overflow = '';
+      if (lastFocusedEl) lastFocusedEl.focus();
+    }
+    modalClose.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modalOverlay.classList.contains('show')) closeModal(); });
+    modalWish.addEventListener('click', () => { if (modalWish.dataset.kode) toggleWish(modalWish.dataset.kode); });
+
+    /* ---------- Daftar pilihan drawer ---------- */
+    const cartOverlay = document.getElementById('cartOverlay');
+    const cartList = document.getElementById('cartList');
+    const cartCount = document.getElementById('cartCount');
+    const cartClose = document.getElementById('cartClose');
+    const cartCheckoutBtn = document.getElementById('cartCheckoutBtn');
+
+    function renderCartList(){
+      const chosen = partsData.filter(p => wishSet.has(p.kode));
+      if (chosen.length === 0) {
+        cartList.innerHTML = `<li class="cart-empty">
+          <svg viewBox="0 0 24 24"><path d="M3 3h2l2.4 12.4a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.6L21 7H6"/></svg>
+          Belum ada part dipilih. Tap ikon di tiap part untuk menambahkannya ke daftar.
+        </li>`;
+        cartCount.textContent = '0';
+        cartCheckoutBtn.disabled = true;
+        return;
+      }
+      cartCheckoutBtn.disabled = false;
+      cartList.innerHTML = chosen.map(p => `
+        <li class="cart-row" data-kode="${p.kode}">
+          <div class="thumb">${imgSlotHtml(p.img, p.nama)}</div>
+          <div class="info">
+            <div class="nm">${p.nama}</div>
+            <div class="pr mono">${p.kode}</div>
+          </div>
+          <button type="button" class="rm" aria-label="Hapus ${p.nama} dari daftar pilihan">
+            <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </li>`).join('');
+      cartCount.textContent = String(chosen.length);
+      cartList.querySelectorAll('.rm').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const kode = btn.closest('.cart-row').dataset.kode;
+          wishSet.delete(kode);
+          updateWishBar();
+        });
+      });
+    }
+    function openCartDrawer(){
+      renderCartList();
+      cartOverlay.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeCartDrawer(){
+      cartOverlay.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+    cartClose.addEventListener('click', closeCartDrawer);
+    cartOverlay.addEventListener('click', (e) => { if (e.target === cartOverlay) closeCartDrawer(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && cartOverlay.classList.contains('show')) closeCartDrawer(); });
+    cartCheckoutBtn.addEventListener('click', () => {
+      if (wishSet.size === 0) return;
+      closeCartDrawer();
+      openCheckout();
+    });
+
+    /* ---------- Kirim pertanyaan stok sekaligus: pilih cabang & data diri ---------- */
+    const checkoutOverlay = document.getElementById('checkoutOverlay');
+    const checkoutClose = document.getElementById('checkoutClose');
+    const checkoutBack = document.getElementById('checkoutBack');
+    const checkoutSummary = document.getElementById('checkoutSummary');
+    const checkoutForm = document.getElementById('checkoutForm');
+    const coCabang = document.getElementById('coCabang');
+    const coNama = document.getElementById('coNama');
+    const coNamaErr = document.getElementById('coNamaErr');
+    const coHp = document.getElementById('coHp');
+    const coHpErr = document.getElementById('coHpErr');
+    const coFallbackWrap = document.getElementById('coFallbackLink');
+    const coFallbackA = document.getElementById('coFallbackA');
+
+    cabangData.forEach((c, i) => { coCabang.innerHTML += `<option value="${i}">${c.nama}</option>`; });
+
+    function openCheckout(){
+      const chosen = partsData.filter(p => wishSet.has(p.kode));
+      checkoutSummary.innerHTML = `<b>${chosen.length} part dipilih:</b><br>` +
+        chosen.map(p => `• ${p.nama} (${p.kode})`).join('<br>');
+      checkoutOverlay.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeCheckout(){
+      checkoutOverlay.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+    checkoutClose.addEventListener('click', closeCheckout);
+    checkoutOverlay.addEventListener('click', (e) => { if (e.target === checkoutOverlay) closeCheckout(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && checkoutOverlay.classList.contains('show')) closeCheckout(); });
+    checkoutBack.addEventListener('click', () => { closeCheckout(); openCartDrawer(); });
+
+    function markCoField(input, errEl, valid){
+      if (valid) { input.removeAttribute('aria-invalid'); errEl.classList.remove('show'); }
+      else { input.setAttribute('aria-invalid','true'); errEl.classList.add('show'); }
+      return valid;
+    }
+    [[coNama,coNamaErr,() => coNama.value.trim().length > 0],
+    [coHp,coHpErr,() => isValidHp(coHp.value.trim())]
+    ].forEach(([input, errEl, check]) => {
+      input.addEventListener('input', () => {
+        if (input.getAttribute('aria-invalid') === 'true' && check()) markCoField(input, errEl, true);
+      });
+    });
+
+    checkoutForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      if (wishSet.size === 0) return;
+
+      const namaOk = markCoField(coNama, coNamaErr, coNama.value.trim().length > 0);
+      const hpVal = coHp.value.trim();
+      const hpOk = markCoField(coHp, coHpErr, isValidHp(hpVal));
+
+      if (!namaOk) { coNama.focus(); return; }
+      if (!hpOk) { coHp.focus(); return; }
+
+      const cabang = cabangData[coCabang.value];
+      const chosen = partsData.filter(p => wishSet.has(p.kode));
+      const daftar = chosen.map((p, i) => `${i + 1}. ${p.nama} (kode ${p.kode})`).join('\n');
+
+      const pesan = `Halo Merdeka Motor (${cabang.nama}), saya mau tanya stok part berikut:\n\n`
+        + `${daftar}\n\n`
+        + `Nama: ${coNama.value.trim()}\n`
+        + `No HP: ${hpVal}\n\n`
+        + `Mohon konfirmasi ketersediaan stoknya ya, terima kasih.`;
+
+      const waUrl = `https://wa.me/${cabang.wa}?text=${encodeURIComponent(pesan)}`;
+      const win = window.open(waUrl, '_blank');
+
+      if (!win || win.closed || typeof win.closed === 'undefined') {
+        coFallbackA.href = waUrl; coFallbackWrap.classList.add('show');
+      } else {
+        coFallbackWrap.classList.remove('show');
+        wishSet.clear();
+        updateWishBar();
+        closeCheckout();
+      }
+    });
+
+    const partGrid = document.getElementById('partGrid');
+    const resultsCount = document.getElementById('resultsCount');
+    function renderParts(){
+      const q = currentSearch.trim().toLowerCase();
+      const filtered = partsData.filter(p => {
+        const matchKat = currentFilter === 'all' || p.kategori === currentFilter;
+        const matchQ = !q || p.nama.toLowerCase().includes(q) || p.kode.toLowerCase().includes(q);
+        return matchKat && matchQ;
+      });
+      resultsCount.textContent = filtered.length ? `Menampilkan ${filtered.length} dari ${partsData.length} part` : '';
+      if (filtered.length === 0) {
+        partGrid.innerHTML = '<div class="empty-state">Belum ada part yang cocok. Coba kata kunci lain, ganti motor, atau tanya langsung via WhatsApp.</div>';
+        return;
+      }
+      partGrid.innerHTML = filtered.map((p, i) => `
+        <div class="part-card reveal-child" style="transition-delay:${(i % 4) * 0.06}s" data-kode="${p.kode}">
+          <button type="button" class="wish-check" data-kode="${p.kode}" aria-checked="${wishSet.has(p.kode)}" aria-label="${wishSet.has(p.kode) ? 'Hapus ' + p.nama + ' dari daftar pilihan' : 'Tambah ' + p.nama + ' ke daftar pilihan'}">
+            <svg class="ic-cart" viewBox="0 0 24 24"><path d="M3 3h2l2.4 12.4a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.6L21 7H6"/><circle cx="9.5" cy="20.5" r="1.3" fill="currentColor" stroke="none"/><circle cx="17" cy="20.5" r="1.3" fill="currentColor" stroke="none"/></svg>
+            <svg class="ic-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+          </button>
+          ${imgSlotHtml(p.img, p.nama)}
+          <div class="body">
+            <div class="kode mono">${p.kode}</div>
+            <h3>${p.nama}</h3>
+            <div class="kompat">Kompatibel: ${p.kompatibel}</div>
+            <div class="row-bottom">
+              <a class="cek-btn" href="https://wa.me/6281462323794?text=${encodeURIComponent('Halo Merdeka Motor, saya mau cek stok ' + p.nama + ' (kode ' + p.kode + ').')}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+                Cek Stok via WA
+              </a>
+            </div>
+          </div>
+        </div>`).join('');
+      observeChildren(partGrid);
+
+      partGrid.querySelectorAll('.part-card').forEach(card => {
+        const kode = card.dataset.kode;
+        const p = partsData.find(x => x.kode === kode);
+        card.querySelector('.img-slot').addEventListener('click', () => openModal(p));
+        card.querySelector('h3').addEventListener('click', () => openModal(p));
+        card.querySelector('.wish-check').addEventListener('click', (e) => { e.stopPropagation(); toggleWish(kode); });
+      });
+    }
+    renderParts();
+
+    tabsEl.addEventListener('click', (e) => {
+      const btn = e.target.closest('.tab');
+      if (!btn) return;
+      tabsEl.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-selected','false'));
+      btn.setAttribute('aria-selected','true');
+      currentFilter = btn.dataset.filter;
+      renderParts();
+    });
+
+    const katalogSearch = document.getElementById('katalogSearch');
+    katalogSearch.addEventListener('input', () => { currentSearch = katalogSearch.value; renderParts(); });
+
+    /* ---------- Video (embed YouTube, bukan file mp4) ----------
+       CARA PAKAI:
+       1. Upload video ke YouTube (boleh "Unlisted" biar tidak muncul di
+          pencarian YouTube, tetap bisa ditonton lewat website ini).
+       2. Ambil ID video dari URL-nya. Contoh:
+            https://www.youtube.com/watch?v=dQw4w9WgXcQ  -> ID: dQw4w9WgXcQ
+            https://youtu.be/dQw4w9WgXcQ                 -> ID: dQw4w9WgXcQ
+       3. Ganti nilai "id" di bawah ini dengan ID video asli kamu.
+       Thumbnail otomatis diambil dari YouTube, jadi tidak perlu upload
+       gambar poster secara manual.
+    ------------------------------------------------------------- */
+    const videoData = [
+      { judul:'Cara Merawat Rem Yang Benar', id:'WXosyd8tHaM' },
+      { judul:'Part Original vs KW, Apa Bedanya?', id:'RYya8qGzUo4' }
+    ];
+    document.getElementById('videoGrid').innerHTML = videoData.map((v, i) => `
+      <div class="video-card reveal-child">
+        <div class="video-frame" id="videoFrame${i}">
+          <img class="yt-thumb" src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="Thumbnail video: ${v.judul}" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          <button type="button" class="play" aria-label="Putar video: ${v.judul}">
+            <span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7-11-7Z"/></svg></span>
+          </button>
+        </div>
+        <div class="cap">${v.judul}</div>
+      </div>`).join('');
+    observeChildren(document.getElementById('videoGrid'));
+
+    videoData.forEach((v, i) => {
+      const frame = document.getElementById(`videoFrame${i}`);
+      const playBtn = frame.querySelector('.play');
+
+      playBtn.addEventListener('click', () => {
+        frame.innerHTML = `<iframe
+            src="https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1&rel=0"
+            title="${v.judul}"
+            style="position:absolute;inset:0;width:100%;height:100%;border:0;"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen loading="lazy"></iframe>`;
+        frame.classList.add('is-playing', 'has-src');
+      });
+    });
+
+    /* ---------- Testimoni ---------- */
+    function starsHtml(rating){
+      let out = '';
+      for (let i = 1; i <= 5; i++){
+        out += `<svg class="${i <= rating ? '' : 'empty'}" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2Z"/></svg>`;
+      }
+      return out;
+    }
+    const testiGrid = document.getElementById('testiGrid');
+    testiGrid.innerHTML = testiData.map((t, i) => `
+      <div class="testi-card reveal-child" style="transition-delay:${i * 0.08}s">
+        <div class="testi-stars">${starsHtml(t.rating)}</div>
+        <p class="testi-text">"${t.text}"</p>
+        <div class="testi-who">
+          <div class="testi-avatar">${t.nama.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase()}</div>
+          <div>
+            <div class="testi-name">${t.nama}</div>
+            <div class="testi-meta">${t.meta}</div>
+          </div>
+        </div>
+      </div>`).join('');
+    observeChildren(testiGrid);
+
+    /* ---------- Cabang ---------- */
+    const cabangGrid = document.getElementById('cabangGrid');
+    const kCabangSelect = document.getElementById('kCabang');
+
+    function isCabangOpenNow(c){
+      const now = new Date();
+      const [oh, om] = c.buka.split(':').map(Number);
+      const [ch, cm] = c.tutup.split(':').map(Number);
+      const mins = now.getHours() * 60 + now.getMinutes();
+      return mins >= (oh * 60 + om) && mins < (ch * 60 + cm);
+    }
+    function statusBadgeHtml(c){
+      const open = isCabangOpenNow(c);
+      return `<span class="status-badge ${open ? 'open' : 'closed'}"><span class="dot"></span>${open ? 'Buka sekarang' : 'Tutup'}</span>`;
+    }
+
+    function renderCabang(){
+      cabangGrid.innerHTML = '';
+      kCabangSelect.innerHTML = '';
+      cabangData.forEach((c, i) => {
+        cabangGrid.innerHTML += `
+          <div class="loc-card reveal-child in" style="transition-delay:${i * 0.08}s">
+            <div class="top-row">
+              <div class="pin"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
+              ${statusBadgeHtml(c)}
+            </div>
+            <h3>${c.nama}</h3>
+            <div class="area">${c.area}</div>
+            <div class="loc-row"><span class="k">Jam</span><span class="v">${c.jam}</span></div>
+            <div class="loc-row"><span class="k">WA</span><span class="v mono" style="font-size:12.5px;">+${c.wa.replace(/^62/, '62 ')}</span></div>
+            <div class="loc-actions">
+              <a class="wa-btn" href="https://wa.me/${c.wa}?text=${encodeURIComponent('Halo Merdeka Motor ' + c.nama + ', saya mau tanya sparepart.')}" target="_blank" rel="noopener">Chat WA</a>
+              <a class="maps-btn" href="${c.maps}" target="_blank" rel="noopener">Lihat Maps</a>
+            </div>
+          </div>`;
+        kCabangSelect.innerHTML += `<option value="${i}">${c.nama}</option>`;
+      });
+    }
+    renderCabang();
+    observeChildren(cabangGrid);
+    // Perbarui badge buka/tutup tiap menit tanpa perlu reload halaman.
+    setInterval(() => {
+      document.querySelectorAll('.loc-card').forEach((card, i) => {
+        const badge = card.querySelector('.status-badge');
+        if (badge) badge.outerHTML = statusBadgeHtml(cabangData[i]);
+      });
+    }, 60000);
+
+    /* ---------- Konsultasi form ---------- */
+    const katPicker = document.getElementById('katPicker');
+    let selectedKat = kategoriList[0].key;
+    katPicker.innerHTML = kategoriList.map(k => `
+      <button type="button" class="kat-btn" data-kat="${k.key}" aria-pressed="${k.key === selectedKat}">
+        ${icons[k.key]}
+        <span>${k.label}</span>
+      </button>`).join('');
+    katPicker.addEventListener('click', (e) => {
+      const btn = e.target.closest('.kat-btn');
+      if (!btn) return;
+      selectedKat = btn.dataset.kat;
+      katPicker.querySelectorAll('.kat-btn').forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+    });
+
+    const kNama = document.getElementById('kNama');
+    const kNamaErr = document.getElementById('kNamaErr');
+    const kHp = document.getElementById('kHp');
+    const kHpErr = document.getElementById('kHpErr');
+    const kMotor = document.getElementById('kMotor');
+    const kMotorErr = document.getElementById('kMotorErr');
+    const kKeluhan = document.getElementById('kKeluhan');
+    const kKeluhanErr = document.getElementById('kKeluhanErr');
+    const fallbackWrap = document.getElementById('fallbackLink');
+    const fallbackA = document.getElementById('fallbackA');
+
+    function isValidHp(v){
+      const digits = v.replace(/[^0-9]/g, '');
+      return /^0[0-9]{9,13}$/.test(digits);
+    }
+    function markField(input, errEl, valid){
+      if (valid) { input.removeAttribute('aria-invalid'); errEl.classList.remove('show'); }
+      else { input.setAttribute('aria-invalid','true'); errEl.classList.add('show'); }
+      return valid;
+    }
+    [[kNama,kNamaErr,() => kNama.value.trim().length > 0],
+    [kHp,kHpErr,() => isValidHp(kHp.value.trim())],
+    [kMotor,kMotorErr,() => kMotor.value.trim().length > 0],
+    [kKeluhan,kKeluhanErr,() => kKeluhan.value.trim().length > 0]
+    ].forEach(([input, errEl, check]) => {
+      input.addEventListener('input', () => {
+        if (input.getAttribute('aria-invalid') === 'true' && check()) markField(input, errEl, true);
+      });
+    });
+
+    document.getElementById('konsulForm').addEventListener('submit', function(e){
+      e.preventDefault();
+
+      const namaOk = markField(kNama, kNamaErr, kNama.value.trim().length > 0);
+      const hpVal = kHp.value.trim();
+      const hpOk = markField(kHp, kHpErr, isValidHp(hpVal));
+      const motorOk = markField(kMotor, kMotorErr, kMotor.value.trim().length > 0);
+      const keluhanOk = markField(kKeluhan, kKeluhanErr, kKeluhan.value.trim().length > 0);
+
+      if (!namaOk) { kNama.focus(); return; }
+      if (!hpOk) { kHp.focus(); return; }
+      if (!motorOk) { kMotor.focus(); return; }
+      if (!keluhanOk) { kKeluhan.focus(); return; }
+
+      const nama = kNama.value.trim();
+      const cabang = cabangData[document.getElementById('kCabang').value];
+      const motor = kMotor.value.trim();
+      const tahun = document.getElementById('kTahun').value.trim();
+      const keluhan = kKeluhan.value.trim();
+      const katLabel = kategoriList.find(k => k.key === selectedKat).label;
+
+      const pesanTeks = `Halo Merdeka Motor (${cabang.nama}), saya mau konsultasi sparepart:\n\n`
+        + `Kategori Part: ${katLabel}\n`
+        + `Nama: ${nama}\n`
+        + `No HP: ${hpVal}\n`
+        + `Motor: ${motor}${tahun ? ' (' + tahun + ')' : ''}\n`
+        + `Kebutuhan/Keluhan: ${keluhan}`;
+
+      const waUrl = `https://wa.me/${cabang.wa}?text=${encodeURIComponent(pesanTeks)}`;
+      const win = window.open(waUrl, '_blank');
+
+      if (!win || win.closed || typeof win.closed === 'undefined') {
+        fallbackA.href = waUrl; fallbackWrap.classList.add('show');
+      } else {
+        fallbackWrap.classList.remove('show');
+      }
+    });
+
+    observeReveal();
+  </script>
+
+  </body>
+  </html>
