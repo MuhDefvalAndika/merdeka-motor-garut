@@ -126,7 +126,7 @@ async function apiGet(action) {
     return data;
   } catch (err) {
     console.error(`Error fetching ${action}:`, err);
-    showToast(`Error: ${err.message}`, 'error');
+    showToast(`Gagal memuat ${action}`, 'error');
     return [];
   }
 }
@@ -136,7 +136,7 @@ async function apiPost(action, payload = {}) {
     const response = await fetch(CONFIG.API_URL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'text/plain;charset=utf-8', // ganti dari 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         key: CONFIG.API_KEY,
