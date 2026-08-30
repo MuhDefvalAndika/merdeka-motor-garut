@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Admin - Merdeka Motor Garut</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;650;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
     <style>
         :root {
             /* Color tokens — Apple-esque neutral canvas with brand red accent */
@@ -261,6 +262,37 @@
         }
         .refresh-btn:hover { background: var(--border); }
 
+        /* ================= CHARTS ================= */
+        .section-title { font-size: 15px; font-weight: 700; margin: 34px 0 14px; letter-spacing: -0.015em; }
+        .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+        .chart-card {
+            background: var(--card); border: 1px solid var(--border-soft); border-radius: var(--radius-xl);
+            padding: 20px 20px 14px; box-shadow: var(--shadow-sm);
+        }
+        .chart-card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+        .chart-card-head h3 { font-size: 13.5px; font-weight: 650; color: var(--text); }
+        .chart-wrap { position: relative; height: 220px; }
+
+        /* ================= WIDGETS ================= */
+        .widgets-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 16px; }
+        .widget-card {
+            background: var(--card); border: 1px solid var(--border-soft); border-radius: var(--radius-xl);
+            padding: 20px; box-shadow: var(--shadow-sm);
+        }
+        .widget-card-head { margin-bottom: 6px; }
+        .widget-card-head h3 { font-size: 13.5px; font-weight: 650; }
+        .widget-list { display: flex; flex-direction: column; }
+        .widget-row {
+            display: flex; align-items: center; justify-content: space-between; gap: 10px;
+            padding: 12px 2px; border-bottom: 1px solid var(--border-soft);
+        }
+        .widget-row:last-child { border-bottom: none; }
+        .widget-row-main { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+        .widget-row-main strong { font-size: 13.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .widget-row-sub { font-size: 11.5px; color: var(--text-dim); }
+        .widget-empty { font-size: 13px; color: var(--text-dim); padding: 18px 2px; }
+        .badge-closed { background: var(--red-tint); color: var(--red); }
+
         /* ================= TABLE ================= */
         .table-container {
             background: var(--card); border: 1px solid var(--border-soft); border-radius: var(--radius-xl);
@@ -376,12 +408,78 @@
             .dashboard { padding: 12px; gap: 12px; }
             .main-content { padding: 26px 20px; }
         }
+
+        /* ================= MOBILE (iOS-style bottom tab bar) ================= */
         @media (max-width: 720px) {
-            .sidebar { width: 72px; padding: 18px 8px; top: 12px; height: calc(100vh - 24px); }
-            .sidebar-header h2, .sidebar-header .eyebrow, .nav-item span, .logout-btn span { display: none; }
-            .sidebar-header { justify-content: center; padding-bottom: 16px; }
-            .nav-item, .logout-btn { justify-content: center; padding: 12px; }
-            .page-header { flex-direction: column; align-items: flex-start; gap: 14px; }
+            .dashboard { display: block; padding: 0; background: var(--bg-sunk); }
+            .main-content {
+                border-radius: 0; border: none; box-shadow: none;
+                padding: 20px 16px calc(92px + env(safe-area-inset-bottom));
+                min-height: 100vh;
+            }
+
+            /* Sidebar becomes a fixed bottom tab bar */
+            .sidebar {
+                position: fixed; left: 0; right: 0; bottom: 0; top: auto;
+                width: 100%; height: auto; flex-direction: row; align-items: stretch;
+                border-radius: 0; border: none; border-top: 1px solid var(--border-soft);
+                box-shadow: 0 -6px 24px rgba(20,20,25,0.08);
+                padding: 6px 6px calc(6px + env(safe-area-inset-bottom));
+                z-index: 900;
+            }
+            .sidebar-header { display: none; }
+            .sidebar-nav { flex-direction: row; flex: 1; justify-content: space-around; gap: 2px; }
+            .nav-item {
+                flex-direction: column; gap: 3px; padding: 7px 4px 6px;
+                font-size: 10px; border-radius: 12px; min-width: 0; flex: 1;
+            }
+            .nav-item .icon { width: 22px; height: 22px; margin: 0 auto; }
+            .nav-item span:last-child { display: block; font-size: 10px; font-weight: 600; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .logout-btn {
+                flex-direction: column; gap: 3px; padding: 7px 10px 6px; font-size: 10px;
+                background: none; border-radius: 12px; flex-shrink: 0;
+            }
+            .logout-btn span:last-child { display: block; font-size: 10px; font-weight: 600; }
+
+            .page-header { flex-direction: column; align-items: stretch; gap: 12px; margin-bottom: 20px; padding-bottom: 16px; }
+            .page-header h1 { font-size: 22px; }
+            .page-header .add-btn { justify-content: center; width: 100%; padding: 13px; }
+
+            .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+            .stat-card { padding: 16px; }
+            .stat-icon { width: 36px; height: 36px; margin-bottom: 12px; }
+            .stat-info h3 { font-size: 24px; }
+
+            .charts-grid, .widgets-grid { grid-template-columns: 1fr; }
+            .section-title { margin-top: 26px; }
+
+            .refresh-btn { width: 100%; justify-content: center; padding: 13px; }
+
+            .filters { flex-direction: column; }
+
+            .table-container { border-radius: var(--radius-lg); padding: 4px; -webkit-overflow-scrolling: touch; }
+            thead th { padding: 11px 12px; font-size: 10px; }
+            tbody td { padding: 11px 12px; font-size: 13px; }
+            .action-btn { padding: 8px 12px; }
+
+            /* Modals become bottom sheets */
+            .modal { align-items: flex-end; padding: 0; }
+            .modal-content {
+                max-width: 100%; width: 100%; max-height: 86vh;
+                border-radius: 24px 24px 0 0;
+                padding: 22px 20px calc(22px + env(safe-area-inset-bottom));
+            }
+            .modal.show { animation: sheetBackdropIn 0.22s var(--ease); }
+            .modal.show .modal-content { animation: sheetIn 0.28s var(--ease); }
+            @keyframes sheetBackdropIn { from { opacity: 0; } to { opacity: 1; } }
+            @keyframes sheetIn { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+            .login-card { padding: 38px 26px 32px; }
+        }
+
+        @media (max-width: 400px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .nav-item span:last-child { font-size: 9.5px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -460,6 +558,30 @@
                 <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3.3V9h-5.7"/></svg></span>
                 Refresh Data
             </button>
+
+            <h3 class="section-title">Statistik</h3>
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <div class="chart-card-head"><h3>Part per Kategori</h3></div>
+                    <div class="chart-wrap"><canvas id="chartKategori"></canvas></div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-card-head"><h3>Status Testimoni</h3></div>
+                    <div class="chart-wrap"><canvas id="chartTestimoni"></canvas></div>
+                </div>
+            </div>
+
+            <h3 class="section-title">Ringkasan</h3>
+            <div class="widgets-grid">
+                <div class="widget-card">
+                    <div class="widget-card-head"><h3>Status Cabang Saat Ini</h3></div>
+                    <div id="widgetCabangStatus" class="widget-list"></div>
+                </div>
+                <div class="widget-card">
+                    <div class="widget-card-head"><h3>Aktivitas Terbaru</h3></div>
+                    <div id="widgetRecent" class="widget-list"></div>
+                </div>
+            </div>
         </div>
 
         <div class="page" id="page-parts">
@@ -625,9 +747,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('filterKategori').innerHTML += `<option value="${k.key}">${k.label}</option>`;
         document.getElementById('partKategori').innerHTML += `<option value="${k.key}">${k.label}</option>`;
     });
-    document.getElementById('partForm').addEventListener('submit', async (e) => { e.preventDefault(); const data = { kategori: document.getElementById('partKategori').value, nama: document.getElementById('partNama').value, kode: document.getElementById('partKode').value, kompatibel: document.getElementById('partKompatibel').value, img: document.getElementById('partImg').value, deskripsi: document.getElementById('partDeskripsi').value }; const id = document.getElementById('partId').value; const result = await apiPost(id ? 'updatePart' : 'addPart', id ? { id: Number(id), data: data } : { data: data }); if (result?.success) { closeModal('partModal'); loadAllData(); } });
-    document.getElementById('cabangForm').addEventListener('submit', async (e) => { e.preventDefault(); const data = { nama: document.getElementById('cabangNama').value, area: document.getElementById('cabangArea').value, jam: document.getElementById('cabangJam').value, buka: document.getElementById('cabangBuka').value, tutup: document.getElementById('cabangTutup').value, wa: document.getElementById('cabangWa').value, maps: document.getElementById('cabangMaps').value, img: document.getElementById('cabangImg').value }; const id = document.getElementById('cabangId').value; const result = await apiPost(id ? 'updateCabang' : 'addCabang', id ? { id: Number(id), data: data } : { data: data }); if (result?.success) { closeModal('cabangModal'); loadAllData(); } });
-    document.getElementById('testimoniForm').addEventListener('submit', async (e) => { e.preventDefault(); const data = { nama: document.getElementById('testimoniNama').value, meta: document.getElementById('testimoniMeta').value, rating: document.getElementById('testimoniRating').value, text: document.getElementById('testimoniText').value, aktif: document.getElementById('testimoniAktif').value }; const id = document.getElementById('testimoniId').value; const result = await apiPost(id ? 'updateTestimoni' : 'addTestimoni', id ? { id: Number(id), data: data } : { data: data }); if (result?.success) { closeModal('testimoniModal'); loadAllData(); } });
+    document.getElementById('partForm').addEventListener('submit', async (e) => { e.preventDefault(); const data = { kategori: document.getElementById('partKategori').value, nama: document.getElementById('partNama').value, kode: document.getElementById('partKode').value, kompatibel: document.getElementById('partKompatibel').value, img: document.getElementById('partImg').value, deskripsi: document.getElementById('partDeskripsi').value }; const id = document.getElementById('partId').value; const result = await apiPost(id ? 'updatePart' : 'addPart', id ? { id: Number(id), data: data } : { data: data }); if (result?.success) { closeModal('partModal'); await loadAllData(true); showToast(id ? 'Part berhasil diperbarui!' : 'Part berhasil disimpan!'); } });
+    document.getElementById('cabangForm').addEventListener('submit', async (e) => { e.preventDefault(); const data = { nama: document.getElementById('cabangNama').value, area: document.getElementById('cabangArea').value, jam: document.getElementById('cabangJam').value, buka: document.getElementById('cabangBuka').value, tutup: document.getElementById('cabangTutup').value, wa: document.getElementById('cabangWa').value, maps: document.getElementById('cabangMaps').value, img: document.getElementById('cabangImg').value }; const id = document.getElementById('cabangId').value; const result = await apiPost(id ? 'updateCabang' : 'addCabang', id ? { id: Number(id), data: data } : { data: data }); if (result?.success) { closeModal('cabangModal'); await loadAllData(true); showToast(id ? 'Cabang berhasil diperbarui!' : 'Cabang berhasil disimpan!'); } });
+    document.getElementById('testimoniForm').addEventListener('submit', async (e) => { e.preventDefault(); const data = { nama: document.getElementById('testimoniNama').value, meta: document.getElementById('testimoniMeta').value, rating: document.getElementById('testimoniRating').value, text: document.getElementById('testimoniText').value, aktif: document.getElementById('testimoniAktif').value }; const id = document.getElementById('testimoniId').value; const result = await apiPost(id ? 'updateTestimoni' : 'addTestimoni', id ? { id: Number(id), data: data } : { data: data }); if (result?.success) { closeModal('testimoniModal'); await loadAllData(true); showToast(id ? 'Testimoni berhasil diperbarui!' : 'Testimoni berhasil disimpan!'); } });
     document.getElementById('partFotoInput').addEventListener('change', (e) => handleUpload(e, 'part'));
     document.getElementById('cabangFotoInput').addEventListener('change', (e) => handleUpload(e, 'cabang'));
     document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', (e) => { if (e.target === m) m.classList.remove('show'); }));
@@ -639,18 +761,105 @@ document.addEventListener('DOMContentLoaded', () => {
 async function apiGet(action) { try { const res = await fetch(`${CONFIG.API_URL}?action=${action}&key=${CONFIG.API_KEY}`); const data = await res.json(); if (data.error) throw new Error(data.error); return data; } catch (err) { console.error(err); return []; } }
 async function apiPost(action, payload = {}) { try { const res = await fetch(CONFIG.API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ key: CONFIG.API_KEY, action, ...payload }) }); const data = await res.json(); if (data.error) throw new Error(data.error); return data; } catch (err) { console.error(err); showToast(err.message, 'error'); return null; } }
 
-async function loadAllData() {
-    showToast('Memuat data...');
+async function loadAllData(silent = false) {
+    if (!silent) showToast('Memuat data...');
     const [parts, cabang, testi] = await Promise.all([apiGet('getParts'), apiGet('getCabang'), apiGet('getTestimoni')]);
     allParts = parts || []; allCabang = cabang || []; allTestimoni = testi || [];
     document.getElementById('statParts').textContent = allParts.length;
     document.getElementById('statCabang').textContent = allCabang.length;
     document.getElementById('statTestimoni').textContent = allTestimoni.length;
     renderParts(); renderCabang(); renderTestimoni();
-    showToast('Data dimuat!');
+    renderCharts(); renderWidgets();
+    if (!silent) showToast('Data dimuat!');
 }
 
 function refreshAll() { loadAllData(); }
+
+// ============================================
+// CHARTS
+// ============================================
+let chartKategoriInstance = null;
+let chartTestimoniInstance = null;
+function renderCharts() {
+    if (typeof Chart === 'undefined') return;
+    const ctxKategori = document.getElementById('chartKategori');
+    const ctxTestimoni = document.getElementById('chartTestimoni');
+    if (!ctxKategori || !ctxTestimoni) return;
+
+    const counts = {};
+    CONFIG.KATEGORI.forEach(k => counts[k.key] = 0);
+    allParts.forEach(p => { counts[p.kategori] = (counts[p.kategori] || 0) + 1; });
+
+    if (chartKategoriInstance) chartKategoriInstance.destroy();
+    chartKategoriInstance = new Chart(ctxKategori, {
+        type: 'bar',
+        data: {
+            labels: CONFIG.KATEGORI.map(k => k.label),
+            datasets: [{ data: CONFIG.KATEGORI.map(k => counts[k.key] || 0), backgroundColor: '#C8102E', borderRadius: 8, maxBarThickness: 32 }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { grid: { display: false }, ticks: { font: { size: 10.5 }, color: '#6E6E73' } },
+                y: { beginAtZero: true, ticks: { precision: 0, font: { size: 10.5 }, color: '#6E6E73' }, grid: { color: '#F1F1F3' } }
+            }
+        }
+    });
+
+    const aktif = allTestimoni.filter(t => t.aktif === 'YA').length;
+    const nonaktif = allTestimoni.length - aktif;
+
+    if (chartTestimoniInstance) chartTestimoniInstance.destroy();
+    chartTestimoniInstance = new Chart(ctxTestimoni, {
+        type: 'doughnut',
+        data: { labels: ['Aktif', 'Nonaktif'], datasets: [{ data: [aktif, nonaktif], backgroundColor: ['#C8102E', '#E8E8ED'], borderWidth: 0 }] },
+        options: {
+            responsive: true, maintainAspectRatio: false, cutout: '68%',
+            plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 11 }, color: '#6E6E73' } } }
+        }
+    });
+}
+
+// ============================================
+// WIDGETS
+// ============================================
+function timeToMinutes(t) { if (!t) return null; const parts = String(t).split(':'); const h = Number(parts[0]); const m = Number(parts[1] || 0); if (Number.isNaN(h)) return null; return h * 60 + m; }
+function isCabangOpen(c) {
+    const buka = timeToMinutes(c.buka), tutup = timeToMinutes(c.tutup);
+    if (buka === null || tutup === null) return null;
+    const now = new Date(); const nowMin = now.getHours() * 60 + now.getMinutes();
+    if (buka <= tutup) return nowMin >= buka && nowMin < tutup;
+    return nowMin >= buka || nowMin < tutup;
+}
+function renderWidgets() {
+    const wrapStatus = document.getElementById('widgetCabangStatus');
+    if (wrapStatus) {
+        if (!allCabang.length) {
+            wrapStatus.innerHTML = '<p class="widget-empty">Belum ada cabang</p>';
+        } else {
+            wrapStatus.innerHTML = allCabang.map(c => {
+                const open = isCabangOpen(c);
+                const label = open === null ? '—' : (open ? 'Buka' : 'Tutup');
+                const cls = open === null ? 'badge-inactive' : (open ? 'badge-active' : 'badge-closed');
+                return `<div class="widget-row"><div class="widget-row-main"><strong>${c.nama}</strong><span class="widget-row-sub">${c.area || ''}</span></div><span class="badge ${cls}">${label}</span></div>`;
+            }).join('');
+        }
+    }
+    const wrapRecent = document.getElementById('widgetRecent');
+    if (wrapRecent) {
+        const recent = [
+            ...allParts.slice(-5).map(p => ({ label: p.nama, type: 'Part baru', id: Number(p.id) || 0 })),
+            ...allCabang.slice(-5).map(c => ({ label: c.nama, type: 'Cabang baru', id: Number(c.id) || 0 })),
+            ...allTestimoni.slice(-5).map(t => ({ label: t.nama, type: 'Testimoni baru', id: Number(t.id) || 0 }))
+        ].sort((a, b) => b.id - a.id).slice(0, 6);
+        if (!recent.length) {
+            wrapRecent.innerHTML = '<p class="widget-empty">Belum ada aktivitas</p>';
+        } else {
+            wrapRecent.innerHTML = recent.map(it => `<div class="widget-row"><div class="widget-row-main"><strong>${it.label}</strong><span class="widget-row-sub">${it.type}</span></div></div>`).join('');
+        }
+    }
+}
 
 // ============================================
 // RENDER
@@ -681,9 +890,9 @@ function openPartModal(id = null) { document.getElementById('partForm').reset();
 function openCabangModal(id = null) { document.getElementById('cabangForm').reset(); document.getElementById('cabangFotoPreview').innerHTML = ''; if (id) { const c = allCabang.find(x => x.id == id); document.getElementById('cabangModalTitle').textContent = 'Edit Cabang'; document.getElementById('cabangId').value = c.id; document.getElementById('cabangNama').value = c.nama; document.getElementById('cabangArea').value = c.area; document.getElementById('cabangJam').value = c.jam; document.getElementById('cabangBuka').value = c.buka; document.getElementById('cabangTutup').value = c.tutup; document.getElementById('cabangWa').value = c.wa; document.getElementById('cabangMaps').value = c.maps; document.getElementById('cabangImg').value = c.img; if (c.img) document.getElementById('cabangFotoPreview').innerHTML = `<img src="${getImageUrl(c.img)}" class="preview-img">`; } else { document.getElementById('cabangModalTitle').textContent = 'Tambah Cabang'; } document.getElementById('cabangModal').classList.add('show'); }
 function openTestimoniModal(id = null) { document.getElementById('testimoniForm').reset(); if (id) { const t = allTestimoni.find(x => x.id == id); document.getElementById('testimoniModalTitle').textContent = 'Edit Testimoni'; document.getElementById('testimoniId').value = t.id; document.getElementById('testimoniNama').value = t.nama; document.getElementById('testimoniMeta').value = t.meta; document.getElementById('testimoniRating').value = t.rating; document.getElementById('testimoniText').value = t.text; document.getElementById('testimoniAktif').value = t.aktif; } else { document.getElementById('testimoniModalTitle').textContent = 'Tambah Testimoni'; } document.getElementById('testimoniModal').classList.add('show'); }
 function editPart(id) { openPartModal(id); } function editCabang(id) { openCabangModal(id); } function editTestimoni(id) { openTestimoniModal(id); }
-async function deletePart(id) { if (confirm('Hapus part ini?')) { await apiPost('deletePart', { id }); loadAllData(); } }
-async function deleteCabang(id) { if (confirm('Hapus cabang ini?')) { await apiPost('deleteCabang', { id }); loadAllData(); } }
-async function deleteTestimoni(id) { if (confirm('Hapus testimoni ini?')) { await apiPost('deleteTestimoni', { id }); loadAllData(); } }
+async function deletePart(id) { if (confirm('Hapus part ini?')) { const result = await apiPost('deletePart', { id }); if (result?.success) { await loadAllData(true); showToast('Part berhasil dihapus!'); } } }
+async function deleteCabang(id) { if (confirm('Hapus cabang ini?')) { const result = await apiPost('deleteCabang', { id }); if (result?.success) { await loadAllData(true); showToast('Cabang berhasil dihapus!'); } } }
+async function deleteTestimoni(id) { if (confirm('Hapus testimoni ini?')) { const result = await apiPost('deleteTestimoni', { id }); if (result?.success) { await loadAllData(true); showToast('Testimoni berhasil dihapus!'); } } }
 function closeModal(id) { document.getElementById(id).classList.remove('show'); }
 
 // ============================================
