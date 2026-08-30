@@ -1211,6 +1211,11 @@
   document.getElementById('year').textContent = new Date().getFullYear();
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // CONFIG untuk API
+  const CONFIG = {
+    API_URL: '/api/proxy',
+    API_KEY: 'merdeka2024'
+  };
   const navMain = document.getElementById('navMain');
   window.addEventListener('scroll', () => {
     navMain.classList.toggle('scrolled', window.scrollY > 12);
@@ -1247,34 +1252,11 @@
     { key:'oli', label:'Oli & Cairan' }
   ];
 
-  const partsData = [
-    { kategori:'rem', nama:'Kampas Rem Depan NMAX/Aerox', kode:'2DP-F5S10-00', kompatibel:'NMAX, Aerox, Lexi', img:'part-kampas-rem.jpg', deskripsi:'Kampas rem original dengan daya cengkeram stabil dan minim decit.' },
-    { kategori:'rem', nama:'Shockbreaker Belakang Vario', kode:'1YR-F2210-00', kompatibel:'Vario 125/150, Beat', img:'part-shock-belakang.jpg', deskripsi:'Redaman lebih stabil untuk jalan bergelombang, tahan lama.' },
-    { kategori:'kelistrikan', nama:'Aki GS Maintenance Free', kode:'GTZ5S-GS', kompatibel:'Vario, Beat, Scoopy, Mio', img:'part-aki.jpg', deskripsi:'Aki bebas perawatan dengan daya start yang lebih responsif.' },
-    { kategori:'kelistrikan', nama:'Busi Iridium Universal', kode:'1PA-E4610-00', kompatibel:'Semua matic 125–155cc', img:'part-busi-iridium.jpg', deskripsi:'Pengapian lebih stabil dan awet untuk pemakaian harian.' },
-    { kategori:'mesin', nama:'V-Belt Matic', kode:'2BL-E7641-00', kompatibel:'NMAX, Aerox, Xmax', img:'part-vbelt.jpg', deskripsi:'Tarikan lebih halus dan minim selip untuk motor matic.' },
-    { kategori:'mesin', nama:'Filter Udara Standar', kode:'B3E-E4450-00', kompatibel:'Beat, Scoopy, Genio', img:'part-filter-udara.jpg', deskripsi:'Menjaga aliran udara ke mesin tetap bersih dan optimal.' },
-    { kategori:'body', nama:'Lampu LED Headlamp', kode:'B7B-H4330-00', kompatibel:'Vario 125/150, PCX', img:'part-lampu-led.jpg', deskripsi:'Pencahayaan lebih terang dan hemat daya dibanding bohlam standar.' },
-    { kategori:'body', nama:'Spion Sepasang Universal', kode:'2SK-F8300-00', kompatibel:'Semua motor bebek & matic', img:'part-spion.jpg', deskripsi:'Desain ringkas dengan sudut pandang lebih luas.' },
-    { kategori:'roda', nama:'Rantai + Gear Set', kode:'2SK-E5401-00', kompatibel:'Vixion, MX King, Byson', img:'part-rantai-gear.jpg', deskripsi:'Satu set lengkap untuk performa transmisi yang lebih presisi.' },
-    { kategori:'roda', nama:'Ban Tubeless Sport 90/80-17', kode:'IRC-NR73-90', kompatibel:'Vixion, MX King, Sonic', img:'part-ban-tubeless.jpg', deskripsi:'Grip lebih baik di jalan basah maupun kering.' },
-    { kategori:'oli', nama:'Oli Mesin Matic 10W-30', kode:'YMH-0W30-08', kompatibel:'Semua motor matic injeksi', img:'part-oli-mesin.jpg', deskripsi:'Formula pelumas untuk mesin matic injeksi, menjaga performa harian.' },
-    { kategori:'oli', nama:'Oli Gardan Matic', kode:'YMH-GEAR-08', kompatibel:'Semua motor matic', img:'part-oli-gardan.jpg', deskripsi:'Melumasi gigi transmisi CVT agar suara lebih halus.' }
-  ];
+    let partsData = [];
 
-  const cabangData = [
-    { nama:"Cabang Pusat — Kerkof", area:"Jl. Merdeka No.85A, Jayaraga, Tarogong Kidul", jam:"08.00 – 17.00", buka:"08:00", tutup:"17:00", wa:"6281462323794", maps:"https://maps.app.goo.gl/eNGyS82haaU9MoyYA", img:"cabang-pusat.jpg" },
-    { nama:"Cabang Ciparay", area:"Ciparay, Garut", jam:"08.00 – 21.00", buka:"08:00", tutup:"21:00", wa:"6285320375848", maps:"https://maps.app.goo.gl/ejKf44Tg94auAKgRA", img:"cabang-ciparay.jpg" },
-    { nama:"Cabang Sanding", area:"Muara Sanding, Garut Kota", jam:"08.00 – 17.00", buka:"08:00", tutup:"17:00", wa:"6288901674177", maps:"https://maps.app.goo.gl/ZF9XySFgfcDsFwtq5", img:"cabang-sanding.jpg" },
-    { nama:"Cabang Cidadap", area:"Garut,Cidadap", jam:"08.00 – 17.00", buka:"08:00", tutup:"17:00", wa:"6282120616119", maps:"https://www.google.com/maps?q=-7.209744,107.943634", img:"cabang-4.jpg" },
-    { nama:"Cabang Leles", area:"Garut,Leles", jam:"08.00 – 17.00", buka:"08:00", tutup:"17:00", wa:"6281462323794", maps:"https://www.google.com/maps?q=-7.113751,107.896935", img:"cabang-5.jpg" }
-  ];
+    let cabangData = [];
 
-  const testiData = [
-    { nama:"Rian Firmansyah", meta:"Pemilik Yamaha NMAX · Tarogong", rating:5, text:"Kampas rem yang saya beli awet dan pemasangannya cepat. Mekaniknya juga jelasin dengan sabar sebelum saya putuskan beli." },
-    { nama:"Dewi Anggraini", meta:"Pemilik Honda Vario · Garut Kota", rating:5, text:"Konsultasi via WhatsApp responsnya cepat, part yang direkomendasikan pas sama tipe motor saya. Harga juga jelas dari awal." },
-    { nama:"Asep Kurniawan", meta:"Pemilik Yamaha Vixion · Ciparay", rating:4, text:"Stok lengkap buat motor sport, rantai & gear set yang saya cari langsung ada. Cuma antrian pas weekend agak ramai." }
-  ];
+    let testiData = [];
 
   const io = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -1296,21 +1278,29 @@
     container.querySelectorAll('.reveal-child').forEach(el => io2.observe(el));
   }
 
-  function imgSlotHtml(filename, alt, eager){
+  function getImageUrl(img) {
+    if (!img) return '';
+    if (img.startsWith('http://') || img.startsWith('https://')) {
+        return img;
+    }
+    return 'images/' + img;
+}
+
+function imgSlotHtml(filename, alt, eager){
     return '<div class="img-slot">'
-      + '<div class="slot-label"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg><b>images/' + filename + '</b></div>'
-      + '<img src="images/' + filename + '" alt="' + alt + '" ' + (eager ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"') + ' decoding="async" onload="this.closest(\'.img-slot\').classList.add(\'loaded\')">'
+      + '<div class="slot-label"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg><b>' + filename + '</b></div>'
+      + '<img src="' + getImageUrl(filename) + '" alt="' + alt + '" ' + (eager ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"') + ' decoding="async" onload="this.closest(\'.img-slot\').classList.add(\'loaded\')">'
       + '</div>';
-  }
+}
 
   /* ---------- Hero carousel ---------- */
-  const heroImages = [
-    { src:'hero-1.jpg', alt:'Etalase depan toko sparepart Merdeka Motor Garut' },
-    { src:'hero-2.jpg', alt:'Rak sparepart motor original di Merdeka Motor Garut' },
-    { src:'hero-3.jpg', alt:'Mekanik Merdeka Motor Garut sedang melayani pelanggan' },
-    { src:'hero-4.jpg', alt:'Suasana bengkel dan gerai Merdeka Motor Garut' },
-    { src:'hero-5.jpg', alt:'Koleksi part original di cabang Merdeka Motor Garut' }
-  ];
+ const heroImages = [
+    { src:'https://i.ibb.co.com/XZvm4jr3/hero-1.png', alt:'Etalase depan toko sparepart Merdeka Motor Garut' },
+    { src:'https://i.ibb.co.com/CsSHt0bM/hero-2.jpg', alt:'Rak sparepart motor original di Merdeka Motor Garut' },
+    { src:'https://i.ibb.co.com/DP7RXMBw/hero-3.jpg', alt:'Mekanik Merdeka Motor Garut sedang melayani pelanggan' },
+    { src:'https://i.ibb.co.com/TD3prbsN/hero-4.jpg', alt:'Suasana bengkel dan gerai Merdeka Motor Garut' },
+    { src:'https://i.ibb.co.com/XZqytb3C/hero-5.png', alt:'Koleksi part original di cabang Merdeka Motor Garut' }
+];
   const heroTrack = document.getElementById('heroTrack');
   const heroDots = document.getElementById('heroDots');
   const heroCounter = document.getElementById('heroCounter');
@@ -1777,7 +1767,7 @@
               <b>images/${c.img}</b>
               <span>4:3 · 800×600</span>
             </div>
-            <img src="images/${c.img}" alt="Foto tampak depan ${c.nama}" loading="lazy" decoding="async" onload="this.closest('.img-slot').classList.add('loaded')">
+                        <img src="${getImageUrl(c.img)}" alt="Foto tampak depan ${c.nama}" loading="lazy" decoding="async" onload="this.closest('.img-slot').classList.add('loaded')">
           </div>
           <div class="loc-body">
             <div class="top-row">
@@ -1891,7 +1881,65 @@
   });
 
   observeReveal();
+
+  // ============================================
+  // LOAD DATA DARI API
+  // ============================================
+  async function loadAllDataFromAPI() {
+    try {
+      // Load parts
+      const partsRes = await fetch(`${CONFIG.API_URL}?action=getParts&key=${CONFIG.API_KEY}`);
+      const partsJson = await partsRes.json();
+      if (Array.isArray(partsJson)) {
+        partsData = partsJson;
+        renderParts();
+      }
+
+      // Load cabang
+      const cabangRes = await fetch(`${CONFIG.API_URL}?action=getCabang&key=${CONFIG.API_KEY}`);
+      const cabangJson = await cabangRes.json();
+      if (Array.isArray(cabangJson)) {
+        cabangData = cabangJson;
+        renderCabang();
+        // Update dropdown cabang
+        askMoreCabang.innerHTML = '';
+        coCabang.innerHTML = '';
+        kCabangSelect.innerHTML = '';
+        cabangData.forEach((c, i) => {
+          askMoreCabang.innerHTML += `<option value="${i}">${c.nama}</option>`;
+          coCabang.innerHTML += `<option value="${i}">${c.nama}</option>`;
+          kCabangSelect.innerHTML += `<option value="${i}">${c.nama}</option>`;
+        });
+      }
+
+      // Load testimoni
+      const testiRes = await fetch(`${CONFIG.API_URL}?action=getTestimoni&key=${CONFIG.API_KEY}`);
+      const testiJson = await testiRes.json();
+      if (Array.isArray(testiJson)) {
+        testiData = testiJson.filter(t => t.aktif === 'YA');
+        testiGrid.innerHTML = testiData.map((t, i) => `
+          <div class="testi-card reveal-child" style="transition-delay:${i * 0.08}s">
+            <div class="testi-stars">${starsHtml(Number(t.rating) || 5)}</div>
+            <p class="testi-text">"${t.text}"</p>
+            <div class="testi-who">
+              <div class="testi-avatar">${(t.nama || 'X').split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase()}</div>
+              <div>
+                <div class="testi-name">${t.nama}</div>
+                <div class="testi-meta">${t.meta}</div>
+              </div>
+            </div>
+          </div>`).join('');
+        observeChildren(testiGrid);
+      }
+    } catch (err) {
+      console.error('Gagal load data dari API:', err);
+    }
+  }
+
+  // Panggil load data setelah semua fungsi didefinisikan
+  loadAllDataFromAPI();
 </script>
 
 </body>
 </html>
+
