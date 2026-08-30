@@ -1,6 +1,6 @@
 // js/config.js - Konfigurasi API & Dashboard
 const CONFIG = {
-  API_URL: 'https://script.google.com/macros/s/AKfycbyeUMEdrAlkRexo7GDKyQcR9pxSfcc2_7OTA7yrb0gNcYJZiqUMql2Ra9Z8TUuZBLlQEQ/exec',
+  API_URL: 'https://script.google.com/macros/s/AKfycbzzuuSlbfBBLfhSjUaHTxRsZp_0iP9DKAMoaVRsj16_2bndqBT-OtNKnJysH-7SLtXmkQ/exec',
   API_KEY: 'merdeka2024',
   ADMIN_PASSWORD: 'merdeka123',
   
