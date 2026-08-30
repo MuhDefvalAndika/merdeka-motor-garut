@@ -16,19 +16,26 @@ export default async function handler(req, res) {
     try {
         if (req.method === 'GET') {
             const { action, key } = req.query;
-            const url = `${API_URL}?action=${action}&key=${key}`;
             
+            if (!action) {
+                res.status(200).json({ status: 'OK', message: 'Proxy is running' });
+                return;
+            }
+            
+            const url = `${API_URL}?action=${action}&key=${key}`;
             const response = await fetch(url);
             const data = await response.text();
             
             res.status(200).send(data);
         } else if (req.method === 'POST') {
+            const body = req.body;
+            
             const response = await fetch(API_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(req.body)
+                body: JSON.stringify(body)
             });
             
             const data = await response.text();
