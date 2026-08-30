@@ -136,7 +136,7 @@ async function apiPost(action, payload = {}) {
     const response = await fetch(CONFIG.API_URL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'text/plain;charset=utf-8', // ganti dari 'application/json'
       },
       body: JSON.stringify({
         key: CONFIG.API_KEY,
