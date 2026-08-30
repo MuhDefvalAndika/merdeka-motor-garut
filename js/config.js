@@ -1,7 +1,7 @@
 // js/config.js - Konfigurasi API & Dashboard
 const CONFIG = {
-  // API URL dengan proxy CORS (allorigins - gratis tanpa API key)
-  API_URL: 'https://api.allorigins.win/raw?url=https://script.google.com/macros/s/AKfycbzzuuSlbfBBLfhSjUaHTxRsZp_0iP9DKAMoaVRsj16_2bndqBT-OtNKnJysH-7SLtXmkQ/exec',
+  // API URL proxy lokal di Vercel
+  API_URL: '/api/proxy',
   
   API_KEY: 'merdeka2024',
   ADMIN_PASSWORD: 'merdeka123',
