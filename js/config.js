@@ -1,6 +1,8 @@
 // js/config.js - Konfigurasi API & Dashboard
 const CONFIG = {
-  API_URL: 'https://script.google.com/macros/s/AKfycbzzuuSlbfBBLfhSjUaHTxRsZp_0iP9DKAMoaVRsj16_2bndqBT-OtNKnJysH-7SLtXmkQ/exec',
+  // API URL dengan proxy CORS
+  API_URL: 'https://corsproxy.io/?https://script.google.com/macros/s/AKfycbzzuuSlbfBBLfhSjUaHTxRsZp_0iP9DKAMoaVRsj16_2bndqBT-OtNKnJysH-7SLtXmkQ/exec',
+  
   API_KEY: 'merdeka2024',
   ADMIN_PASSWORD: 'merdeka123',
   
