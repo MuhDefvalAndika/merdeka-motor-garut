@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - Merdeka Motor Garut</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-a: #F1EEF1;
+            --bg-b: #F8F7F9;
+            --card: #FFFFFF;
+            --border: #ECEBEF;
+            --red: #C8102E;
+            --red-dark: #A20C24;
+            --red-soft: #FBE9EC;
+            --red-soft-2: #F6D9DE;
+            --text: #1D1D1F;
+            --text-soft: #6E6E73;
+            --text-dim: #AEAEB4;
+            --success: #2FAE60;
+            --success-soft: #E5F7EC;
+            --gray-soft: #F2F2F5;
+            --radius-lg: 24px;
+            --radius: 16px;
+            --radius-sm: 12px;
+            --shadow: 0 1px 2px rgba(20,20,25,0.04), 0 16px 40px rgba(20,20,25,0.06);
+            --shadow-sm: 0 1px 2px rgba(20,20,25,0.04), 0 6px 16px rgba(20,20,25,0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+            background: var(--bg-b);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3 { letter-spacing: -0.02em; }
+
+        .eyebrow {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            color: var(--text-soft);
+        }
+
+        /* ============ Login Screen ============ */
+        .login-screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: radial-gradient(1100px 700px at 20% 15%, #FDECEE 0%, transparent 55%),
+                        radial-gradient(900px 600px at 85% 90%, #F1EFF3 0%, transparent 55%),
+                        var(--bg-b);
+        }
+
+        .login-card {
+            background: var(--card);
+            border-radius: 28px;
+            padding: 48px 40px 40px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .login-badge {
+            width: 60px; height: 60px;
+            margin: 0 auto 22px;
+            border-radius: 18px;
+            background: var(--red-soft);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--red);
+        }
+
+        .login-card h1 { font-size: 23px; font-weight: 800; margin-bottom: 6px; color: var(--text); }
+        .login-card p { color: var(--text-soft); margin-bottom: 30px; font-size: 14px; }
+
+        .login-card label {
+            display: block; text-align: left;
+            font-size: 12.5px; font-weight: 600; color: var(--text-soft);
+            margin-bottom: 8px;
+        }
+
+        .login-card input {
+            width: 100%; padding: 14px 16px;
+            background: var(--gray-soft);
+            border: 1.5px solid transparent; border-radius: 14px;
+            color: var(--text);
+            font-size: 15px; font-family: inherit; margin-bottom: 18px;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .login-card input::placeholder { color: var(--text-dim); }
+        .login-card input:focus { outline: none; border-color: var(--red); background: #fff; }
+
+        .login-card button {
+            width: 100%; padding: 15px;
+            background: var(--red); color: white;
+            border: none; border-radius: 14px;
+            font-size: 15px; font-weight: 700;
+            cursor: pointer; font-family: inherit;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .login-card button:hover { background: var(--red-dark); }
+        .login-card button:active { transform: translateY(1px); }
+
+        .login-error { color: var(--red); font-size: 13.5px; margin-top: 14px; min-height: 18px; font-weight: 500; }
+
+        /* ============ Dashboard Layout ============ */
+        .dashboard {
+            display: flex; gap: 20px;
+            min-height: 100vh; padding: 20px;
+            background: radial-gradient(1200px 800px at 10% 0%, #F7EEF0 0%, transparent 45%), var(--bg-a);
+        }
+
+        .sidebar {
+            width: 256px; flex-shrink: 0;
+            background: var(--card);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            padding: 26px 16px;
+            display: flex; flex-direction: column;
+            position: sticky; top: 20px; height: calc(100vh - 40px);
+        }
+
+        .sidebar-header {
+            display: flex; align-items: center; gap: 12px;
+            padding: 4px 10px 22px; border-bottom: 1px solid var(--border); margin-bottom: 18px;
+        }
+        .sidebar-mark {
+            width: 40px; height: 40px; flex-shrink: 0;
+            border-radius: 12px;
+            background: var(--red);
+            display: flex; align-items: center; justify-content: center;
+            color: #fff;
+        }
+        .sidebar-header h2 { font-size: 15px; font-weight: 800; color: var(--text); line-height: 1.25; }
+        .sidebar-header .eyebrow { display: block; margin-top: 1px; font-size: 11.5px; }
+
+        .sidebar-nav { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+
+        .nav-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 14px; background: none; border: none;
+            border-radius: 13px; font-size: 14px; font-weight: 600;
+            color: var(--text-soft); cursor: pointer;
+            transition: all 0.18s; text-align: left; font-family: inherit;
+        }
+        .nav-item svg { width: 18px; height: 18px; flex-shrink: 0; }
+        .nav-item:hover { background: var(--gray-soft); color: var(--text); }
+        .nav-item.active {
+            background: var(--red-soft);
+            color: var(--red);
+        }
+
+        .logout-btn {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 14px; background: var(--gray-soft); border: none;
+            border-radius: 13px; font-size: 14px; font-weight: 600;
+            color: var(--text-soft); cursor: pointer;
+            transition: all 0.2s; font-family: inherit;
+        }
+        .logout-btn svg { width: 17px; height: 17px; }
+        .logout-btn:hover { background: var(--red-soft); color: var(--red); }
+
+        /* ============ Main Content ============ */
+        .main-content {
+            flex: 1; min-width: 0;
+            background: var(--card);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            padding: 34px 38px;
+            min-height: calc(100vh - 40px);
+        }
+
+        .page { display: none; }
+        .page.active { display: block; }
+
+        .page-header {
+            display: flex; justify-content: space-between;
+            align-items: flex-end; margin-bottom: 26px;
+        }
+        .page-header .eyebrow { display: block; margin-bottom: 4px; }
+        .page-header h1 { font-size: 27px; font-weight: 800; color: var(--text); }
+
+        .add-btn {
+            padding: 12px 22px; background: var(--red);
+            color: white; border: none; border-radius: 13px;
+            font-size: 14px; font-weight: 700; cursor: pointer;
+            font-family: inherit; transition: background 0.2s, transform 0.1s;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .add-btn:hover { background: var(--red-dark); }
+        .add-btn:active { transform: translateY(1px); }
+
+        /* ============ Stat Cards ============ */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px; margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 22px;
+            box-shadow: var(--shadow-sm);
+        }
+        .stat-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+        .stat-icon {
+            width: 40px; height: 40px; border-radius: 12px;
+            background: var(--red-soft);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--red);
+        }
+        .stat-icon svg { width: 19px; height: 19px; }
+        .stat-info h3 { font-size: 30px; font-weight: 800; color: var(--text); letter-spacing: -0.02em; }
+        .stat-info p { color: var(--text-soft); font-size: 13px; font-weight: 500; margin-top: 3px; }
+
+        .refresh-btn {
+            padding: 12px 22px; background: var(--gray-soft);
+            color: var(--text); border: none; border-radius: 13px;
+            font-size: 14px; font-weight: 600; cursor: pointer;
+            font-family: inherit; transition: all 0.2s;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .refresh-btn:hover { background: var(--red-soft); color: var(--red); }
+
+        /* ============ Table ============ */
+        .table-container {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 6px; overflow-x: auto;
+        }
+
+        table { width: 100%; border-collapse: collapse; min-width: 640px; }
+        thead th {
+            text-align: left; padding: 14px 16px; font-size: 11.5px;
+            text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700;
+            color: var(--text-dim); border-bottom: 1px solid var(--border);
+        }
+        tbody td {
+            padding: 14px 16px; font-size: 14px;
+            border-bottom: 1px solid var(--border); color: var(--text);
+        }
+        tbody tr:last-child td { border-bottom: none; }
+        tbody tr:hover td { background: var(--gray-soft); }
+
+        .thumb {
+            width: 46px; height: 46px; border-radius: 12px;
+            overflow: hidden; background: var(--gray-soft);
+        }
+        .thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+        .action-btn {
+            padding: 7px 14px; border: none; border-radius: 10px;
+            font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit;
+            transition: all 0.2s;
+        }
+        .edit-btn { background: var(--gray-soft); color: var(--text-soft); margin-right: 6px; }
+        .edit-btn:hover { background: #E4E4E8; color: var(--text); }
+        .delete-btn { background: var(--red-soft); color: var(--red); }
+        .delete-btn:hover { background: var(--red-soft-2); }
+
+        .badge {
+            display: inline-block; padding: 5px 12px; border-radius: 20px;
+            font-size: 11.5px; font-weight: 700;
+        }
+        .badge-active { background: var(--success-soft); color: var(--success); }
+        .badge-inactive { background: var(--gray-soft); color: var(--text-dim); }
+
+        /* ============ Filters ============ */
+        .filters { display: flex; gap: 12px; margin-bottom: 20px; }
+        .filters input, .filters select {
+            padding: 12px 16px; background: var(--gray-soft);
+            border: 1.5px solid transparent; border-radius: 13px;
+            font-size: 14px; font-family: inherit; color: var(--text);
+        }
+        .filters input::placeholder { color: var(--text-dim); }
+        .filters input:focus, .filters select:focus { outline: none; border-color: var(--red); background: #fff; }
+        .filters input { flex: 1; }
+
+        /* ============ Modal ============ */
+        .modal {
+            display: none; position: fixed; inset: 0;
+            background: rgba(29,29,31,0.35); backdrop-filter: blur(6px); z-index: 1000;
+            align-items: center; justify-content: center; padding: 20px;
+        }
+        .modal.show { display: flex; }
+
+        .modal-content {
+            background: var(--card);
+            border-radius: 24px;
+            padding: 32px 34px 34px; width: 100%; max-width: 560px;
+            max-height: 90vh; overflow-y: auto;
+            box-shadow: var(--shadow);
+        }
+
+        .modal-header {
+            display: flex; justify-content: space-between;
+            align-items: center; margin-bottom: 22px;
+            padding-bottom: 18px; border-bottom: 1px solid var(--border);
+        }
+        .modal-header h2 { font-size: 19px; font-weight: 800; color: var(--text); }
+
+        .close-btn {
+            background: var(--gray-soft); border: none; border-radius: 10px;
+            width: 32px; height: 32px; font-size: 15px;
+            cursor: pointer; color: var(--text-soft); display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+        }
+        .close-btn:hover { background: var(--red-soft); color: var(--red); }
+
+        .form-group { margin-bottom: 16px; }
+        .form-group label {
+            display: block; font-size: 12.5px;
+            font-weight: 600; margin-bottom: 7px; color: var(--text-soft);
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 12px 14px;
+            background: var(--gray-soft);
+            border: 1.5px solid transparent; border-radius: 13px;
+            font-size: 14px; font-family: inherit; color: var(--text);
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .form-group input::placeholder, .form-group textarea::placeholder { color: var(--text-dim); }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none; border-color: var(--red); background: #fff;
+        }
+
+        .save-btn {
+            width: 100%; padding: 14px;
+            background: var(--red); color: white;
+            border: none; border-radius: 13px;
+            font-size: 14.5px; font-weight: 700;
+            cursor: pointer; font-family: inherit;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .save-btn:hover { background: var(--red-dark); }
+        .save-btn:active { transform: translateY(1px); }
+
+        /* ============ Upload Button ============ */
+        .upload-btn {
+            padding: 10px 16px;
+            background: var(--text);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            white-space: nowrap;
+            transition: background 0.2s;
+        }
+        .upload-btn:hover { background: var(--red); }
+
+        .preview-img {
+            max-width: 180px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        /* ============ Loading ============ */
+        .loading {
+            text-align: center; padding: 40px;
+            color: var(--text-dim); font-size: 14px;
+        }
+
+        /* ============ Toast ============ */
+        .toast {
+            position: fixed; top: 20px; right: 20px; z-index: 2000;
+            background: var(--card); color: var(--text);
+            border-left: 4px solid var(--red);
+            padding: 16px 22px; border-radius: 16px;
+            font-size: 14px; font-weight: 600;
+            box-shadow: var(--shadow);
+            display: none; animation: slideIn 0.3s ease;
+        }
+        .toast.show { display: block; }
+        .toast.success { border-left-color: var(--success); }
+        .toast.error { border-left-color: var(--red); }
+
+        @keyframes slideIn {
+            from { transform: translateX(30px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @media (max-width: 720px) {
+            .dashboard { padding: 12px; gap: 12px; }
+            .sidebar { width: 76px; padding: 20px 8px; }
+            .sidebar-header h2, .sidebar-header .eyebrow, .nav-item span:not(svg), .logout-btn span:not(svg) { display: none; }
+            .sidebar-header { justify-content: center; padding-bottom: 16px; }
+            .nav-item, .logout-btn { justify-content: center; padding: 12px; }
+            .main-content { padding: 22px 16px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-card">
+            <div class="login-badge">
+                <svg width="27" height="27" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            </div>
+            <h1>Panel Admin</h1>
+            <p>Merdeka Motor Garut</p>
+            <form id="loginForm">
+                <label for="loginPassword">Kata sandi</label>
+                <input type="password" id="loginPassword" placeholder="Masukkan password" required>
+                <button type="submit">Masuk</button>
+            </form>
+            <div class="login-error" id="loginError"></div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard" style="display: none;">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-mark">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                </div>
+                <div>
+                    <h2>Merdeka Motor</h2>
+                    <span class="eyebrow">Garut Workshop</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-page="dashboard">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+                    <span>Dashboard</span>
+                </button>
+                <button class="nav-item" data-page="parts">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                    <span>Kelola Part</span>
+                </button>
+                <button class="nav-item" data-page="cabang">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <span>Kelola Cabang</span>
+                </button>
+                <button class="nav-item" data-page="testimoni">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <span>Testimoni</span>
+                </button>
+            </nav>
+            <button class="logout-btn" id="logoutBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                <span>Logout</span>
+            </button>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Page -->
+            <div class="page active" id="page-dashboard">
+                <div class="page-header">
+                    <div>
+                        <span class="eyebrow">Ringkasan Operasional</span>
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <div class="stat-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                            </div>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="statParts">0</h3>
+                            <p>Total Part</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <div class="stat-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            </div>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="statCabang">0</h3>
+                            <p>Cabang</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <div class="stat-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            </div>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="statTestimoni">0</h3>
+                            <p>Testimoni</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="refresh-btn" onclick="refreshAll()">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                    Refresh Data
+                </button>
+            </div>
+
+            <!-- Parts Page -->
+            <div class="page" id="page-parts">
+                <div class="page-header">
+                    <div>
+                        <span class="eyebrow">Katalog Suku Cadang</span>
+                        <h1>Kelola Part</h1>
+                    </div>
+                    <button class="add-btn" onclick="openPartModal()">+ Tambah Part</button>
+                </div>
+
+                <div class="filters">
+                    <input type="text" id="searchPart" placeholder="Cari part..." oninput="filterParts()">
+                    <select id="filterKategori" onchange="filterParts()">
+                        <option value="all">Semua Kategori</option>
+                    </select>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Foto</th>
+                                <th>Nama</th>
+                                <th>Kode</th>
+                                <th>Kategori</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="partsTableBody">
+                            <tr><td colspan="6" class="loading">Memuat data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Cabang Page -->
+            <div class="page" id="page-cabang">
+                <div class="page-header">
+                    <div>
+                        <span class="eyebrow">Jaringan Bengkel</span>
+                        <h1>Kelola Cabang</h1>
+                    </div>
+                    <button class="add-btn" onclick="openCabangModal()">+ Tambah Cabang</button>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Foto</th>
+                                <th>Nama</th>
+                                <th>Area</th>
+                                <th>WA</th>
+                                <th>Jam</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cabangTableBody">
+                            <tr><td colspan="7" class="loading">Memuat data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Testimoni Page -->
+            <div class="page" id="page-testimoni">
+                <div class="page-header">
+                    <div>
+                        <span class="eyebrow">Suara Pelanggan</span>
+                        <h1>Kelola Testimoni</h1>
+                    </div>
+                    <button class="add-btn" onclick="openTestimoniModal()">+ Tambah Testimoni</button>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nama</th>
+                                <th>Meta</th>
+                                <th>Rating</th>
+                                <th>Text</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="testimoniTableBody">
+                            <tr><td colspan="7" class="loading">Memuat data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Part -->
+    <div class="modal" id="partModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="partModalTitle">Tambah Part</h2>
+                <button class="close-btn" onclick="closeModal('partModal')">✕</button>
+            </div>
+            <form id="partForm">
+                <input type="hidden" id="partId">
+                <div class="form-group">
+                    <label>Nama Part</label>
+                    <input type="text" id="partNama" required>
+                </div>
+                <div class="form-group">
+                    <label>Kode Katalog</label>
+                    <input type="text" id="partKode" required>
+                </div>
+                <div class="form-group">
+                    <label>Kategori</label>
+                    <select id="partKategori" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Kompatibel</label>
+                    <input type="text" id="partKompatibel" placeholder="Contoh: NMAX, Aerox" required>
+                </div>
+                <div class="form-group">
+                    <label>Foto Part</label>
+                    <div style="display:flex;gap:10px;align-items:center;">
+                        <input type="text" id="partImg" placeholder="Link foto otomatis terisi" style="flex:1;" readonly>
+                        <input type="file" id="partFotoInput" accept="image/*" style="display:none;">
+                        <button type="button" class="upload-btn" onclick="document.getElementById('partFotoInput').click()">
+                            📤 Upload
+                        </button>
+                    </div>
+                    <div id="partFotoPreview" style="margin-top:10px;"></div>
+                    <div id="partFotoStatus" style="font-size:12px;color:#6E6E73;margin-top:5px;"></div>
+                </div>
+                <div class="form-group">
+                    <label>Deskripsi</label>
+                    <textarea id="partDeskripsi" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="save-btn">Simpan</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Cabang -->
+    <div class="modal" id="cabangModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="cabangModalTitle">Tambah Cabang</h2>
+                <button class="close-btn" onclick="closeModal('cabangModal')">✕</button>
+            </div>
+            <form id="cabangForm">
+                <input type="hidden" id="cabangId">
+                <div class="form-group">
+                    <label>Nama Cabang</label>
+                    <input type="text" id="cabangNama" required>
+                </div>
+                <div class="form-group">
+                    <label>Area</label>
+                    <input type="text" id="cabangArea" required>
+                </div>
+                <div class="form-group">
+                    <label>Jam Operasional</label>
+                    <input type="text" id="cabangJam" placeholder="08.00 – 17.00" required>
+                </div>
+                <div class="form-group">
+                    <label>Jam Buka</label>
+                    <input type="time" id="cabangBuka" required>
+                </div>
+                <div class="form-group">
+                    <label>Jam Tutup</label>
+                    <input type="time" id="cabangTutup" required>
+                </div>
+                <div class="form-group">
+                    <label>Nomor WA</label>
+                    <input type="text" id="cabangWa" placeholder="628xxxxxxxxxx" required>
+                </div>
+                <div class="form-group">
+                    <label>Link Google Maps</label>
+                    <input type="url" id="cabangMaps" required>
+                </div>
+                <div class="form-group">
+                    <label>Foto Cabang</label>
+                    <div style="display:flex;gap:10px;align-items:center;">
+                        <input type="text" id="cabangImg" placeholder="Link foto otomatis terisi" style="flex:1;" readonly>
+                        <input type="file" id="cabangFotoInput" accept="image/*" style="display:none;">
+                        <button type="button" class="upload-btn" onclick="document.getElementById('cabangFotoInput').click()">
+                            📤 Upload
+                        </button>
+                    </div>
+                    <div id="cabangFotoPreview" style="margin-top:10px;"></div>
+                    <div id="cabangFotoStatus" style="font-size:12px;color:#6E6E73;margin-top:5px;"></div>
+                </div>
+                <button type="submit" class="save-btn">Simpan</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Testimoni -->
+    <div class="modal" id="testimoniModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="testimoniModalTitle">Tambah Testimoni</h2>
+                <button class="close-btn" onclick="closeModal('testimoniModal')">✕</button>
+            </div>
+            <form id="testimoniForm">
+                <input type="hidden" id="testimoniId">
+                <div class="form-group">
+                    <label>Nama</label>
+                    <input type="text" id="testimoniNama" required>
+                </div>
+                <div class="form-group">
+                    <label>Meta</label>
+                    <input type="text" id="testimoniMeta" placeholder="Contoh: Pemilik NMAX" required>
+                </div>
+                <div class="form-group">
+                    <label>Rating</label>
+                    <select id="testimoniRating">
+                        <option value="5">5 Bintang</option>
+                        <option value="4">4 Bintang</option>
+                        <option value="3">3 Bintang</option>
+                        <option value="2">2 Bintang</option>
+                        <option value="1">1 Bintang</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Testimoni</label>
+                    <textarea id="testimoniText" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="testimoniAktif">
+                        <option value="YA">Aktif</option>
+                        <option value="TIDAK">Nonaktif</option>
+                    </select>
+                </div>
+                <button type="submit" class="save-btn">Simpan</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ============================================
+        // CONFIG
+        // ============================================
+        const CONFIG = {
+            API_URL: 'https://script.google.com/macros/s/AKfycbyeUMEdrAlkRexo7GDKyQcR9pxSfcc2_7OTA7yrb0gNcYJZiqUMql2Ra9Z8TUuZBLlQEQ/exec',
+            API_KEY: 'merdeka2024',
+            ADMIN_PASSWORD: 'merdeka123',
+            IMGBB_API_KEY: 'ef1d79358a76dba89e003dcdc1e6235d',
+            KATEGORI: [
+                { key: 'mesin', label: 'Mesin' },
+                { key: 'kelistrikan', label: 'Kelistrikan' },
+                { key: 'rem', label: 'Rem & Suspensi' },
+                { key: 'body', label: 'Body & Aksesoris' },
+                { key: 'roda', label: 'Ban & Velg' },
+                { key: 'oli', label: 'Oli & Cairan' }
+            ]
+        };
+
+        // ============================================
+        // STATE
+        // ============================================
+        let allParts = [];
+        let allCabang = [];
+        let allTestimoni = [];
+
+        // ============================================
+        // HELPER FUNCTIONS
+        // ============================================
+        function getImageUrl(img) {
+            if (!img) return '';
+            if (img.startsWith('http://') || img.startsWith('https://')) {
+                return img;
+            }
+            return '../images/' + img;
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast show ${type}`;
+            setTimeout(() => { toast.classList.remove('show'); }, 3000);
+        }
+
+        // ============================================
+        // INIT
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            if (sessionStorage.getItem('mmg_admin_logged_in') === 'true') {
+                showDashboard();
+                loadAllData();
+            }
+            setupLoginForm();
+            setupNavigation();
+            setupForms();
+            setupModals();
+            populateKategoriSelect();
+            setupUploadFoto();
+        });
+
+        // ============================================
+        // LOGIN
+        // ============================================
+        function setupLoginForm() {
+            document.getElementById('loginForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const password = document.getElementById('loginPassword').value;
+                if (password === CONFIG.ADMIN_PASSWORD) {
+                    sessionStorage.setItem('mmg_admin_logged_in', 'true');
+                    document.getElementById('loginError').textContent = '';
+                    document.getElementById('loginPassword').value = '';
+                    showDashboard();
+                    loadAllData();
+                    showToast('Login berhasil!', 'success');
+                } else {
+                    document.getElementById('loginError').textContent = 'Password salah!';
+                }
+            });
+        }
+
+        function logout() {
+            sessionStorage.removeItem('mmg_admin_logged_in');
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'flex';
+            showToast('Logout berhasil!', 'success');
+        }
+
+        function showDashboard() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'flex';
+        }
+
+        // ============================================
+        // NAVIGATION
+        // ============================================
+        function setupNavigation() {
+            document.querySelectorAll('.nav-item').forEach(btn => {
+                btn.addEventListener('click', () => switchPage(btn.dataset.page));
+            });
+            document.getElementById('logoutBtn').addEventListener('click', logout);
+        }
+
+        function switchPage(pageName) {
+            document.querySelectorAll('.nav-item').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.page === pageName);
+            });
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.toggle('active', page.id === `page-${pageName}`);
+            });
+            if (pageName === 'parts') renderParts();
+            if (pageName === 'cabang') renderCabang();
+            if (pageName === 'testimoni') renderTestimoni();
+        }
+
+        // ============================================
+        // POPULATE KATEGORI
+        // ============================================
+        function populateKategoriSelect() {
+            const filterSelect = document.getElementById('filterKategori');
+            const modalSelect = document.getElementById('partKategori');
+            if (filterSelect) {
+                CONFIG.KATEGORI.forEach(kat => {
+                    filterSelect.innerHTML += `<option value="${kat.key}">${kat.label}</option>`;
+                });
+            }
+            if (modalSelect) {
+                CONFIG.KATEGORI.forEach(kat => {
+                    modalSelect.innerHTML += `<option value="${kat.key}">${kat.label}</option>`;
+                });
+            }
+        }
+
+        // ============================================
+        // UPLOAD FOTO
+        // ============================================
+        function setupUploadFoto() {
+            const partFotoInput = document.getElementById('partFotoInput');
+            const cabangFotoInput = document.getElementById('cabangFotoInput');
+            if (partFotoInput) {
+                partFotoInput.addEventListener('change', (e) => handleFotoUpload(e, 'part'));
+            }
+            if (cabangFotoInput) {
+                cabangFotoInput.addEventListener('change', (e) => handleFotoUpload(e, 'cabang'));
+            }
+        }
+
+        async function handleFotoUpload(e, type) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            if (file.size > 32 * 1024 * 1024) {
+                showToast('Foto terlalu besar! Maksimal 32MB.', 'error');
+                return;
+            }
+
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+            if (!allowedTypes.includes(file.type)) {
+                showToast('Format foto tidak didukung!', 'error');
+                return;
+            }
+
+            const statusEl = document.getElementById(type === 'part' ? 'partFotoStatus' : 'cabangFotoStatus');
+            const previewEl = document.getElementById(type === 'part' ? 'partFotoPreview' : 'cabangFotoPreview');
+            statusEl.textContent = '⏳ Uploading...';
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewEl.innerHTML = `<img src="${e.target.result}" class="preview-img">`;
+            };
+            reader.readAsDataURL(file);
+
+            const formData = new FormData();
+            formData.append('image', file);
+
+            try {
+                const response = await fetch(`https://api.imgbb.com/1/upload?key=${CONFIG.IMGBB_API_KEY}`, {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                if (data.success) {
+                    const imageUrl = data.data.url;
+                    const inputId = type === 'part' ? 'partImg' : 'cabangImg';
+                    document.getElementById(inputId).value = imageUrl;
+                    statusEl.textContent = '✅ Foto berhasil di-upload!';
+                    showToast('Foto berhasil di-upload!', 'success');
+                } else {
+                    statusEl.textContent = '❌ Upload gagal!';
+                    showToast('Gagal upload foto!', 'error');
+                }
+            } catch (err) {
+                statusEl.textContent = '❌ Upload gagal!';
+                showToast('Error: ' + err.message, 'error');
+            }
+        }
+
+        // ============================================
+        // API CALLS
+        // ============================================
+      async function apiGet(action) {
+    try {
+        const url = `${CONFIG.API_URL}?action=${action}&key=${CONFIG.API_KEY}`;
+        const response = await fetch(url, {
+            method: 'GET',
+            mode: 'cors',
+            redirect: 'follow'
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        if (data.error) throw new Error(data.error);
+        return data;
+    } catch (err) {
+        console.error(`Error fetching ${action}:`, err);
+        // Coba fallback dengan JSONP atau langsung return data kosong
+        showToast(`Gagal memuat ${action}`, 'error');
+        return [];
+    }
+}
+        async function apiPost(action, payload = {}) {
+            try {
+                const response = await fetch(CONFIG.API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ key: CONFIG.API_KEY, action: action, ...payload })
+                });
+                const data = await response.json();
+                if (data.error) throw new Error(data.error);
+                return data;
+            } catch (err) {
+                showToast(`Error: ${err.message}`, 'error');
+                return null;
+            }
+        }
+
+        async function loadAllData() {
+            showToast('Memuat data...', 'success');
+            try {
+                const [parts, cabang, testimoni] = await Promise.all([
+                    apiGet('getParts'),
+                    apiGet('getCabang'),
+                    apiGet('getTestimoni')
+                ]);
+                allParts = parts || [];
+                allCabang = cabang || [];
+                allTestimoni = testimoni || [];
+                updateStats();
+                renderParts();
+                renderCabang();
+                renderTestimoni();
+                showToast('Data berhasil dimuat!', 'success');
+            } catch (err) {
+                showToast('Gagal memuat data!', 'error');
+            }
+        }
+
+        async function refreshAll() { await loadAllData(); }
+
+        // ============================================
+        // STATS
+        // ============================================
+        function updateStats() {
+            document.getElementById('statParts').textContent = allParts.length;
+            document.getElementById('statCabang').textContent = allCabang.length;
+            document.getElementById('statTestimoni').textContent = allTestimoni.length;
+        }
+
+        // ============================================
+        // RENDER PARTS
+        // ============================================
+        function filterParts() { renderParts(); }
+
+        function renderParts() {
+            const searchTerm = document.getElementById('searchPart')?.value?.toLowerCase() || '';
+            const filterKategori = document.getElementById('filterKategori')?.value || 'all';
+            const filtered = allParts.filter(part => {
+                const matchSearch = !searchTerm || 
+                    (part.nama && part.nama.toLowerCase().includes(searchTerm)) ||
+                    (part.kode && part.kode.toLowerCase().includes(searchTerm)) ||
+                    (part.kompatibel && part.kompatibel.toLowerCase().includes(searchTerm));
+                const matchKategori = filterKategori === 'all' || part.kategori === filterKategori;
+                return matchSearch && matchKategori;
+            });
+
+            const tbody = document.getElementById('partsTableBody');
+            if (!filtered.length) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px;color:#AEAEB4;">Tidak ada part ditemukan</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(part => `
+                <tr>
+                    <td>${part.id}</td>
+                    <td><div class="thumb"><img src="${getImageUrl(part.img)}" alt="${part.nama || ''}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23f2f2f5%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2212%22 fill=%22%23aeaeb4%22%3ENo img%3C/text%3E%3C/svg%3E'"></div></td>
+                    <td><strong>${part.nama}</strong></td>
+                    <td><code>${part.kode}</code></td>
+                    <td><span class="badge badge-active">${part.kategori}</span></td>
+                    <td>
+                        <button class="action-btn edit-btn" onclick="editPart(${part.id})">Edit</button>
+                        <button class="action-btn delete-btn" onclick="deletePart(${part.id})">Hapus</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // ============================================
+        // CRUD PARTS
+        // ============================================
+        function openPartModal(partId = null) {
+            const modal = document.getElementById('partModal');
+            const form = document.getElementById('partForm');
+            const title = document.getElementById('partModalTitle');
+            form.reset();
+            document.getElementById('partFotoPreview').innerHTML = '';
+            document.getElementById('partFotoStatus').textContent = '';
+
+            if (partId) {
+                const part = allParts.find(p => p.id == partId);
+                if (part) {
+                    title.textContent = 'Edit Part';
+                    document.getElementById('partId').value = part.id;
+                    document.getElementById('partNama').value = part.nama || '';
+                    document.getElementById('partKode').value = part.kode || '';
+                    document.getElementById('partKategori').value = part.kategori || '';
+                    document.getElementById('partKompatibel').value = part.kompatibel || '';
+                    document.getElementById('partImg').value = part.img || '';
+                    document.getElementById('partDeskripsi').value = part.deskripsi || '';
+                    if (part.img) {
+                        document.getElementById('partFotoPreview').innerHTML = `<img src="${getImageUrl(part.img)}" class="preview-img">`;
+                    }
+                }
+            } else {
+                title.textContent = 'Tambah Part';
+                document.getElementById('partId').value = '';
+            }
+            modal.classList.add('show');
+        }
+
+        function editPart(id) { openPartModal(id); }
+
+        async function deletePart(id) {
+            if (!confirm('Yakin ingin menghapus part ini?')) return;
+            const result = await apiPost('deletePart', { id: id });
+            if (result?.success) {
+                showToast('Part berhasil dihapus!', 'success');
+                await loadAllData();
+            } else {
+                showToast('Gagal menghapus part!', 'error');
+            }
+        }
+
+        // ============================================
+        // RENDER CABANG
+        // ============================================
+        function renderCabang() {
+            const tbody = document.getElementById('cabangTableBody');
+            if (!allCabang.length) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:#AEAEB4;">Tidak ada cabang</td></tr>';
+                return;
+            }
+            tbody.innerHTML = allCabang.map(cabang => `
+                <tr>
+                    <td>${cabang.id}</td>
+                    <td><div class="thumb"><img src="${getImageUrl(cabang.img)}" alt="${cabang.nama || ''}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23f2f2f5%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 font-size=%2212%22 fill=%22%23aeaeb4%22%3ENo img%3C/text%3E%3C/svg%3E'"></div></td>
+                    <td><strong>${cabang.nama}</strong></td>
+                    <td>${cabang.area}</td>
+                    <td>+${cabang.wa}</td>
+                    <td>${cabang.jam}</td>
+                    <td>
+                        <button class="action-btn edit-btn" onclick="editCabang(${cabang.id})">Edit</button>
+                        <button class="action-btn delete-btn" onclick="deleteCabang(${cabang.id})">Hapus</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // ============================================
+        // CRUD CABANG
+        // ============================================
+        function openCabangModal(cabangId = null) {
+            const modal = document.getElementById('cabangModal');
+            const form = document.getElementById('cabangForm');
+            const title = document.getElementById('cabangModalTitle');
+            form.reset();
+            document.getElementById('cabangFotoPreview').innerHTML = '';
+            document.getElementById('cabangFotoStatus').textContent = '';
+
+            if (cabangId) {
+                const cabang = allCabang.find(c => c.id == cabangId);
+                if (cabang) {
+                    title.textContent = 'Edit Cabang';
+                    document.getElementById('cabangId').value = cabang.id;
+                    document.getElementById('cabangNama').value = cabang.nama || '';
+                    document.getElementById('cabangArea').value = cabang.area || '';
+                    document.getElementById('cabangJam').value = cabang.jam || '';
+                    document.getElementById('cabangBuka').value = cabang.buka || '';
+                    document.getElementById('cabangTutup').value = cabang.tutup || '';
+                    document.getElementById('cabangWa').value = cabang.wa || '';
+                    document.getElementById('cabangMaps').value = cabang.maps || '';
+                    document.getElementById('cabangImg').value = cabang.img || '';
+                    if (cabang.img) {
+                        document.getElementById('cabangFotoPreview').innerHTML = `<img src="${getImageUrl(cabang.img)}" class="preview-img">`;
+                    }
+                }
+            } else {
+                title.textContent = 'Tambah Cabang';
+                document.getElementById('cabangId').value = '';
+            }
+            modal.classList.add('show');
+        }
+
+        function editCabang(id) { openCabangModal(id); }
+
+        async function deleteCabang(id) {
+            if (!confirm('Yakin ingin menghapus cabang ini?')) return;
+            const result = await apiPost('deleteCabang', { id: id });
+            if (result?.success) {
+                showToast('Cabang berhasil dihapus!', 'success');
+                await loadAllData();
+            } else {
+                showToast('Gagal menghapus cabang!', 'error');
+            }
+        }
+
+        // ============================================
+        // RENDER TESTIMONI
+        // ============================================
+        function renderTestimoni() {
+            const tbody = document.getElementById('testimoniTableBody');
+            if (!allTestimoni.length) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:#AEAEB4;">Tidak ada testimoni</td></tr>';
+                return;
+            }
+            tbody.innerHTML = allTestimoni.map(testi => `
+                <tr>
+                    <td>${testi.id}</td>
+                    <td><strong>${testi.nama}</strong></td>
+                    <td>${testi.meta}</td>
+                    <td>${'⭐'.repeat(Number(testi.rating) || 0)}</td>
+                    <td style="max-width:300px;">${testi.text}</td>
+                    <td><span class="badge ${testi.aktif === 'YA' ? 'badge-active' : 'badge-inactive'}">${testi.aktif === 'YA' ? 'Aktif' : 'Nonaktif'}</span></td>
+                    <td>
+                        <button class="action-btn edit-btn" onclick="editTestimoni(${testi.id})">Edit</button>
+                        <button class="action-btn delete-btn" onclick="deleteTestimoni(${testi.id})">Hapus</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // ============================================
+        // CRUD TESTIMONI
+        // ============================================
+        function openTestimoniModal(testimoniId = null) {
+            const modal = document.getElementById('testimoniModal');
+            const form = document.getElementById('testimoniForm');
+            const title = document.getElementById('testimoniModalTitle');
+            form.reset();
+
+            if (testimoniId) {
+                const testi = allTestimoni.find(t => t.id == testimoniId);
+                if (testi) {
+                    title.textContent = 'Edit Testimoni';
+                    document.getElementById('testimoniId').value = testi.id;
+                    document.getElementById('testimoniNama').value = testi.nama || '';
+                    document.getElementById('testimoniMeta').value = testi.meta || '';
+                    document.getElementById('testimoniRating').value = testi.rating || '5';
+                    document.getElementById('testimoniText').value = testi.text || '';
+                    document.getElementById('testimoniAktif').value = testi.aktif || 'YA';
+                }
+            } else {
+                title.textContent = 'Tambah Testimoni';
+                document.getElementById('testimoniId').value = '';
+            }
+            modal.classList.add('show');
+        }
+
+        function editTestimoni(id) { openTestimoniModal(id); }
+
+        async function deleteTestimoni(id) {
+            if (!confirm('Yakin ingin menghapus testimoni ini?')) return;
+            const result = await apiPost('deleteTestimoni', { id: id });
+            if (result?.success) {
+                showToast('Testimoni berhasil dihapus!', 'success');
+                await loadAllData();
+            } else {
+                showToast('Gagal menghapus testimoni!', 'error');
+            }
+        }
+
+        // ============================================
+        // FORM HANDLERS
+        // ============================================
+        function setupForms() {
+            document.getElementById('partForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const partData = {
+                    kategori: document.getElementById('partKategori').value,
+                    nama: document.getElementById('partNama').value,
+                    kode: document.getElementById('partKode').value,
+                    kompatibel: document.getElementById('partKompatibel').value,
+                    img: document.getElementById('partImg').value,
+                    deskripsi: document.getElementById('partDeskripsi').value
+                };
+                const partId = document.getElementById('partId').value;
+                let result;
+                if (partId) {
+                    result = await apiPost('updatePart', { id: Number(partId), data: partData });
+                } else {
+                    result = await apiPost('addPart', { data: partData });
+                }
+                if (result?.success) {
+                    closeModal('partModal');
+                    showToast('Part berhasil disimpan!', 'success');
+                    await loadAllData();
+                } else {
+                    showToast('Gagal menyimpan part!', 'error');
+                }
+            });
+
+            document.getElementById('cabangForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const cabangData = {
+                    nama: document.getElementById('cabangNama').value,
+                    area: document.getElementById('cabangArea').value,
+                    jam: document.getElementById('cabangJam').value,
+                    buka: document.getElementById('cabangBuka').value,
+                    tutup: document.getElementById('cabangTutup').value,
+                    wa: document.getElementById('cabangWa').value,
+                    maps: document.getElementById('cabangMaps').value,
+                    img: document.getElementById('cabangImg').value
+                };
+                const cabangId = document.getElementById('cabangId').value;
+                let result;
+                if (cabangId) {
+                    result = await apiPost('updateCabang', { id: Number(cabangId), data: cabangData });
+                } else {
+                    result = await apiPost('addCabang', { data: cabangData });
+                }
+                if (result?.success) {
+                    closeModal('cabangModal');
+                    showToast('Cabang berhasil disimpan!', 'success');
+                    await loadAllData();
+                } else {
+                    showToast('Gagal menyimpan cabang!', 'error');
+                }
+            });
+
+            document.getElementById('testimoniForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const testiData = {
+                    nama: document.getElementById('testimoniNama').value,
+                    meta: document.getElementById('testimoniMeta').value,
+                    rating: document.getElementById('testimoniRating').value,
+                    text: document.getElementById('testimoniText').value,
+                    aktif: document.getElementById('testimoniAktif').value
+                };
+                const testiId = document.getElementById('testimoniId').value;
+                let result;
+                if (testiId) {
+                    result = await apiPost('updateTestimoni', { id: Number(testiId), data: testiData });
+                } else {
+                    result = await apiPost('addTestimoni', { data: testiData });
+                }
+                if (result?.success) {
+                    closeModal('testimoniModal');
+                    showToast('Testimoni berhasil disimpan!', 'success');
+                    await loadAllData();
+                } else {
+                    showToast('Gagal menyimpan testimoni!', 'error');
+                }
+            });
+        }
+
+        // ============================================
+        // MODALS
+        // ============================================
+        function setupModals() {
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) modal.classList.remove('show');
+                });
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('.modal.show').forEach(modal => modal.classList.remove('show'));
+                }
+            });
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+    </script>
+</body>
+</html>
