@@ -128,7 +128,7 @@
         }
         .login-card h1 { font-size: 22px; margin-bottom: 5px; }
         .login-card p { color: var(--text-soft); margin-bottom: 32px; font-size: 13.5px; }
-        .login-card label { display: block; text-align: left; font-size: 12px; font-weight: 600; color: var(--text-soft); margin-bottom: 8px; }
+        .login-card label { display: block; text-align: left; font-size: 12px; font-weight: 600; color: var(--text-soft); margin-bottom: 8px; margin-top: 2px; }
         .login-card input {
             width: 100%; padding: 14px 16px;
             background: var(--gray-soft);
@@ -398,8 +398,10 @@
         <h1>Panel Admin</h1>
         <p>Merdeka Motor Garut</p>
         <form id="loginForm">
+            <label for="loginUsername">Username</label>
+            <input type="text" id="loginUsername" placeholder="Masukkan username" autocomplete="username" required>
             <label for="loginPassword">Kata sandi</label>
-            <input type="password" id="loginPassword" placeholder="Masukkan password" required>
+            <input type="password" id="loginPassword" placeholder="Masukkan password" autocomplete="current-password" required>
             <button type="submit">Masuk</button>
         </form>
         <div class="login-error" id="loginError"></div>
@@ -571,7 +573,8 @@
 const CONFIG = {
     API_URL: '/api/proxy',
     API_KEY: 'merdeka2024',
-    ADMIN_PASSWORD: 'merdeka123',
+    ADMIN_USERNAME: 'merdekajayagarut',
+    ADMIN_PASSWORD: 'merdekagarut',
     IMGBB_API_KEY: 'ef1d79358a76dba89e003dcdc1e6235d',
     KATEGORI: [
         { key: 'mesin', label: 'Mesin' },
@@ -603,12 +606,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sessionStorage.getItem('mmg_admin') === 'true') { document.getElementById('loginScreen').style.display = 'none'; document.getElementById('dashboard').style.display = 'flex'; loadAllData(); }
     document.getElementById('loginForm').addEventListener('submit', (e) => {
         e.preventDefault();
-        if (document.getElementById('loginPassword').value === CONFIG.ADMIN_PASSWORD) {
+        const usernameVal = document.getElementById('loginUsername').value.trim();
+        const passwordVal = document.getElementById('loginPassword').value;
+        if (usernameVal === CONFIG.ADMIN_USERNAME && passwordVal === CONFIG.ADMIN_PASSWORD) {
             sessionStorage.setItem('mmg_admin', 'true');
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('dashboard').style.display = 'flex';
             loadAllData();
-        } else { document.getElementById('loginError').textContent = 'Password salah!'; }
+        } else { document.getElementById('loginError').textContent = 'Username atau password salah!'; }
     });
     document.getElementById('logoutBtn').addEventListener('click', () => { sessionStorage.removeItem('mmg_admin'); location.reload(); });
     document.querySelectorAll('.nav-item').forEach(btn => btn.addEventListener('click', () => {
