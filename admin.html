@@ -714,6 +714,8 @@ const CONFIG = {
 let allParts = [];
 let allCabang = [];
 let allTestimoni = [];
+let uploadingState = {}; // { part: bool, cabang: bool } — cegah simpan sebelum upload foto selesai
+let lastSelectedFile = {}; // { part: File, cabang: File } — dipakai untuk tombol "coba lagi"
 
 // ============================================
 // HELPERS
@@ -747,11 +749,25 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('filterKategori').innerHTML += `<option value="${k.key}">${k.label}</option>`;
         document.getElementById('partKategori').innerHTML += `<option value="${k.key}">${k.label}</option>`;
     });
-    document.getElementById('partForm').addEventListener('submit', async (e) => { e.preventDefault(); const data = { kategori: document.getElementById('partKategori').value, nama: document.getElementById('partNama').value, kode: document.getElementById('partKode').value, kompatibel: document.getElementById('partKompatibel').value, img: document.getElementById('partImg').value, deskripsi: document.getElementById('partDeskripsi').value }; const id = document.getElementById('partId').value; const result = await apiPost(id ? 'updatePart' : 'addPart', id ? { id: Number(id), data: data } : { data: data }); if (result?.success) { closeModal('partModal'); await loadAllData(true); showToast(id ? 'Part berhasil diperbarui!' : 'Part berhasil disimpan!'); } });
-    document.getElementById('cabangForm').addEventListener('submit', async (e) => { e.preventDefault(); const data = { nama: document.getElementById('cabangNama').value, area: document.getElementById('cabangArea').value, jam: document.getElementById('cabangJam').value, buka: document.getElementById('cabangBuka').value, tutup: document.getElementById('cabangTutup').value, wa: document.getElementById('cabangWa').value, maps: document.getElementById('cabangMaps').value, img: document.getElementById('cabangImg').value }; const id = document.getElementById('cabangId').value; const result = await apiPost(id ? 'updateCabang' : 'addCabang', id ? { id: Number(id), data: data } : { data: data }); if (result?.success) { closeModal('cabangModal'); await loadAllData(true); showToast(id ? 'Cabang berhasil diperbarui!' : 'Cabang berhasil disimpan!'); } });
+    document.getElementById('partForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (uploadingState.part) { showToast('Tunggu foto selesai di-upload dulu ya', 'error'); return; }
+        const data = { kategori: document.getElementById('partKategori').value, nama: document.getElementById('partNama').value, kode: document.getElementById('partKode').value, kompatibel: document.getElementById('partKompatibel').value, img: document.getElementById('partImg').value, deskripsi: document.getElementById('partDeskripsi').value };
+        const id = document.getElementById('partId').value;
+        const result = await apiPost(id ? 'updatePart' : 'addPart', id ? { id: Number(id), data: data } : { data: data });
+        if (result?.success) { closeModal('partModal'); await loadAllData(true); showToast(id ? 'Part berhasil diperbarui!' : 'Part berhasil disimpan!'); }
+    });
+    document.getElementById('cabangForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (uploadingState.cabang) { showToast('Tunggu foto selesai di-upload dulu ya', 'error'); return; }
+        const data = { nama: document.getElementById('cabangNama').value, area: document.getElementById('cabangArea').value, jam: document.getElementById('cabangJam').value, buka: document.getElementById('cabangBuka').value, tutup: document.getElementById('cabangTutup').value, wa: document.getElementById('cabangWa').value, maps: document.getElementById('cabangMaps').value, img: document.getElementById('cabangImg').value };
+        const id = document.getElementById('cabangId').value;
+        const result = await apiPost(id ? 'updateCabang' : 'addCabang', id ? { id: Number(id), data: data } : { data: data });
+        if (result?.success) { closeModal('cabangModal'); await loadAllData(true); showToast(id ? 'Cabang berhasil diperbarui!' : 'Cabang berhasil disimpan!'); }
+    });
     document.getElementById('testimoniForm').addEventListener('submit', async (e) => { e.preventDefault(); const data = { nama: document.getElementById('testimoniNama').value, meta: document.getElementById('testimoniMeta').value, rating: document.getElementById('testimoniRating').value, text: document.getElementById('testimoniText').value, aktif: document.getElementById('testimoniAktif').value }; const id = document.getElementById('testimoniId').value; const result = await apiPost(id ? 'updateTestimoni' : 'addTestimoni', id ? { id: Number(id), data: data } : { data: data }); if (result?.success) { closeModal('testimoniModal'); await loadAllData(true); showToast(id ? 'Testimoni berhasil diperbarui!' : 'Testimoni berhasil disimpan!'); } });
-    document.getElementById('partFotoInput').addEventListener('change', (e) => handleUpload(e, 'part'));
-    document.getElementById('cabangFotoInput').addEventListener('change', (e) => handleUpload(e, 'cabang'));
+    document.getElementById('partFotoInput').addEventListener('change', (e) => { if (e.target.files[0]) handleUpload(e.target.files[0], 'part'); });
+    document.getElementById('cabangFotoInput').addEventListener('change', (e) => { if (e.target.files[0]) handleUpload(e.target.files[0], 'cabang'); });
     document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', (e) => { if (e.target === m) m.classList.remove('show'); }));
 });
 
@@ -875,7 +891,7 @@ function renderParts() {
 function renderCabang() {
     const tbody = document.getElementById('cabangTableBody');
     if (!allCabang.length) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;">Tidak ada data</td></tr>'; return; }
-    tbody.innerHTML = allCabang.map(c => `<tr><td>${c.id}</td><td><div class="thumb"><img src="${getImageUrl(c.img)}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23f2f2f5%22/%3E%3C/svg%3E'"></div></td><td><strong>${c.nama}</strong></td><td>${c.area}</td><td>+${c.wa}</td><td>${c.jam}</td><td><button class="action-btn edit-btn" onclick="editCabang(${c.id})">Edit</button><button class="action-btn delete-btn" onclick="deleteCabang(${c.id})">Hapus</button></td></tr>`).join('');
+    tbody.innerHTML = allCabang.map(c => `<tr><td>${c.id}</td><td><div class="thumb"><img src="${getImageUrl(c.img)}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23f2f2f5%22/%3E%3C/svg%3E'"></div></td><td><strong>${c.nama}</strong></td><td>${c.area}</td><td>+${String(c.wa).replace(/^62/, '62 ')}</td><td>${c.jam}</td><td><button class="action-btn edit-btn" onclick="editCabang(${c.id})">Edit</button><button class="action-btn delete-btn" onclick="deleteCabang(${c.id})">Hapus</button></td></tr>`).join('');
 }
 function renderTestimoni() {
     const tbody = document.getElementById('testimoniTableBody');
@@ -896,19 +912,80 @@ async function deleteTestimoni(id) { if (confirm('Hapus testimoni ini?')) { cons
 function closeModal(id) { document.getElementById(id).classList.remove('show'); }
 
 // ============================================
-// UPLOAD FOTO
+// UPLOAD FOTO (dioptimalkan: kompres di browser + timeout + retry + error jelas)
 // ============================================
-async function handleUpload(e, type) {
-    const file = e.target.files[0]; if (!file) return;
-    const fd = new FormData(); fd.append('image', file);
+function compressImage(file, maxDim = 1280, quality = 0.75) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        const url = URL.createObjectURL(file);
+        img.onload = () => {
+            let { width, height } = img;
+            if (width > maxDim || height > maxDim) {
+                if (width > height) { height = Math.round(height * maxDim / width); width = maxDim; }
+                else { width = Math.round(width * maxDim / height); height = maxDim; }
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = width; canvas.height = height;
+            canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+            canvas.toBlob(blob => {
+                URL.revokeObjectURL(url);
+                blob ? resolve(blob) : reject(new Error('Gagal memproses gambar'));
+            }, 'image/jpeg', quality);
+        };
+        img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('File gambar rusak atau tidak didukung')); };
+        img.src = url;
+    });
+}
+
+function retryUpload(type) {
+    const file = lastSelectedFile[type];
+    if (file) handleUpload(file, type);
+}
+
+async function handleUpload(file, type) {
+    if (!file) return;
+    if (!file.type.startsWith('image/')) { showToast('File harus berupa gambar', 'error'); return; }
+    if (file.size > 15 * 1024 * 1024) { showToast('Ukuran foto maksimal 15MB', 'error'); return; }
+
+    lastSelectedFile[type] = file;
+    uploadingState[type] = true;
+
     const previewEl = document.getElementById(type + 'FotoPreview');
-    const inputEl = document.getElementById(type + 'Img');
-    previewEl.innerHTML = '<p style="font-size:13px;">Uploading...</p>';
+    const localUrl = URL.createObjectURL(file);
+    previewEl.innerHTML = `<img src="${localUrl}" class="preview-img" style="opacity:.55">
+        <p style="font-size:12px;color:#6E6E73;margin-top:6px;">Mengompres &amp; mengupload...</p>`;
+
     try {
-        const res = await fetch(`https://api.imgbb.com/1/upload?key=${CONFIG.IMGBB_API_KEY}`, { method: 'POST', body: fd });
+        const compressedBlob = await compressImage(file);
+        const fd = new FormData();
+        fd.append('image', compressedBlob, 'upload.jpg');
+
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 25000);
+
+        const res = await fetch(`https://api.imgbb.com/1/upload?key=${CONFIG.IMGBB_API_KEY}`, {
+            method: 'POST', body: fd, signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+
+        if (!res.ok) throw new Error(`Upload gagal (status ${res.status})`);
         const data = await res.json();
-        if (data.success) { inputEl.value = data.data.url; previewEl.innerHTML = `<img src="${data.data.url}" class="preview-img">`; showToast('Foto di-upload!'); }
-    } catch (err) { previewEl.innerHTML = '<p style="color:red;font-size:13px;">Upload gagal</p>'; }
+        if (!data.success) throw new Error(data.error?.message || 'Upload ditolak server, coba lagi');
+
+        document.getElementById(type + 'Img').value = data.data.url;
+        previewEl.innerHTML = `<img src="${data.data.url}" class="preview-img">`;
+        showToast('Foto berhasil di-upload!');
+    } catch (err) {
+        console.error(err);
+        const msg = err.name === 'AbortError' ? 'Upload timeout (koneksi lambat), coba lagi' : (err.message || 'Upload gagal');
+        previewEl.innerHTML = `<img src="${localUrl}" class="preview-img" style="opacity:.4">
+            <p style="font-size:12px;color:#C8102E;margin-top:6px;">${msg} —
+                <button type="button" onclick="retryUpload('${type}')" style="color:#C8102E;text-decoration:underline;background:none;border:none;cursor:pointer;font-size:12px;font-weight:600;">coba lagi</button>
+            </p>`;
+        showToast(msg, 'error');
+    } finally {
+        uploadingState[type] = false;
+    }
 }
 </script>
 </body>
