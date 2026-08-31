@@ -1397,11 +1397,7 @@ function imgSlotHtml(filename, alt, eager){
   /* ---------- Tanya part lain langsung ke cabang (WA) ---------- */
   const askMoreCabang = document.getElementById('askMoreCabang');
   const askMoreBtn = document.getElementById('askMoreBtn');
-  cabangData.forEach((c, i) => {
-    const opt = document.createElement('option');
-    opt.value = i; opt.textContent = c.nama;
-    askMoreCabang.appendChild(opt);
-  });
+    // Dropdown cabang akan diisi setelah data dari API dimuat
   askMoreBtn.addEventListener('click', () => {
     const cabang = cabangData[askMoreCabang.value];
     const pesan = `Halo Merdeka Motor (${cabang.nama}), saya mau tanya ketersediaan sparepart yang tidak ada di katalog website. Bisa dibantu?`;
@@ -1553,7 +1549,7 @@ function imgSlotHtml(filename, alt, eager){
   const coFallbackWrap = document.getElementById('coFallbackLink');
   const coFallbackA = document.getElementById('coFallbackA');
 
-  cabangData.forEach((c, i) => { coCabang.innerHTML += `<option value="${i}">${c.nama}</option>`; });
+  // coCabang akan diisi setelah data dari API dimuat
 
   function openCheckout(){
     const chosen = partsData.filter(p => wishSet.has(p.kode));
@@ -1724,20 +1720,8 @@ function imgSlotHtml(filename, alt, eager){
     }
     return out;
   }
-  const testiGrid = document.getElementById('testiGrid');
-  testiGrid.innerHTML = testiData.map((t, i) => `
-    <div class="testi-card reveal-child" style="transition-delay:${i * 0.08}s">
-      <div class="testi-stars">${starsHtml(t.rating)}</div>
-      <p class="testi-text">"${t.text}"</p>
-      <div class="testi-who">
-        <div class="testi-avatar">${t.nama.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase()}</div>
-        <div>
-          <div class="testi-name">${t.nama}</div>
-          <div class="testi-meta">${t.meta}</div>
-        </div>
-      </div>
-    </div>`).join('');
-  observeChildren(testiGrid);
+    const testiGrid = document.getElementById('testiGrid');
+  // Testimoni akan diisi setelah data dari API dimuat
 
   /* ---------- Cabang ---------- */
   const cabangGrid = document.getElementById('cabangGrid');
@@ -1787,8 +1771,7 @@ function imgSlotHtml(filename, alt, eager){
       kCabangSelect.innerHTML += `<option value="${i}">${c.nama}</option>`;
     });
   }
-  renderCabang();
-  observeChildren(cabangGrid);
+   // Cabang akan dirender setelah data dari API dimuat
   // Perbarui badge buka/tutup tiap menit tanpa perlu reload halaman.
   setInterval(() => {
     document.querySelectorAll('.loc-card').forEach((card, i) => {
