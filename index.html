@@ -1761,7 +1761,7 @@ function imgSlotHtml(filename, alt, eager){
             <h3>${c.nama}</h3>
             <div class="area">${c.area}</div>
             <div class="loc-row"><span class="k">Jam</span><span class="v">${c.jam}</span></div>
-            <div class="loc-row"><span class="k">WA</span><span class="v mono" style="font-size:12.5px;">+${c.wa.replace(/^62/, '62 ')}</span></div>
+           <div class="loc-row"><span class="k">WA</span><span class="v mono" style="font-size:12.5px;">+${String(c.wa).replace(/^62/, '62 ')}</span></div>
             <div class="loc-actions">
               <a class="wa-btn" href="https://wa.me/${c.wa}?text=${encodeURIComponent('Halo Merdeka Motor ' + c.nama + ', saya mau tanya sparepart.')}" target="_blank" rel="noopener">Chat WA</a>
               <a class="maps-btn" href="${c.maps}" target="_blank" rel="noopener">Lihat Maps</a>
