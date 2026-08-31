@@ -267,6 +267,8 @@
         .edit-btn:hover { background: var(--border); color: var(--ink); }
         .delete-btn { background: var(--red-tint); color: var(--red); }
         .delete-btn:hover { background: var(--red-tint-2); color: var(--red-dark); }
+        .map-btn { background: var(--gray-soft); color: var(--blue); margin-right: 6px; }
+        .map-btn:hover { background: #E7EDFB; color: var(--blue-dark); }
 
         .badge { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 650; letter-spacing: 0.01em; }
         .badge-active { background: var(--success-soft); color: var(--success); }
@@ -310,6 +312,30 @@
         @keyframes toastIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
         .toast.success { border-left-color: var(--success); }
         .toast.error { border-left-color: var(--red); }
+
+        /* ================= SECURITY WARNING BANNER ================= */
+        .security-banner {
+            display: flex; align-items: flex-start; gap: 12px;
+            background: var(--red-tint); border: 1px solid var(--red-tint-2);
+            border-left: 4px solid var(--red);
+            border-radius: var(--radius); padding: 14px 16px; margin: 0 20px 0;
+            font-size: 12.5px; color: var(--red-dark);
+        }
+        .security-banner .icon { color: var(--red); margin-top: 1px; }
+        .security-banner strong { display: block; font-size: 12.5px; margin-bottom: 3px; color: var(--red-dark); }
+        .security-banner p { color: var(--red-dark); opacity: 0.9; margin: 0; }
+        .security-banner-close { margin-left: auto; background: none; border: none; color: var(--red); cursor: pointer; padding: 2px 6px; font-size: 16px; line-height: 1; flex-shrink: 0; }
+        .security-banner-close:hover { opacity: 0.7; }
+
+        /* ================= MAP EMBED ================= */
+        .map-embed-wrap { border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border-soft); background: var(--gray-soft); }
+        .map-embed-wrap iframe { width: 100%; height: 320px; border: 0; display: block; }
+        .map-embed-fallback { padding: 30px 20px; text-align: center; font-size: 13px; color: var(--ink-soft); }
+        .map-embed-fallback a { color: var(--blue); font-weight: 600; text-decoration: none; }
+        .map-embed-fallback a:hover { text-decoration: underline; }
+        .map-embed-meta { display: flex; align-items: center; justify-content: space-between; padding: 12px 2px 0; font-size: 12px; color: var(--ink-soft); }
+        .map-embed-meta a { color: var(--blue); font-weight: 600; text-decoration: none; }
+        .map-embed-meta a:hover { text-decoration: underline; }
 
         @media (max-width: 900px) {
             .app-body { padding: 12px; gap: 12px; }
@@ -366,6 +392,8 @@
 
             .login-card { padding: 38px 26px 32px; }
             .login-brand-copy h1 { font-size: 28px; }
+
+            .security-banner { margin: 0 0 0; border-radius: 0; }
         }
 
         @media (max-width: 400px) {
@@ -424,6 +452,16 @@
             </button>
         </div>
     </header>
+
+    <div id="securityBanner" class="security-banner" style="margin-top:16px;">
+        <span class="icon" style="width:20px;height:20px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 16.5h.01"/><path d="M10.6 3.9L2.9 17.5a1.8 1.8 0 0 0 1.6 2.7h15a1.8 1.8 0 0 0 1.6-2.7L13.4 3.9a1.8 1.8 0 0 0-2.8 0z"/></svg></span>
+        <div>
+            <strong>PRIORITAS: kredensial &amp; API key masih hardcoded di kode klien</strong>
+            <p>Username, password, dan API key admin bisa dilihat siapa saja lewat "View Page Source". Ini cukup untuk internal tool berisiko rendah, tapi <strong>bukan aman untuk produksi</strong>. Sebelum menambah fitur lain, migrasikan validasi login dan pengecekan API key ke backend (mis. endpoint <code>/api/proxy?action=login</code> yang memverifikasi kredensial di server dan mengembalikan token sesi), lalu hapus <code>ADMIN_USERNAME</code>/<code>ADMIN_PASSWORD</code>/<code>API_KEY</code> dari file ini. Lihat komentar <code>TODO(security)</code> di bagian CONFIG pada kode.
+            </p>
+        </div>
+        <button class="security-banner-close" id="securityBannerClose" title="Sembunyikan (sesi ini saja)">&times;</button>
+    </div>
 
     <div class="app-body">
         <aside class="sidebar">
@@ -633,7 +671,11 @@
         <div class="form-group"><label>Jam Buka</label><input type="time" id="cabangBuka" required></div>
         <div class="form-group"><label>Jam Tutup</label><input type="time" id="cabangTutup" required></div>
         <div class="form-group"><label>Nomor WA</label><input type="text" id="cabangWa" placeholder="628xxxxxxxxxx" required></div>
-        <div class="form-group"><label>Link Google Maps</label><input type="url" id="cabangMaps" required></div>
+        <div class="form-group">
+            <label>Link Google Maps</label>
+            <input type="url" id="cabangMaps" placeholder="https://www.google.com/maps?q=..." required oninput="updateCabangMapPreview()">
+            <div id="cabangMapPreview" style="margin-top:10px;"></div>
+        </div>
         <div class="form-group"><label>Foto Cabang</label>
             <div style="display:flex;gap:10px;">
                 <input type="text" id="cabangImg" placeholder="Link foto otomatis" style="flex:1;" readonly>
@@ -647,6 +689,12 @@
         </div>
         <button type="submit" class="save-btn">Simpan</button>
     </form>
+</div></div>
+
+<!-- Modal Peta Cabang -->
+<div class="modal" id="petaModal"><div class="modal-content" style="max-width:640px;">
+    <div class="modal-header"><h2 id="petaModalTitle">Peta Cabang</h2><button class="close-btn" onclick="closeModal('petaModal')"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span></button></div>
+    <div id="petaModalBody"></div>
 </div></div>
 
 <!-- Modal Testimoni -->
@@ -669,23 +717,27 @@
 // ============================================
 // CONFIG (HARDCODED - TIDAK PERLU FILE TERPISAH)
 //
-// CATATAN KEAMANAN PENTING:
+// CATATAN KEAMANAN PENTING — TODO(security), PRIORITAS UTAMA:
 // Username/password/API key di bawah ini tersimpan di kode sisi klien,
 // artinya siapa pun bisa melihatnya lewat "View Page Source". Ini cukup
-// untuk internal tool berisiko rendah, tapi TIDAK aman untuk data sensitif.
-// Rekomendasi jangka panjang: pindahkan validasi login ke backend
-// (mis. endpoint /api/proxy?action=login yang mengecek username/password
-// di server dan mengembalikan token sesi), lalu hapus ADMIN_USERNAME /
-// ADMIN_PASSWORD dari file ini. Selama itu belum tersedia, kode di bawah
-// menambahkan beberapa lapis mitigasi di sisi klien: percobaan login
-// dibatasi (anti brute-force kasar), sesi otomatis kedaluwarsa, dan
-// auto-logout saat tidak ada aktivitas.
+// untuk internal tool berisiko rendah, tapi TIDAK aman untuk data sensitif
+// atau produksi. Sebelum menambah fitur baru lain, migrasikan dulu:
+//   1. Validasi login (username/password) ke backend, mis. endpoint
+//      /api/proxy?action=login yang mengecek kredensial di server dan
+//      mengembalikan token sesi (bukan menyimpan password di klien).
+//   2. Pengecekan API_KEY juga harus terjadi di server (proxy), sehingga
+//      kunci sebenarnya tidak pernah dikirim ke browser.
+// Setelah backend siap, HAPUS ADMIN_USERNAME / ADMIN_PASSWORD / API_KEY
+// dari file ini. Selama itu belum tersedia, kode di bawah menambahkan
+// beberapa lapis mitigasi di sisi klien saja (bukan pengganti backend):
+// percobaan login dibatasi (anti brute-force kasar), sesi otomatis
+// kedaluwarsa, dan auto-logout saat tidak ada aktivitas.
 // ============================================
 const CONFIG = {
     API_URL: '/api/proxy',
-    API_KEY: 'merdeka2024',
-    ADMIN_USERNAME: 'merdekajayagarut',
-    ADMIN_PASSWORD: 'merdekagarut',
+    API_KEY: 'merdeka2024', // TODO(security): pindahkan pengecekan ini ke backend, jangan kirim key ke klien
+    ADMIN_USERNAME: 'merdekajayagarut', // TODO(security): pindahkan validasi login ke backend
+    ADMIN_PASSWORD: 'merdekagarut',     // TODO(security): jangan simpan password di kode klien
     MAX_LOGIN_ATTEMPTS: 5,
     LOGIN_LOCKOUT_MS: 5 * 60 * 1000,      // 5 menit
     SESSION_MAX_AGE_MS: 8 * 60 * 60 * 1000, // 8 jam
@@ -719,6 +771,54 @@ let sessionCheckTimer = null;
 // ============================================
 function getImageUrl(img) { if (!img) return ''; if (img.startsWith('http')) return img; return '../images/' + img; }
 function showToast(msg, type = 'success') { const t = document.getElementById('toast'); t.textContent = msg; t.className = 'toast show ' + type; setTimeout(() => t.classList.remove('show'), 3000); }
+
+// ============================================
+// GOOGLE MAPS EMBED
+// Mengubah link Google Maps biasa (share link / search link) menjadi URL
+// yang bisa ditaruh di <iframe> tanpa perlu API key, memakai trik
+// "output=embed". Berfungsi untuk kebanyakan link google.com/maps/*
+// (place, search, @lat,lng). Link pendek (maps.app.goo.gl, goo.gl/maps)
+// tidak bisa diubah otomatis di browser karena butuh mengikuti redirect
+// dulu — untuk kasus itu kita tampilkan fallback "Buka di Google Maps".
+// ============================================
+function toGoogleMapsEmbedUrl(mapsUrl) {
+    if (!mapsUrl) return null;
+    try {
+        const u = new URL(mapsUrl);
+        const isShortLink = /goo\.gl$/i.test(u.hostname) || /maps\.app\.goo\.gl$/i.test(u.hostname);
+        if (isShortLink) return null; // tidak bisa di-embed langsung, perlu fallback
+        if (!/google\./i.test(u.hostname)) return null;
+        if (!u.searchParams.has('output')) u.searchParams.set('output', 'embed');
+        return u.toString();
+    } catch (e) {
+        return null;
+    }
+}
+
+function renderMapEmbedHtml(mapsUrl, nama) {
+    const embedUrl = toGoogleMapsEmbedUrl(mapsUrl);
+    const safeNama = nama ? nama.replace(/"/g, '&quot;') : 'Lokasi cabang';
+    if (embedUrl) {
+        return `<div class="map-embed-wrap"><iframe src="${embedUrl}" title="Peta ${safeNama}" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+            <div class="map-embed-meta"><span>${safeNama}</span><a href="${mapsUrl}" target="_blank" rel="noopener">Buka di Google Maps ↗</a></div>`;
+    }
+    return `<div class="map-embed-wrap"><div class="map-embed-fallback">Peta tidak bisa ditampilkan langsung untuk link ini (biasanya karena link pendek/share).<br><a href="${mapsUrl}" target="_blank" rel="noopener">Buka di Google Maps ↗</a></div></div>`;
+}
+
+function updateCabangMapPreview() {
+    const val = document.getElementById('cabangMaps').value.trim();
+    const box = document.getElementById('cabangMapPreview');
+    if (!val) { box.innerHTML = ''; return; }
+    box.innerHTML = renderMapEmbedHtml(val, document.getElementById('cabangNama').value || 'Pratinjau lokasi');
+}
+
+function showPetaModal(id) {
+    const c = allCabang.find(x => x.id == id);
+    if (!c) return;
+    document.getElementById('petaModalTitle').textContent = 'Peta — ' + c.nama;
+    document.getElementById('petaModalBody').innerHTML = renderMapEmbedHtml(c.maps, c.nama);
+    document.getElementById('petaModal').classList.add('show');
+}
 
 // ============================================
 // SESI & KEAMANAN LOGIN
@@ -787,6 +887,18 @@ document.addEventListener('DOMContentLoaded', () => {
             sessionStorage.removeItem('mmg_admin');
             sessionStorage.removeItem('mmg_admin_since');
         }
+    }
+
+    if (sessionStorage.getItem('mmg_security_banner_hidden') === 'true') {
+        const b = document.getElementById('securityBanner');
+        if (b) b.style.display = 'none';
+    }
+    const bannerCloseBtn = document.getElementById('securityBannerClose');
+    if (bannerCloseBtn) {
+        bannerCloseBtn.addEventListener('click', () => {
+            document.getElementById('securityBanner').style.display = 'none';
+            sessionStorage.setItem('mmg_security_banner_hidden', 'true');
+        });
     }
 
     document.getElementById('loginForm').addEventListener('submit', (e) => {
@@ -1079,7 +1191,7 @@ function renderKategori() {
 function renderCabang() {
     const tbody = document.getElementById('cabangTableBody');
     if (!allCabang.length) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;">Tidak ada data</td></tr>'; return; }
-    tbody.innerHTML = allCabang.map(c => `<tr><td>${c.id}</td><td><div class="thumb"><img src="${getImageUrl(c.img)}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23f2f2f5%22/%3E%3C/svg%3E'"></div></td><td><strong>${c.nama}</strong></td><td>${c.area}</td><td>+${String(c.wa).replace(/^62/, '62 ')}</td><td>${c.jam}</td><td><button class="action-btn edit-btn" onclick="editCabang(${c.id})">Edit</button><button class="action-btn delete-btn" onclick="deleteCabang(${c.id})">Hapus</button></td></tr>`).join('');
+    tbody.innerHTML = allCabang.map(c => `<tr><td>${c.id}</td><td><div class="thumb"><img src="${getImageUrl(c.img)}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23f2f2f5%22/%3E%3C/svg%3E'"></div></td><td><strong>${c.nama}</strong></td><td>${c.area}</td><td>+${String(c.wa).replace(/^62/, '62 ')}</td><td>${c.jam}</td><td><button class="action-btn map-btn" onclick="showPetaModal(${c.id})">Peta</button><button class="action-btn edit-btn" onclick="editCabang(${c.id})">Edit</button><button class="action-btn delete-btn" onclick="deleteCabang(${c.id})">Hapus</button></td></tr>`).join('');
 }
 function renderTestimoni() {
     const tbody = document.getElementById('testimoniTableBody');
@@ -1108,7 +1220,7 @@ function openKategoriModal(key = null) {
     }
     document.getElementById('kategoriModal').classList.add('show');
 }
-function openCabangModal(id = null) { document.getElementById('cabangForm').reset(); document.getElementById('cabangFotoPreview').innerHTML = ''; if (id) { const c = allCabang.find(x => x.id == id); document.getElementById('cabangModalTitle').textContent = 'Edit Cabang'; document.getElementById('cabangId').value = c.id; document.getElementById('cabangNama').value = c.nama; document.getElementById('cabangArea').value = c.area; document.getElementById('cabangJam').value = c.jam; document.getElementById('cabangBuka').value = c.buka; document.getElementById('cabangTutup').value = c.tutup; document.getElementById('cabangWa').value = c.wa; document.getElementById('cabangMaps').value = c.maps; document.getElementById('cabangImg').value = c.img; if (c.img) document.getElementById('cabangFotoPreview').innerHTML = `<img src="${getImageUrl(c.img)}" class="preview-img">`; } else { document.getElementById('cabangModalTitle').textContent = 'Tambah Cabang'; } document.getElementById('cabangModal').classList.add('show'); }
+function openCabangModal(id = null) { document.getElementById('cabangForm').reset(); document.getElementById('cabangFotoPreview').innerHTML = ''; document.getElementById('cabangMapPreview').innerHTML = ''; if (id) { const c = allCabang.find(x => x.id == id); document.getElementById('cabangModalTitle').textContent = 'Edit Cabang'; document.getElementById('cabangId').value = c.id; document.getElementById('cabangNama').value = c.nama; document.getElementById('cabangArea').value = c.area; document.getElementById('cabangJam').value = c.jam; document.getElementById('cabangBuka').value = c.buka; document.getElementById('cabangTutup').value = c.tutup; document.getElementById('cabangWa').value = c.wa; document.getElementById('cabangMaps').value = c.maps; document.getElementById('cabangImg').value = c.img; if (c.img) document.getElementById('cabangFotoPreview').innerHTML = `<img src="${getImageUrl(c.img)}" class="preview-img">`; if (c.maps) updateCabangMapPreview(); } else { document.getElementById('cabangModalTitle').textContent = 'Tambah Cabang'; } document.getElementById('cabangModal').classList.add('show'); }
 function openTestimoniModal(id = null) { document.getElementById('testimoniForm').reset(); if (id) { const t = allTestimoni.find(x => x.id == id); document.getElementById('testimoniModalTitle').textContent = 'Edit Testimoni'; document.getElementById('testimoniId').value = t.id; document.getElementById('testimoniNama').value = t.nama; document.getElementById('testimoniMeta').value = t.meta; document.getElementById('testimoniRating').value = t.rating; document.getElementById('testimoniText').value = t.text; document.getElementById('testimoniAktif').value = t.aktif; } else { document.getElementById('testimoniModalTitle').textContent = 'Tambah Testimoni'; } document.getElementById('testimoniModal').classList.add('show'); }
 function editPart(id) { openPartModal(id); } function editCabang(id) { openCabangModal(id); } function editTestimoni(id) { openTestimoniModal(id); } function editKategori(key) { openKategoriModal(key); }
 async function deletePart(id) { if (confirm('Hapus part ini?')) { const result = await apiPost('deletePart', { id }); if (result?.success) { await loadAllData(true); showToast('Part berhasil dihapus!'); } } }
