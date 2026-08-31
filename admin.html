@@ -968,9 +968,12 @@ async function handleUpload(file, type) {
         });
         clearTimeout(timeoutId);
 
-        if (!res.ok) throw new Error(`Upload gagal (status ${res.status})`);
-        const data = await res.json();
-        if (!data.success) throw new Error(data.error || 'Upload ditolak server, coba lagi');
+        let data = null;
+        try { data = await res.json(); } catch (parseErr) { /* respons bukan JSON */ }
+
+        if (!res.ok || !data || !data.success) {
+            throw new Error((data && data.error) || `Upload gagal (status ${res.status})`);
+        }
 
         document.getElementById(type + 'Img').value = data.url;
         previewEl.innerHTML = `<img src="${data.url}" class="preview-img">`;
