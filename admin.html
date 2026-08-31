@@ -9,15 +9,13 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
     <style>
         :root {
-            /* ===== Color tokens — "instrument panel" theme: warm paper canvas, =====
-               charcoal cockpit sidebar, single red accent taken from the brand mark ===== */
             --bg: #F7F6F2;
             --bg-sunk: #EFEDE6;
             --card: #FFFFFF;
             --border: #E6E3DA;
             --border-soft: #EFEDE6;
 
-            --ink: #17181C;          /* warm charcoal, not flat black */
+            --ink: #17181C;
             --ink-soft: #6C6A63;
             --ink-dim: #A7A49A;
 
@@ -26,11 +24,16 @@
             --red-tint: #FCEBEC;
             --red-tint-2: #F7DADD;
 
+            --blue: #2454C7;
+            --blue-dark: #17368C;
+            --amber: #D89B2E;
+            --amber-dark: #A9741A;
+
             --success: #1F8A3B;
             --success-soft: #E4F6E9;
             --gray-soft: #F1F0EA;
 
-            --cockpit: #17181C;       /* sidebar / login base */
+            --cockpit: #17181C;
             --cockpit-raised: #202126;
             --cockpit-border: #2C2D32;
             --cockpit-text: #C9C8C2;
@@ -47,8 +50,9 @@
             --shadow-lg: 0 10px 24px rgba(0,0,0,0.22), 0 30px 70px rgba(0,0,0,0.32);
 
             --ease: cubic-bezier(0.22, 1, 0.36, 1);
-
             --display: 'Barlow Condensed', 'Inter', sans-serif;
+
+            --topbar-h: 68px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -71,39 +75,14 @@
         .icon { width: 18px; height: 18px; display: block; flex-shrink: 0; }
         .icon svg { width: 100%; height: 100%; }
 
-        /* small red tick + label — a recurring structural marker instead of a tracked-out caps eyebrow */
         .eyebrow {
-            font-size: 12.5px;
-            font-weight: 600;
-            color: var(--ink-soft);
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
+            font-size: 12.5px; font-weight: 600; color: var(--ink-soft);
+            display: inline-flex; align-items: center; gap: 7px;
         }
-        .eyebrow::before {
-            content: '';
-            width: 3px; height: 12px;
-            background: var(--red);
-            border-radius: 2px;
-            display: inline-block;
-        }
+        .eyebrow::before { content: ''; width: 3px; height: 12px; background: var(--red); border-radius: 2px; display: inline-block; }
 
         /* ================= LOGIN ================= */
-        .login-screen {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-            position: relative;
-            overflow: hidden;
-            background: var(--cockpit);
-        }
-
-        /* Full-bleed backdrop photo. Drop your own shot in images/login-bg.jpg
-           (a workshop bay, a bike on the lift, the storefront at dusk — anything
-           that says "this is Merdeka Motor"). Until then a garage-at-night
-           gradient + subtle road-line texture stands in for it. */
+        .login-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; position: relative; overflow: hidden; background: var(--cockpit); }
         .login-backdrop {
             position: absolute; inset: 0;
             background:
@@ -120,136 +99,88 @@
             background-position: center, center, center, center;
         }
         .login-backdrop::after {
-            /* faint diagonal speed-lines for texture, echoes tread/motion without being literal */
-            content: '';
-            position: absolute; inset: 0;
+            content: ''; position: absolute; inset: 0;
             background-image: repeating-linear-gradient(115deg, rgba(255,255,255,0.035) 0px, rgba(255,255,255,0.035) 1px, transparent 1px, transparent 46px);
             opacity: 0.5;
         }
-
-        .login-brand {
-            position: relative; z-index: 1;
-            width: 100%; max-width: 940px;
-            display: flex; align-items: center; justify-content: space-between;
-            gap: 60px;
-        }
+        .login-brand { position: relative; z-index: 1; width: 100%; max-width: 940px; display: flex; align-items: center; justify-content: space-between; gap: 60px; }
         .login-brand-copy { color: #fff; max-width: 360px; }
-        .login-brand-mark {
-            display: inline-flex; align-items: center; gap: 12px;
-            margin-bottom: 30px;
-        }
-        .login-brand-mark .mark {
-            width: 44px; height: 44px; border-radius: 12px;
-            background: var(--red);
-            display: flex; align-items: center; justify-content: center;
-            font-family: var(--display); font-weight: 700; font-size: 20px; color: #fff;
-        }
+        .login-brand-mark { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 30px; }
+        .login-brand-mark .mark { width: 44px; height: 44px; border-radius: 12px; background: var(--red); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 700; font-size: 20px; color: #fff; }
         .login-brand-mark strong { font-family: var(--display); font-weight: 650; font-size: 17px; letter-spacing: 0.01em; }
         .login-brand-mark span { display: block; font-size: 11.5px; color: rgba(255,255,255,0.55); margin-top: 1px; }
-        .login-brand-copy h1 {
-            color: #fff; font-size: 40px; line-height: 1.08; font-weight: 700;
-            margin-bottom: 16px;
-        }
+        .login-brand-copy h1 { color: #fff; font-size: 40px; line-height: 1.08; font-weight: 700; margin-bottom: 16px; }
         .login-brand-copy p { color: rgba(255,255,255,0.68); font-size: 14.5px; max-width: 320px; }
-
-        .login-card {
-            position: relative; z-index: 1;
-            background: rgba(255,255,255,0.98);
-            border-radius: var(--radius-2xl);
-            padding: 44px 40px 38px;
-            width: 100%; max-width: 380px;
-            box-shadow: var(--shadow-lg);
-            flex-shrink: 0;
-        }
+        .login-card { position: relative; z-index: 1; background: rgba(255,255,255,0.98); border-radius: var(--radius-2xl); padding: 44px 40px 38px; width: 100%; max-width: 380px; box-shadow: var(--shadow-lg); flex-shrink: 0; }
         .login-card h2 { font-size: 24px; margin-bottom: 4px; color: var(--ink); }
         .login-card > p { color: var(--ink-soft); margin-bottom: 28px; font-size: 13.5px; }
         .login-card label { display: block; text-align: left; font-size: 12px; font-weight: 600; color: var(--ink-soft); margin-bottom: 8px; margin-top: 2px; }
-        .login-card input {
-            width: 100%; padding: 14px 16px;
-            background: var(--gray-soft);
-            border: 1.5px solid transparent;
-            border-radius: var(--radius-sm);
-            color: var(--ink);
-            font-size: 14.5px;
-            font-family: inherit;
-            margin-bottom: 18px;
-            transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
-        }
+        .login-card input { width: 100%; padding: 14px 16px; background: var(--gray-soft); border: 1.5px solid transparent; border-radius: var(--radius-sm); color: var(--ink); font-size: 14.5px; font-family: inherit; margin-bottom: 18px; transition: border-color 0.2s var(--ease), background 0.2s var(--ease); }
         .login-card input:focus { outline: none; border-color: var(--red); background: #fff; }
-        .login-card button {
-            width: 100%; padding: 14.5px;
-            background: var(--red); color: white;
-            border: none; border-radius: var(--radius-sm);
-            font-size: 14.5px; font-weight: 650; cursor: pointer;
-            font-family: inherit;
-            transition: transform 0.15s var(--ease), background 0.2s var(--ease);
-            box-shadow: 0 10px 22px rgba(200,16,46,0.28);
-        }
+        .login-card button { width: 100%; padding: 14.5px; background: var(--red); color: white; border: none; border-radius: var(--radius-sm); font-size: 14.5px; font-weight: 650; cursor: pointer; font-family: inherit; transition: transform 0.15s var(--ease), background 0.2s var(--ease); box-shadow: 0 10px 22px rgba(200,16,46,0.28); }
         .login-card button:hover { background: var(--red-dark); transform: translateY(-1px); }
         .login-card button:active { transform: translateY(0); }
         .login-error { color: var(--red); font-size: 13px; margin-top: 14px; min-height: 18px; font-weight: 500; }
 
-        /* ================= LAYOUT ================= */
-        .dashboard { display: flex; gap: 20px; min-height: 100vh; padding: 20px; background: var(--bg-sunk); }
+        /* ================= SHELL: topbar + sidebar + content ================= */
+        .dashboard { display: flex; flex-direction: column; min-height: 100vh; background: var(--bg-sunk); }
+
+        .topbar {
+            height: var(--topbar-h); flex-shrink: 0;
+            background: var(--card); border-bottom: 1px solid var(--border-soft);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 26px; position: sticky; top: 0; z-index: 800;
+        }
+        .topbar-brand { display: flex; align-items: center; gap: 11px; }
+        .topbar-mark { width: 34px; height: 34px; border-radius: 10px; background: var(--red); display: flex; align-items: center; justify-content: center; color: #fff; font-family: var(--display); font-weight: 700; font-size: 15px; flex-shrink: 0; }
+        .topbar-brand strong { font-size: 14.5px; font-weight: 650; color: var(--ink); display: block; }
+        .topbar-brand span { font-size: 11px; color: var(--ink-dim); }
+        .topbar-user { display: flex; align-items: center; gap: 14px; }
+        .topbar-user-info { text-align: right; }
+        .topbar-user-info strong { display: block; font-size: 13px; font-weight: 650; color: var(--ink); }
+        .topbar-user-info span { font-size: 11px; color: var(--ink-dim); }
+        .topbar-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--red-tint); color: var(--red); display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 700; font-size: 14px; flex-shrink: 0; }
+        .logout-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 9px 15px; background: var(--gray-soft); color: var(--ink-soft);
+            border: none; border-radius: var(--radius-sm); font-size: 12.5px; font-weight: 600;
+            cursor: pointer; font-family: 'Inter', sans-serif;
+            transition: background 0.16s var(--ease), color 0.16s var(--ease);
+        }
+        .logout-btn .icon { color: var(--ink-dim); width: 16px; height: 16px; }
+        .logout-btn:hover { background: var(--red-tint); color: var(--red); }
+        .logout-btn:hover .icon { color: var(--red); }
+
+        .app-body { display: flex; gap: 20px; flex: 1; padding: 20px; }
 
         .sidebar {
             width: 252px; flex-shrink: 0;
             background: var(--cockpit);
             border-radius: var(--radius-2xl);
             box-shadow: var(--shadow);
-            padding: 22px 14px;
+            padding: 20px 14px;
             display: flex; flex-direction: column;
-            position: sticky; top: 20px;
-            height: calc(100vh - 40px);
+            position: sticky; top: calc(var(--topbar-h) + 20px);
+            height: calc(100vh - var(--topbar-h) - 40px);
         }
-        .sidebar-header { display: flex; align-items: center; gap: 11px; padding: 6px 10px 20px; border-bottom: 1px solid var(--cockpit-border); margin-bottom: 16px; }
-        .sidebar-mark {
-            width: 38px; height: 38px; border-radius: 11px;
-            background: var(--red);
-            display: flex; align-items: center; justify-content: center;
-            color: #fff; font-family: var(--display); font-weight: 700; font-size: 17px;
-            flex-shrink: 0;
-        }
-        .sidebar-header h2 { font-size: 14.5px; font-weight: 650; color: #fff; font-family: 'Inter', sans-serif; }
-        .sidebar-header .eyebrow { color: var(--cockpit-text-dim); margin-top: 2px; font-size: 11px; }
-        .sidebar-header .eyebrow::before { background: var(--red); }
+        .sidebar-profile { display: flex; align-items: center; gap: 11px; padding: 6px 10px 18px; border-bottom: 1px solid var(--cockpit-border); margin-bottom: 14px; }
+        .sidebar-profile-mark { width: 38px; height: 38px; border-radius: 11px; background: var(--red); display: flex; align-items: center; justify-content: center; color: #fff; font-family: var(--display); font-weight: 700; font-size: 16px; flex-shrink: 0; }
+        .sidebar-profile strong { font-size: 13.5px; font-weight: 650; color: #fff; display: block; }
+        .sidebar-profile span { font-size: 11px; color: var(--cockpit-text-dim); }
+        .sidebar-eyebrow { font-size: 11px; font-weight: 650; color: var(--cockpit-text-dim); padding: 0 10px; margin-bottom: 8px; display: flex; align-items: center; gap: 7px; }
+        .sidebar-eyebrow::before { content: ''; width: 3px; height: 11px; background: var(--red); border-radius: 2px; }
 
         .sidebar-nav { flex: 1; display: flex; flex-direction: column; gap: 3px; }
-        .nav-item {
-            display: flex; align-items: center; gap: 12px;
-            padding: 11px 13px;
-            background: none; border: none; border-radius: var(--radius-sm);
-            font-size: 13.5px; font-weight: 550; color: var(--cockpit-text);
-            cursor: pointer; text-align: left; font-family: inherit;
-            transition: background 0.16s var(--ease), color 0.16s var(--ease);
-        }
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 11px 13px; background: none; border: none; border-radius: var(--radius-sm); font-size: 13.5px; font-weight: 550; color: var(--cockpit-text); cursor: pointer; text-align: left; font-family: inherit; transition: background 0.16s var(--ease), color 0.16s var(--ease); }
         .nav-item .icon { color: var(--cockpit-text-dim); transition: color 0.16s var(--ease); }
         .nav-item:hover { background: var(--cockpit-raised); color: #fff; }
         .nav-item:hover .icon { color: #fff; }
         .nav-item.active { background: rgba(200,16,46,0.16); color: #fff; }
         .nav-item.active .icon { color: var(--red); }
 
-        .logout-btn {
-            display: flex; align-items: center; gap: 12px;
-            padding: 11px 13px;
-            background: var(--cockpit-raised); border: none; border-radius: var(--radius-sm);
-            font-size: 13.5px; font-weight: 550; color: var(--cockpit-text);
-            cursor: pointer; font-family: inherit;
-            transition: background 0.16s var(--ease), color 0.16s var(--ease);
-        }
-        .logout-btn .icon { color: var(--cockpit-text-dim); }
-        .logout-btn:hover { background: rgba(200,16,46,0.18); color: #fff; }
-        .logout-btn:hover .icon { color: var(--red); }
+        .sidebar-footer { padding: 14px 10px 4px; border-top: 1px solid var(--cockpit-border); margin-top: 8px; font-size: 10.5px; color: var(--cockpit-text-dim); }
 
-        .main-content {
-            flex: 1; min-width: 0;
-            background: var(--card);
-            border: 1px solid var(--border-soft);
-            border-radius: var(--radius-2xl);
-            box-shadow: var(--shadow-sm);
-            padding: 38px 42px;
-            min-height: calc(100vh - 40px);
-        }
+        .main-content { flex: 1; min-width: 0; background: var(--card); border: 1px solid var(--border-soft); border-radius: var(--radius-2xl); box-shadow: var(--shadow-sm); padding: 38px 42px; }
 
         .page { display: none; animation: fadeIn 0.28s var(--ease); }
         .page.active { display: block; }
@@ -257,68 +188,48 @@
 
         .page-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 28px; padding-bottom: 22px; border-bottom: 1px solid var(--border-soft); }
         .page-header h1 { font-size: 30px; margin-top: 6px; color: var(--ink); }
+        .page-header .subtitle { font-size: 13px; color: var(--ink-soft); margin-top: 6px; }
 
-        .add-btn {
-            display: inline-flex; align-items: center; gap: 8px;
-            border: none; border-radius: var(--radius-sm);
-            font-size: 13.5px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif;
-            transition: transform 0.15s var(--ease), background 0.2s var(--ease), box-shadow 0.2s var(--ease);
-            padding: 11px 20px 11px 16px; background: var(--red); color: white;
-            box-shadow: 0 8px 18px rgba(200,16,46,0.22);
-        }
+        .add-btn { display: inline-flex; align-items: center; gap: 8px; border: none; border-radius: var(--radius-sm); font-size: 13.5px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; transition: transform 0.15s var(--ease), background 0.2s var(--ease), box-shadow 0.2s var(--ease); padding: 11px 20px 11px 16px; background: var(--red); color: white; box-shadow: 0 8px 18px rgba(200,16,46,0.22); }
         .add-btn:hover { background: var(--red-dark); transform: translateY(-1px); box-shadow: 0 10px 22px rgba(200,16,46,0.28); }
         .add-btn:active { transform: translateY(0); }
 
+        /* ================= STAT CARDS (colored, clean) ================= */
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 32px; }
         .stat-card {
-            background: var(--card); border: 1px solid var(--border-soft); border-radius: var(--radius-xl);
+            position: relative; overflow: hidden;
+            border-radius: var(--radius-xl);
             padding: 22px; box-shadow: var(--shadow-sm);
             transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+            color: #fff;
         }
         .stat-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
-        .stat-icon {
-            width: 42px; height: 42px; border-radius: 13px;
-            background: var(--red-tint); color: var(--red);
-            display: flex; align-items: center; justify-content: center;
-            margin-bottom: 18px;
-        }
-        .stat-icon .icon { width: 20px; height: 20px; }
-        .stat-info h3 { font-family: var(--display); font-size: 36px; font-weight: 700; letter-spacing: -0.01em; color: var(--ink); }
-        .stat-info p { color: var(--ink-soft); font-size: 12.5px; margin-top: 2px; font-weight: 500; }
+        .stat-card.red { background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%); }
+        .stat-card.blue { background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%); }
+        .stat-card.amber { background: linear-gradient(135deg, var(--amber) 0%, var(--amber-dark) 100%); }
+        .stat-icon { width: 40px; height: 40px; border-radius: 12px; background: rgba(255,255,255,0.18); color: #fff; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+        .stat-icon .icon { width: 19px; height: 19px; }
+        .stat-info p.stat-label { font-size: 11.5px; font-weight: 600; color: rgba(255,255,255,0.78); margin-bottom: 4px; }
+        .stat-info h3 { font-family: var(--display); font-size: 34px; font-weight: 700; letter-spacing: -0.01em; color: #fff; }
+        .stat-bar { margin-top: 18px; height: 4px; border-radius: 4px; background: rgba(255,255,255,0.22); overflow: hidden; }
+        .stat-bar span { display: block; height: 100%; background: rgba(255,255,255,0.85); border-radius: 4px; }
 
-        .refresh-btn {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 11px 18px; background: var(--gray-soft); color: var(--ink);
-            border: none; border-radius: var(--radius-sm);
-            font-size: 13.5px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif;
-            transition: background 0.2s var(--ease);
-        }
+        .refresh-btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; background: var(--gray-soft); color: var(--ink); border: none; border-radius: var(--radius-sm); font-size: 13.5px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; transition: background 0.2s var(--ease); }
         .refresh-btn:hover { background: var(--border); }
 
-        /* ================= CHARTS ================= */
         .section-title { font-size: 15px; font-weight: 650; margin: 34px 0 14px; color: var(--ink); font-family: 'Inter', sans-serif; }
         .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
-        .chart-card {
-            background: var(--card); border: 1px solid var(--border-soft); border-radius: var(--radius-xl);
-            padding: 20px 20px 14px; box-shadow: var(--shadow-sm);
-        }
+        .chart-card { background: var(--card); border: 1px solid var(--border-soft); border-radius: var(--radius-xl); padding: 20px 20px 14px; box-shadow: var(--shadow-sm); }
         .chart-card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
         .chart-card-head h3 { font-size: 13.5px; font-weight: 650; color: var(--ink); font-family: 'Inter', sans-serif; }
         .chart-wrap { position: relative; height: 220px; }
 
-        /* ================= WIDGETS ================= */
         .widgets-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 16px; }
-        .widget-card {
-            background: var(--card); border: 1px solid var(--border-soft); border-radius: var(--radius-xl);
-            padding: 20px; box-shadow: var(--shadow-sm);
-        }
+        .widget-card { background: var(--card); border: 1px solid var(--border-soft); border-radius: var(--radius-xl); padding: 20px; box-shadow: var(--shadow-sm); }
         .widget-card-head { margin-bottom: 6px; }
         .widget-card-head h3 { font-size: 13.5px; font-weight: 650; font-family: 'Inter', sans-serif; }
         .widget-list { display: flex; flex-direction: column; }
-        .widget-row {
-            display: flex; align-items: center; justify-content: space-between; gap: 10px;
-            padding: 12px 2px; border-bottom: 1px solid var(--border-soft);
-        }
+        .widget-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 2px; border-bottom: 1px solid var(--border-soft); }
         .widget-row:last-child { border-bottom: none; }
         .widget-row-main { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
         .widget-row-main strong { font-size: 13.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -326,18 +237,18 @@
         .widget-empty { font-size: 13px; color: var(--ink-dim); padding: 18px 2px; }
         .badge-closed { background: var(--red-tint); color: var(--red); }
 
-        /* ================= TABLE ================= */
-        .table-container {
-            background: var(--card); border: 1px solid var(--border-soft); border-radius: var(--radius-xl);
-            padding: 8px; overflow-x: auto; margin-top: 22px;
-        }
+        /* ================= TABLE (toolbar strip + table) ================= */
+        .table-container { background: var(--card); border: 1px solid var(--border-soft); border-radius: var(--radius-xl); overflow: hidden; margin-top: 22px; }
+        .table-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; background: var(--bg-sunk); border-bottom: 1px solid var(--border-soft); }
+        .table-toolbar-title { font-size: 13px; font-weight: 650; color: var(--ink); }
+        .table-dots { display: flex; gap: 6px; flex-shrink: 0; }
+        .table-dots span { width: 9px; height: 9px; border-radius: 50%; display: block; }
+        .table-dots span:nth-child(1) { background: var(--red); }
+        .table-dots span:nth-child(2) { background: var(--amber); }
+        .table-dots span:nth-child(3) { background: var(--success); }
+        .table-scroll { padding: 8px; overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; min-width: 640px; }
-        thead th {
-            text-align: left; padding: 13px 16px;
-            font-size: 11px; letter-spacing: 0.02em;
-            font-weight: 650; color: var(--ink-dim);
-            border-bottom: 1px solid var(--border-soft);
-        }
+        thead th { text-align: left; padding: 13px 16px; font-size: 11px; letter-spacing: 0.02em; font-weight: 650; color: var(--ink-dim); border-bottom: 1px solid var(--border-soft); }
         tbody td { padding: 13px 16px; font-size: 13.5px; border-bottom: 1px solid var(--border-soft); color: var(--ink); }
         tbody tr { transition: background 0.14s var(--ease); }
         tbody tr:last-child td { border-bottom: none; }
@@ -356,126 +267,69 @@
         .badge-active { background: var(--success-soft); color: var(--success); }
         .badge-inactive { background: var(--gray-soft); color: var(--ink-dim); }
 
-        .filters { display: flex; gap: 10px; margin-bottom: 22px; }
-        .filters input, .filters select {
-            padding: 12px 15px; background: var(--gray-soft); border: 1.5px solid transparent;
-            border-radius: var(--radius-sm); font-size: 13.5px; font-family: 'Inter', sans-serif;
-            transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
-        }
-        .filters input:focus, .filters select:focus { outline: none; border-color: var(--red); background: #fff; }
+        .filters { display: flex; gap: 10px; padding: 14px 18px; background: var(--bg-sunk); border-bottom: 1px solid var(--border-soft); }
+        .filters input, .filters select { padding: 12px 15px; background: #fff; border: 1.5px solid var(--border-soft); border-radius: var(--radius-sm); font-size: 13.5px; font-family: 'Inter', sans-serif; transition: border-color 0.2s var(--ease); }
+        .filters input:focus, .filters select:focus { outline: none; border-color: var(--red); }
         .filters input { flex: 1; }
 
         /* ================= MODAL ================= */
-        .modal {
-            display: none; position: fixed; inset: 0;
-            background: rgba(23,24,28,0.4);
-            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-            z-index: 1000; align-items: center; justify-content: center; padding: 20px;
-        }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(23,24,28,0.4); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
         .modal.show { display: flex; animation: modalIn 0.22s var(--ease); }
         @keyframes modalIn { from { opacity: 0; } to { opacity: 1; } }
-        .modal-content {
-            background: var(--card); border-radius: var(--radius-xl);
-            padding: 30px 32px; width: 100%; max-width: 540px; max-height: 90vh; overflow-y: auto;
-            box-shadow: var(--shadow-lg);
-            animation: modalPop 0.25s var(--ease);
-        }
+        .modal-content { background: var(--card); border-radius: var(--radius-xl); padding: 30px 32px; width: 100%; max-width: 540px; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-lg); animation: modalPop 0.25s var(--ease); }
         @keyframes modalPop { from { opacity: 0; transform: translateY(10px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid var(--border-soft); }
         .modal-header h2 { font-size: 20px; color: var(--ink); }
-        .close-btn {
-            background: var(--gray-soft); border: none; border-radius: 10px;
-            width: 32px; height: 32px; cursor: pointer; color: var(--ink-soft);
-            display: flex; align-items: center; justify-content: center;
-            transition: background 0.15s var(--ease), color 0.15s var(--ease);
-        }
+        .close-btn { background: var(--gray-soft); border: none; border-radius: 10px; width: 32px; height: 32px; cursor: pointer; color: var(--ink-soft); display: flex; align-items: center; justify-content: center; transition: background 0.15s var(--ease), color 0.15s var(--ease); }
         .close-btn:hover { background: var(--red-tint); color: var(--red); }
         .close-btn .icon { width: 15px; height: 15px; }
 
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 7px; color: var(--ink-soft); }
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%; padding: 12px 14px; background: var(--gray-soft);
-            border: 1.5px solid transparent; border-radius: var(--radius-sm);
-            font-size: 13.5px; font-family: 'Inter', sans-serif;
-            transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
-        }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 14px; background: var(--gray-soft); border: 1.5px solid transparent; border-radius: var(--radius-sm); font-size: 13.5px; font-family: 'Inter', sans-serif; transition: border-color 0.2s var(--ease), background 0.2s var(--ease); }
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--red); background: #fff; }
 
-        .save-btn {
-            width: 100%; padding: 14px; background: var(--red); color: white; border: none;
-            border-radius: var(--radius-sm); font-size: 14px; font-weight: 650; cursor: pointer; font-family: 'Inter', sans-serif;
-            transition: background 0.2s var(--ease), transform 0.15s var(--ease);
-            box-shadow: 0 8px 18px rgba(200,16,46,0.2);
-        }
+        .save-btn { width: 100%; padding: 14px; background: var(--red); color: white; border: none; border-radius: var(--radius-sm); font-size: 14px; font-weight: 650; cursor: pointer; font-family: 'Inter', sans-serif; transition: background 0.2s var(--ease), transform 0.15s var(--ease); box-shadow: 0 8px 18px rgba(200,16,46,0.2); }
         .save-btn:hover { background: var(--red-dark); transform: translateY(-1px); }
         .save-btn:active { transform: translateY(0); }
 
-        .upload-btn {
-            display: inline-flex; align-items: center; gap: 7px;
-            padding: 10px 15px; background: var(--ink); color: white; border: none;
-            border-radius: var(--radius-sm); font-size: 12.5px; font-weight: 600; cursor: pointer;
-            font-family: 'Inter', sans-serif; white-space: nowrap; transition: background 0.2s var(--ease);
-        }
+        .upload-btn { display: inline-flex; align-items: center; gap: 7px; padding: 10px 15px; background: var(--ink); color: white; border: none; border-radius: var(--radius-sm); font-size: 12.5px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; white-space: nowrap; transition: background 0.2s var(--ease); }
         .upload-btn:hover { background: #000; }
         .upload-btn .icon { width: 15px; height: 15px; }
         .preview-img { max-width: 170px; border-radius: 12px; border: 1px solid var(--border-soft); display: block; }
 
         .loading { text-align: center; padding: 42px; color: var(--ink-dim); font-size: 13.5px; }
 
-        .toast {
-            position: fixed; top: 20px; right: 20px; z-index: 2000;
-            background: rgba(23,24,28,0.94);
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            color: #fff; border-left: 3px solid var(--red);
-            padding: 15px 20px; border-radius: var(--radius); font-size: 13.5px; font-weight: 550;
-            box-shadow: var(--shadow-lg); display: none;
-        }
+        .toast { position: fixed; top: 20px; right: 20px; z-index: 2000; background: rgba(23,24,28,0.94); backdrop-filter: blur(16px) saturate(180%); -webkit-backdrop-filter: blur(16px) saturate(180%); color: #fff; border-left: 3px solid var(--red); padding: 15px 20px; border-radius: var(--radius); font-size: 13.5px; font-weight: 550; box-shadow: var(--shadow-lg); display: none; }
         .toast.show { display: block; animation: toastIn 0.25s var(--ease); }
         @keyframes toastIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
         .toast.success { border-left-color: var(--success); }
         .toast.error { border-left-color: var(--red); }
 
         @media (max-width: 900px) {
-            .dashboard { padding: 12px; gap: 12px; }
+            .app-body { padding: 12px; gap: 12px; }
             .main-content { padding: 26px 20px; }
             .login-brand { flex-direction: column; gap: 34px; }
             .login-brand-copy { text-align: center; max-width: 420px; }
             .login-brand-mark { justify-content: center; }
             .login-brand-copy h1 { font-size: 32px; }
+            .topbar-user-info { display: none; }
         }
 
-        /* ================= MOBILE (iOS-style bottom tab bar) ================= */
         @media (max-width: 720px) {
-            .dashboard { display: block; padding: 0; background: var(--bg-sunk); }
-            .main-content {
-                border-radius: 0; border: none; box-shadow: none;
-                padding: 20px 16px calc(92px + env(safe-area-inset-bottom));
-                min-height: 100vh;
-            }
+            .app-body { display: block; padding: 0; }
+            .main-content { border-radius: 0; border: none; box-shadow: none; padding: 20px 16px calc(92px + env(safe-area-inset-bottom)); min-height: calc(100vh - var(--topbar-h)); }
 
-            .sidebar {
-                position: fixed; left: 0; right: 0; bottom: 0; top: auto;
-                width: 100%; height: auto; flex-direction: row; align-items: stretch;
-                border-radius: 0;
-                box-shadow: 0 -10px 30px rgba(0,0,0,0.28);
-                padding: 6px 6px calc(6px + env(safe-area-inset-bottom));
-                z-index: 900;
-            }
-            .sidebar-header { display: none; }
+            .sidebar { position: fixed; left: 0; right: 0; bottom: 0; top: auto; width: 100%; height: auto; flex-direction: row; align-items: stretch; border-radius: 0; box-shadow: 0 -10px 30px rgba(0,0,0,0.28); padding: 6px 6px calc(6px + env(safe-area-inset-bottom)); z-index: 900; }
+            .sidebar-profile, .sidebar-eyebrow, .sidebar-footer { display: none; }
             .sidebar-nav { flex-direction: row; flex: 1; justify-content: space-around; gap: 2px; }
-            .nav-item {
-                flex-direction: column; gap: 3px; padding: 7px 4px 6px;
-                font-size: 10px; border-radius: 12px; min-width: 0; flex: 1;
-            }
+            .nav-item { flex-direction: column; gap: 3px; padding: 7px 4px 6px; font-size: 10px; border-radius: 12px; min-width: 0; flex: 1; }
             .nav-item .icon { width: 22px; height: 22px; margin: 0 auto; }
             .nav-item span:last-child { display: block; font-size: 10px; font-weight: 600; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-            .logout-btn {
-                flex-direction: column; gap: 3px; padding: 7px 10px 6px; font-size: 10px;
-                border-radius: 12px; flex-shrink: 0;
-            }
-            .logout-btn span:last-child { display: block; font-size: 10px; font-weight: 600; }
+
+            .topbar { padding: 0 16px; }
+            .topbar-brand strong { font-size: 13px; }
+            .topbar-brand span { display: none; }
 
             .page-header { flex-direction: column; align-items: stretch; gap: 12px; margin-bottom: 20px; padding-bottom: 16px; }
             .page-header h1 { font-size: 24px; }
@@ -483,8 +337,8 @@
 
             .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
             .stat-card { padding: 16px; }
-            .stat-icon { width: 36px; height: 36px; margin-bottom: 12px; }
-            .stat-info h3 { font-size: 28px; }
+            .stat-icon { width: 34px; height: 34px; margin-bottom: 14px; }
+            .stat-info h3 { font-size: 26px; }
 
             .charts-grid, .widgets-grid { grid-template-columns: 1fr; }
             .section-title { margin-top: 26px; }
@@ -493,17 +347,13 @@
 
             .filters { flex-direction: column; }
 
-            .table-container { border-radius: var(--radius-lg); padding: 4px; -webkit-overflow-scrolling: touch; }
+            .table-container { border-radius: var(--radius-lg); -webkit-overflow-scrolling: touch; }
             thead th { padding: 11px 12px; font-size: 10px; }
             tbody td { padding: 11px 12px; font-size: 13px; }
             .action-btn { padding: 8px 12px; }
 
             .modal { align-items: flex-end; padding: 0; }
-            .modal-content {
-                max-width: 100%; width: 100%; max-height: 86vh;
-                border-radius: 24px 24px 0 0;
-                padding: 22px 20px calc(22px + env(safe-area-inset-bottom));
-            }
+            .modal-content { max-width: 100%; width: 100%; max-height: 86vh; border-radius: 24px 24px 0 0; padding: 22px 20px calc(22px + env(safe-area-inset-bottom)); }
             .modal.show { animation: sheetBackdropIn 0.22s var(--ease); }
             .modal.show .modal-content { animation: sheetIn 0.28s var(--ease); }
             @keyframes sheetBackdropIn { from { opacity: 0; } to { opacity: 1; } }
@@ -553,116 +403,153 @@
 
 <!-- Dashboard -->
 <div class="dashboard" id="dashboard" style="display: none;">
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <div class="sidebar-mark">M</div>
-            <div><h2>Merdeka Motor</h2><span class="eyebrow">Garut Workshop</span></div>
+
+    <header class="topbar">
+        <div class="topbar-brand">
+            <div class="topbar-mark">M</div>
+            <div><strong>Merdeka Motor Garut</strong><span>Panel Admin</span></div>
         </div>
-        <nav class="sidebar-nav">
-            <button class="nav-item active" data-page="dashboard">
-                <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg></span>
-                <span>Dashboard</span>
+        <div class="topbar-user">
+            <div class="topbar-user-info"><strong>Admin</strong><span>Merdeka Motor Garut</span></div>
+            <div class="topbar-avatar">A</div>
+            <button class="logout-btn" id="logoutBtn">
+                <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3.5h3a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2h-3"/><path d="M10 16.5l4.5-4.5L10 7.5"/><path d="M14.5 12H3.5"/></svg></span>
+                <span>Logout</span>
             </button>
-            <button class="nav-item" data-page="parts">
-                <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l8 4.4v10.2L12 21.5l-8-4.4V6.9L12 2.5z"/><circle cx="12" cy="12" r="3"/></svg></span>
-                <span>Kelola Part</span>
-            </button>
-            <button class="nav-item" data-page="cabang">
-                <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.4a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.6" r="2.4"/></svg></span>
-                <span>Kelola Cabang</span>
-            </button>
-            <button class="nav-item" data-page="testimoni">
-                <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.3l2.7 5.5 6 .9-4.4 4.3 1 6-5.3-2.8-5.3 2.8 1-6-4.4-4.3 6-.9 2.7-5.5z"/></svg></span>
-                <span>Testimoni</span>
-            </button>
-        </nav>
-        <button class="logout-btn" id="logoutBtn">
-            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3.5h3a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2h-3"/><path d="M10 16.5l4.5-4.5L10 7.5"/><path d="M14.5 12H3.5"/></svg></span>
-            <span>Logout</span>
-        </button>
-    </aside>
-
-    <main class="main-content">
-        <div class="page active" id="page-dashboard">
-            <div class="page-header"><div><span class="eyebrow">Ringkasan</span><h1>Dashboard</h1></div></div>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l8 4.4v10.2L12 21.5l-8-4.4V6.9L12 2.5z"/><circle cx="12" cy="12" r="3"/></svg></span></div>
-                    <div class="stat-info"><h3 id="statParts">0</h3><p>Total Part</p></div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.4a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.6" r="2.4"/></svg></span></div>
-                    <div class="stat-info"><h3 id="statCabang">0</h3><p>Cabang</p></div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.3l2.7 5.5 6 .9-4.4 4.3 1 6-5.3-2.8-5.3 2.8 1-6-4.4-4.3 6-.9 2.7-5.5z"/></svg></span></div>
-                    <div class="stat-info"><h3 id="statTestimoni">0</h3><p>Testimoni</p></div>
-                </div>
-            </div>
-            <button class="refresh-btn" onclick="refreshAll()">
-                <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3.3V9h-5.7"/></svg></span>
-                Refresh Data
-            </button>
-
-            <h3 class="section-title">Statistik</h3>
-            <div class="charts-grid">
-                <div class="chart-card">
-                    <div class="chart-card-head"><h3>Part per Kategori</h3></div>
-                    <div class="chart-wrap"><canvas id="chartKategori"></canvas></div>
-                </div>
-                <div class="chart-card">
-                    <div class="chart-card-head"><h3>Status Testimoni</h3></div>
-                    <div class="chart-wrap"><canvas id="chartTestimoni"></canvas></div>
-                </div>
-            </div>
-
-            <h3 class="section-title">Ringkasan</h3>
-            <div class="widgets-grid">
-                <div class="widget-card">
-                    <div class="widget-card-head"><h3>Status Cabang Saat Ini</h3></div>
-                    <div id="widgetCabangStatus" class="widget-list"></div>
-                </div>
-                <div class="widget-card">
-                    <div class="widget-card-head"><h3>Aktivitas Terbaru</h3></div>
-                    <div id="widgetRecent" class="widget-list"></div>
-                </div>
-            </div>
         </div>
+    </header>
 
-        <div class="page" id="page-parts">
-            <div class="page-header"><div><span class="eyebrow">Katalog</span><h1>Kelola Part</h1></div>
-                <button class="add-btn" onclick="openPartModal()">
-                    <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
-                    Tambah Part
+    <div class="app-body">
+        <aside class="sidebar">
+            <div class="sidebar-profile">
+                <div class="sidebar-profile-mark">M</div>
+                <div><strong>Admin</strong><span>Merdeka Motor Garut</span></div>
+            </div>
+            <div class="sidebar-eyebrow">Navigasi</div>
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-page="dashboard">
+                    <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg></span>
+                    <span>Dashboard</span>
                 </button>
-            </div>
-            <div class="filters">
-                <input type="text" id="searchPart" placeholder="Cari part..." oninput="renderParts()">
-                <select id="filterKategori" onchange="renderParts()"><option value="all">Semua</option></select>
-            </div>
-            <div class="table-container"><table><thead><tr><th>ID</th><th>Foto</th><th>Nama</th><th>Kode</th><th>Kategori</th><th>Aksi</th></tr></thead><tbody id="partsTableBody"><tr><td colspan="6" class="loading">Memuat...</td></tr></tbody></table></div>
-        </div>
-
-        <div class="page" id="page-cabang">
-            <div class="page-header"><div><span class="eyebrow">Jaringan</span><h1>Kelola Cabang</h1></div>
-                <button class="add-btn" onclick="openCabangModal()">
-                    <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
-                    Tambah Cabang
+                <button class="nav-item" data-page="parts">
+                    <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l8 4.4v10.2L12 21.5l-8-4.4V6.9L12 2.5z"/><circle cx="12" cy="12" r="3"/></svg></span>
+                    <span>Kelola Part</span>
                 </button>
-            </div>
-            <div class="table-container"><table><thead><tr><th>ID</th><th>Foto</th><th>Nama</th><th>Area</th><th>WA</th><th>Jam</th><th>Aksi</th></tr></thead><tbody id="cabangTableBody"><tr><td colspan="7" class="loading">Memuat...</td></tr></tbody></table></div>
-        </div>
-
-        <div class="page" id="page-testimoni">
-            <div class="page-header"><div><span class="eyebrow">Pelanggan</span><h1>Testimoni</h1></div>
-                <button class="add-btn" onclick="openTestimoniModal()">
-                    <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
-                    Tambah Testimoni
+                <button class="nav-item" data-page="cabang">
+                    <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.4a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.6" r="2.4"/></svg></span>
+                    <span>Kelola Cabang</span>
                 </button>
+                <button class="nav-item" data-page="testimoni">
+                    <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.3l2.7 5.5 6 .9-4.4 4.3 1 6-5.3-2.8-5.3 2.8 1-6-4.4-4.3 6-.9 2.7-5.5z"/></svg></span>
+                    <span>Testimoni</span>
+                </button>
+            </nav>
+            <div class="sidebar-footer">© Merdeka Motor Garut</div>
+        </aside>
+
+        <main class="main-content">
+            <div class="page active" id="page-dashboard">
+                <div class="page-header"><div><span class="eyebrow">Ringkasan</span><h1>Dashboard</h1><p class="subtitle">Selamat datang, Admin</p></div></div>
+                <div class="stats-grid">
+                    <div class="stat-card red">
+                        <div class="stat-icon"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l8 4.4v10.2L12 21.5l-8-4.4V6.9L12 2.5z"/><circle cx="12" cy="12" r="3"/></svg></span></div>
+                        <div class="stat-info"><p class="stat-label">Total Part</p><h3 id="statParts">0</h3></div>
+                        <div class="stat-bar"><span style="width:70%"></span></div>
+                    </div>
+                    <div class="stat-card blue">
+                        <div class="stat-icon"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.4a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.6" r="2.4"/></svg></span></div>
+                        <div class="stat-info"><p class="stat-label">Cabang</p><h3 id="statCabang">0</h3></div>
+                        <div class="stat-bar"><span style="width:55%"></span></div>
+                    </div>
+                    <div class="stat-card amber">
+                        <div class="stat-icon"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.3l2.7 5.5 6 .9-4.4 4.3 1 6-5.3-2.8-5.3 2.8 1-6-4.4-4.3 6-.9 2.7-5.5z"/></svg></span></div>
+                        <div class="stat-info"><p class="stat-label">Testimoni</p><h3 id="statTestimoni">0</h3></div>
+                        <div class="stat-bar"><span style="width:82%"></span></div>
+                    </div>
+                </div>
+                <button class="refresh-btn" onclick="refreshAll()">
+                    <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3.3V9h-5.7"/></svg></span>
+                    Refresh Data
+                </button>
+
+                <h3 class="section-title">Statistik</h3>
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <div class="chart-card-head"><h3>Part per Kategori</h3></div>
+                        <div class="chart-wrap"><canvas id="chartKategori"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-card-head"><h3>Status Testimoni</h3></div>
+                        <div class="chart-wrap"><canvas id="chartTestimoni"></canvas></div>
+                    </div>
+                </div>
+
+                <h3 class="section-title">Ringkasan</h3>
+                <div class="widgets-grid">
+                    <div class="widget-card">
+                        <div class="widget-card-head"><h3>Status Cabang Saat Ini</h3></div>
+                        <div id="widgetCabangStatus" class="widget-list"></div>
+                    </div>
+                    <div class="widget-card">
+                        <div class="widget-card-head"><h3>Aktivitas Terbaru</h3></div>
+                        <div id="widgetRecent" class="widget-list"></div>
+                    </div>
+                </div>
             </div>
-            <div class="table-container"><table><thead><tr><th>ID</th><th>Nama</th><th>Meta</th><th>Rating</th><th>Text</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="testimoniTableBody"><tr><td colspan="7" class="loading">Memuat...</td></tr></tbody></table></div>
-        </div>
-    </main>
+
+            <div class="page" id="page-parts">
+                <div class="page-header"><div><span class="eyebrow">Katalog</span><h1>Kelola Part</h1></div>
+                    <button class="add-btn" onclick="openPartModal()">
+                        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+                        Tambah Part
+                    </button>
+                </div>
+                <div class="table-container">
+                    <div class="table-toolbar">
+                        <span class="table-toolbar-title">Daftar Part</span>
+                        <div class="table-dots"><span></span><span></span><span></span></div>
+                    </div>
+                    <div class="filters">
+                        <input type="text" id="searchPart" placeholder="Cari part..." oninput="renderParts()">
+                        <select id="filterKategori" onchange="renderParts()"><option value="all">Semua</option></select>
+                    </div>
+                    <div class="table-scroll"><table><thead><tr><th>ID</th><th>Foto</th><th>Nama</th><th>Kode</th><th>Kategori</th><th>Aksi</th></tr></thead><tbody id="partsTableBody"><tr><td colspan="6" class="loading">Memuat...</td></tr></tbody></table></div>
+                </div>
+            </div>
+
+            <div class="page" id="page-cabang">
+                <div class="page-header"><div><span class="eyebrow">Jaringan</span><h1>Kelola Cabang</h1></div>
+                    <button class="add-btn" onclick="openCabangModal()">
+                        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+                        Tambah Cabang
+                    </button>
+                </div>
+                <div class="table-container">
+                    <div class="table-toolbar">
+                        <span class="table-toolbar-title">Daftar Cabang</span>
+                        <div class="table-dots"><span></span><span></span><span></span></div>
+                    </div>
+                    <div class="table-scroll"><table><thead><tr><th>ID</th><th>Foto</th><th>Nama</th><th>Area</th><th>WA</th><th>Jam</th><th>Aksi</th></tr></thead><tbody id="cabangTableBody"><tr><td colspan="7" class="loading">Memuat...</td></tr></tbody></table></div>
+                </div>
+            </div>
+
+            <div class="page" id="page-testimoni">
+                <div class="page-header"><div><span class="eyebrow">Pelanggan</span><h1>Testimoni</h1></div>
+                    <button class="add-btn" onclick="openTestimoniModal()">
+                        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+                        Tambah Testimoni
+                    </button>
+                </div>
+                <div class="table-container">
+                    <div class="table-toolbar">
+                        <span class="table-toolbar-title">Daftar Testimoni</span>
+                        <div class="table-dots"><span></span><span></span><span></span></div>
+                    </div>
+                    <div class="table-scroll"><table><thead><tr><th>ID</th><th>Nama</th><th>Meta</th><th>Rating</th><th>Text</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="testimoniTableBody"><tr><td colspan="7" class="loading">Memuat...</td></tr></tbody></table></div>
+                </div>
+            </div>
+        </main>
+    </div>
 </div>
 
 <!-- Modal Part -->
@@ -758,8 +645,8 @@ const CONFIG = {
 let allParts = [];
 let allCabang = [];
 let allTestimoni = [];
-let uploadingState = {}; // { part: bool, cabang: bool } — cegah simpan sebelum upload foto selesai
-let lastSelectedFile = {}; // { part: File, cabang: File } — dipakai untuk tombol "coba lagi"
+let uploadingState = {};
+let lastSelectedFile = {};
 
 // ============================================
 // HELPERS
