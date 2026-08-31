@@ -117,9 +117,11 @@
         .login-card label { display: block; text-align: left; font-size: 12px; font-weight: 600; color: var(--ink-soft); margin-bottom: 8px; margin-top: 2px; }
         .login-card input { width: 100%; padding: 14px 16px; background: var(--gray-soft); border: 1.5px solid transparent; border-radius: var(--radius-sm); color: var(--ink); font-size: 14.5px; font-family: inherit; margin-bottom: 18px; transition: border-color 0.2s var(--ease), background 0.2s var(--ease); }
         .login-card input:focus { outline: none; border-color: var(--red); background: #fff; }
+        .login-card input:disabled { opacity: 0.6; cursor: not-allowed; }
         .login-card button { width: 100%; padding: 14.5px; background: var(--red); color: white; border: none; border-radius: var(--radius-sm); font-size: 14.5px; font-weight: 650; cursor: pointer; font-family: inherit; transition: transform 0.15s var(--ease), background 0.2s var(--ease); box-shadow: 0 10px 22px rgba(200,16,46,0.28); }
         .login-card button:hover { background: var(--red-dark); transform: translateY(-1px); }
         .login-card button:active { transform: translateY(0); }
+        .login-card button:disabled { background: var(--ink-dim); box-shadow: none; cursor: not-allowed; transform: none; }
         .login-error { color: var(--red); font-size: 13px; margin-top: 14px; min-height: 18px; font-weight: 500; }
 
         /* ================= SHELL: topbar + sidebar + content ================= */
@@ -150,6 +152,9 @@
         .logout-btn .icon { color: var(--ink-dim); width: 16px; height: 16px; }
         .logout-btn:hover { background: var(--red-tint); color: var(--red); }
         .logout-btn:hover .icon { color: var(--red); }
+
+        .session-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--ink-dim); margin-right: 4px; }
+        .session-pill .icon { width: 13px; height: 13px; }
 
         .app-body { display: flex; gap: 20px; flex: 1; padding: 20px; }
 
@@ -394,7 +399,7 @@
                 <input type="text" id="loginUsername" placeholder="Masukkan username" autocomplete="username" required>
                 <label for="loginPassword">Kata sandi</label>
                 <input type="password" id="loginPassword" placeholder="Masukkan password" autocomplete="current-password" required>
-                <button type="submit">Masuk</button>
+                <button type="submit" id="loginSubmitBtn">Masuk</button>
             </form>
             <div class="login-error" id="loginError"></div>
         </div>
@@ -410,6 +415,7 @@
             <div><strong>Merdeka Motor Garut</strong><span>Panel Admin</span></div>
         </div>
         <div class="topbar-user">
+            <span class="session-pill" id="sessionPill"></span>
             <div class="topbar-user-info"><strong>Admin</strong><span>Merdeka Motor Garut</span></div>
             <div class="topbar-avatar">A</div>
             <button class="logout-btn" id="logoutBtn">
@@ -434,6 +440,10 @@
                 <button class="nav-item" data-page="parts">
                     <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l8 4.4v10.2L12 21.5l-8-4.4V6.9L12 2.5z"/><circle cx="12" cy="12" r="3"/></svg></span>
                     <span>Kelola Part</span>
+                </button>
+                <button class="nav-item" data-page="kategori">
+                    <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.8h7.2v7.2H4z"/><path d="M12.8 4.8H20v7.2h-7.2z"/><path d="M4 12.8h7.2V20H4z"/><circle cx="16.4" cy="16.4" r="3.6"/></svg></span>
+                    <span>Kategori</span>
                 </button>
                 <button class="nav-item" data-page="cabang">
                     <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.4a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.6" r="2.4"/></svg></span>
@@ -482,6 +492,14 @@
                         <div class="chart-card-head"><h3>Status Testimoni</h3></div>
                         <div class="chart-wrap"><canvas id="chartTestimoni"></canvas></div>
                     </div>
+                    <div class="chart-card">
+                        <div class="chart-card-head"><h3>Distribusi Rating Testimoni</h3></div>
+                        <div class="chart-wrap"><canvas id="chartRating"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-card-head"><h3>Rata-rata Rating</h3></div>
+                        <div class="chart-wrap"><canvas id="chartAvgRating"></canvas></div>
+                    </div>
                 </div>
 
                 <h3 class="section-title">Ringkasan</h3>
@@ -514,6 +532,22 @@
                         <select id="filterKategori" onchange="renderParts()"><option value="all">Semua</option></select>
                     </div>
                     <div class="table-scroll"><table><thead><tr><th>ID</th><th>Foto</th><th>Nama</th><th>Kode</th><th>Kategori</th><th>Aksi</th></tr></thead><tbody id="partsTableBody"><tr><td colspan="6" class="loading">Memuat...</td></tr></tbody></table></div>
+                </div>
+            </div>
+
+            <div class="page" id="page-kategori">
+                <div class="page-header"><div><span class="eyebrow">Katalog</span><h1>Kelola Kategori</h1><p class="subtitle">Kategori dipakai untuk mengelompokkan Part</p></div>
+                    <button class="add-btn" onclick="openKategoriModal()">
+                        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+                        Tambah Kategori
+                    </button>
+                </div>
+                <div class="table-container">
+                    <div class="table-toolbar">
+                        <span class="table-toolbar-title">Daftar Kategori</span>
+                        <div class="table-dots"><span></span><span></span><span></span></div>
+                    </div>
+                    <div class="table-scroll"><table><thead><tr><th>Key</th><th>Label</th><th>Jumlah Part</th><th>Aksi</th></tr></thead><tbody id="kategoriTableBody"><tr><td colspan="4" class="loading">Memuat...</td></tr></tbody></table></div>
                 </div>
             </div>
 
@@ -577,6 +611,17 @@
     </form>
 </div></div>
 
+<!-- Modal Kategori -->
+<div class="modal" id="kategoriModal"><div class="modal-content">
+    <div class="modal-header"><h2 id="kategoriModalTitle">Tambah Kategori</h2><button class="close-btn" onclick="closeModal('kategoriModal')"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span></button></div>
+    <form id="kategoriForm">
+        <input type="hidden" id="kategoriOldKey">
+        <div class="form-group"><label>Key (unik, huruf kecil, tanpa spasi)</label><input type="text" id="kategoriKey" placeholder="Contoh: transmisi" pattern="[a-z0-9_-]+" required></div>
+        <div class="form-group"><label>Label Tampilan</label><input type="text" id="kategoriLabel" placeholder="Contoh: Transmisi" required></div>
+        <button type="submit" class="save-btn">Simpan</button>
+    </form>
+</div></div>
+
 <!-- Modal Cabang -->
 <div class="modal" id="cabangModal"><div class="modal-content">
     <div class="modal-header"><h2 id="cabangModalTitle">Tambah Cabang</h2><button class="close-btn" onclick="closeModal('cabangModal')"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span></button></div>
@@ -623,13 +668,29 @@
 <script>
 // ============================================
 // CONFIG (HARDCODED - TIDAK PERLU FILE TERPISAH)
+//
+// CATATAN KEAMANAN PENTING:
+// Username/password/API key di bawah ini tersimpan di kode sisi klien,
+// artinya siapa pun bisa melihatnya lewat "View Page Source". Ini cukup
+// untuk internal tool berisiko rendah, tapi TIDAK aman untuk data sensitif.
+// Rekomendasi jangka panjang: pindahkan validasi login ke backend
+// (mis. endpoint /api/proxy?action=login yang mengecek username/password
+// di server dan mengembalikan token sesi), lalu hapus ADMIN_USERNAME /
+// ADMIN_PASSWORD dari file ini. Selama itu belum tersedia, kode di bawah
+// menambahkan beberapa lapis mitigasi di sisi klien: percobaan login
+// dibatasi (anti brute-force kasar), sesi otomatis kedaluwarsa, dan
+// auto-logout saat tidak ada aktivitas.
 // ============================================
 const CONFIG = {
     API_URL: '/api/proxy',
     API_KEY: 'merdeka2024',
     ADMIN_USERNAME: 'merdekajayagarut',
     ADMIN_PASSWORD: 'merdekagarut',
-    KATEGORI: [
+    MAX_LOGIN_ATTEMPTS: 5,
+    LOGIN_LOCKOUT_MS: 5 * 60 * 1000,      // 5 menit
+    SESSION_MAX_AGE_MS: 8 * 60 * 60 * 1000, // 8 jam
+    IDLE_LOGOUT_MS: 15 * 60 * 1000,        // 15 menit tanpa aktivitas
+    KATEGORI_DEFAULT: [
         { key: 'mesin', label: 'Mesin' },
         { key: 'kelistrikan', label: 'Kelistrikan' },
         { key: 'rem', label: 'Rem & Suspensi' },
@@ -645,8 +706,13 @@ const CONFIG = {
 let allParts = [];
 let allCabang = [];
 let allTestimoni = [];
+let allKategori = [];
 let uploadingState = {};
 let lastSelectedFile = {};
+let loginAttempts = 0;       // reset saat reload halaman (mitigasi ringan sisi klien)
+let lockoutUntil = 0;
+let idleTimer = null;
+let sessionCheckTimer = null;
 
 // ============================================
 // HELPERS
@@ -655,31 +721,114 @@ function getImageUrl(img) { if (!img) return ''; if (img.startsWith('http')) ret
 function showToast(msg, type = 'success') { const t = document.getElementById('toast'); t.textContent = msg; t.className = 'toast show ' + type; setTimeout(() => t.classList.remove('show'), 3000); }
 
 // ============================================
+// SESI & KEAMANAN LOGIN
+// ============================================
+function startSession() {
+    const now = Date.now();
+    sessionStorage.setItem('mmg_admin', 'true');
+    sessionStorage.setItem('mmg_admin_since', String(now));
+    showApp();
+    resetIdleTimer();
+    updateSessionPill();
+    if (sessionCheckTimer) clearInterval(sessionCheckTimer);
+    sessionCheckTimer = setInterval(checkSessionExpiry, 30 * 1000);
+}
+function showApp() {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'flex';
+    loadAllData();
+}
+function checkSessionExpiry() {
+    const since = Number(sessionStorage.getItem('mmg_admin_since') || 0);
+    if (!since) return;
+    if (Date.now() - since > CONFIG.SESSION_MAX_AGE_MS) {
+        doLogout('Sesi Anda sudah berakhir, silakan masuk kembali.');
+        return;
+    }
+    updateSessionPill();
+}
+function updateSessionPill() {
+    const el = document.getElementById('sessionPill');
+    if (!el) return;
+    const since = Number(sessionStorage.getItem('mmg_admin_since') || 0);
+    if (!since) { el.textContent = ''; return; }
+    const remainMs = CONFIG.SESSION_MAX_AGE_MS - (Date.now() - since);
+    const remainMin = Math.max(0, Math.round(remainMs / 60000));
+    el.textContent = 'Sesi aktif · ' + remainMin + ' mnt lagi';
+}
+function resetIdleTimer() {
+    if (idleTimer) clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => doLogout('Anda logout otomatis karena tidak ada aktivitas.'), CONFIG.IDLE_LOGOUT_MS);
+}
+function doLogout(message) {
+    sessionStorage.removeItem('mmg_admin');
+    sessionStorage.removeItem('mmg_admin_since');
+    if (idleTimer) clearTimeout(idleTimer);
+    if (sessionCheckTimer) clearInterval(sessionCheckTimer);
+    if (message) { try { alert(message); } catch (e) {} }
+    location.reload();
+}
+['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(evt => {
+    document.addEventListener(evt, () => { if (sessionStorage.getItem('mmg_admin') === 'true') resetIdleTimer(); }, { passive: true });
+});
+
+// ============================================
 // INIT
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
-    if (sessionStorage.getItem('mmg_admin') === 'true') { document.getElementById('loginScreen').style.display = 'none'; document.getElementById('dashboard').style.display = 'flex'; loadAllData(); }
+    if (sessionStorage.getItem('mmg_admin') === 'true') {
+        const since = Number(sessionStorage.getItem('mmg_admin_since') || 0);
+        if (since && Date.now() - since <= CONFIG.SESSION_MAX_AGE_MS) {
+            showApp();
+            resetIdleTimer();
+            updateSessionPill();
+            sessionCheckTimer = setInterval(checkSessionExpiry, 30 * 1000);
+        } else {
+            sessionStorage.removeItem('mmg_admin');
+            sessionStorage.removeItem('mmg_admin_since');
+        }
+    }
+
     document.getElementById('loginForm').addEventListener('submit', (e) => {
         e.preventDefault();
+        const errEl = document.getElementById('loginError');
+        const btn = document.getElementById('loginSubmitBtn');
+
+        if (Date.now() < lockoutUntil) {
+            const secs = Math.ceil((lockoutUntil - Date.now()) / 1000);
+            errEl.textContent = `Terlalu banyak percobaan gagal. Coba lagi dalam ${secs} detik.`;
+            return;
+        }
+
         const usernameVal = document.getElementById('loginUsername').value.trim();
         const passwordVal = document.getElementById('loginPassword').value;
+
         if (usernameVal === CONFIG.ADMIN_USERNAME && passwordVal === CONFIG.ADMIN_PASSWORD) {
-            sessionStorage.setItem('mmg_admin', 'true');
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('dashboard').style.display = 'flex';
-            loadAllData();
-        } else { document.getElementById('loginError').textContent = 'Username atau password salah!'; }
+            loginAttempts = 0;
+            errEl.textContent = '';
+            startSession();
+        } else {
+            loginAttempts++;
+            const remaining = CONFIG.MAX_LOGIN_ATTEMPTS - loginAttempts;
+            if (remaining <= 0) {
+                lockoutUntil = Date.now() + CONFIG.LOGIN_LOCKOUT_MS;
+                btn.disabled = true;
+                errEl.textContent = `Terlalu banyak percobaan gagal. Coba lagi dalam ${Math.ceil(CONFIG.LOGIN_LOCKOUT_MS / 1000)} detik.`;
+                setTimeout(() => { btn.disabled = false; loginAttempts = 0; errEl.textContent = ''; }, CONFIG.LOGIN_LOCKOUT_MS);
+            } else {
+                errEl.textContent = `Username atau password salah! (sisa percobaan: ${remaining})`;
+            }
+        }
     });
-    document.getElementById('logoutBtn').addEventListener('click', () => { sessionStorage.removeItem('mmg_admin'); location.reload(); });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => doLogout());
+
     document.querySelectorAll('.nav-item').forEach(btn => btn.addEventListener('click', () => {
         document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active')); btn.classList.add('active');
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-' + btn.dataset.page).classList.add('active');
     }));
-    CONFIG.KATEGORI.forEach(k => {
-        document.getElementById('filterKategori').innerHTML += `<option value="${k.key}">${k.label}</option>`;
-        document.getElementById('partKategori').innerHTML += `<option value="${k.key}">${k.label}</option>`;
-    });
+
     document.getElementById('partForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         if (uploadingState.part) { showToast('Tunggu foto selesai di-upload dulu ya', 'error'); return; }
@@ -688,6 +837,34 @@ document.addEventListener('DOMContentLoaded', () => {
         const result = await apiPost(id ? 'updatePart' : 'addPart', id ? { id: Number(id), data: data } : { data: data });
         if (result?.success) { closeModal('partModal'); await loadAllData(true); showToast(id ? 'Part berhasil diperbarui!' : 'Part berhasil disimpan!'); }
     });
+
+    document.getElementById('kategoriForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const key = document.getElementById('kategoriKey').value.trim().toLowerCase();
+        const label = document.getElementById('kategoriLabel').value.trim();
+        const oldKey = document.getElementById('kategoriOldKey').value;
+        if (!oldKey && allKategori.some(k => k.key === key)) { showToast('Key kategori sudah dipakai', 'error'); return; }
+        const data = { key, label };
+        const result = await apiPost(oldKey ? 'updateKategori' : 'addKategori', oldKey ? { id: oldKey, data: data } : { data: data });
+        if (result?.success) {
+            closeModal('kategoriModal');
+            await loadAllData(true);
+            showToast(oldKey ? 'Kategori berhasil diperbarui!' : 'Kategori berhasil disimpan!');
+        } else if (!result) {
+            // Backend belum mendukung action ini: simpan sementara di memori (tidak permanen)
+            if (oldKey) {
+                const idx = allKategori.findIndex(k => k.key === oldKey);
+                if (idx > -1) allKategori[idx] = data;
+            } else {
+                allKategori.push(data);
+            }
+            closeModal('kategoriModal');
+            refreshKategoriDropdowns();
+            renderKategori();
+            showToast('Kategori disimpan sementara (backend belum mendukung penyimpanan permanen)', 'error');
+        }
+    });
+
     document.getElementById('cabangForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         if (uploadingState.cabang) { showToast('Tunggu foto selesai di-upload dulu ya', 'error'); return; }
@@ -696,6 +873,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const result = await apiPost(id ? 'updateCabang' : 'addCabang', id ? { id: Number(id), data: data } : { data: data });
         if (result?.success) { closeModal('cabangModal'); await loadAllData(true); showToast(id ? 'Cabang berhasil diperbarui!' : 'Cabang berhasil disimpan!'); }
     });
+
     document.getElementById('testimoniForm').addEventListener('submit', async (e) => { e.preventDefault(); const data = { nama: document.getElementById('testimoniNama').value, meta: document.getElementById('testimoniMeta').value, rating: document.getElementById('testimoniRating').value, text: document.getElementById('testimoniText').value, aktif: document.getElementById('testimoniAktif').value }; const id = document.getElementById('testimoniId').value; const result = await apiPost(id ? 'updateTestimoni' : 'addTestimoni', id ? { id: Number(id), data: data } : { data: data }); if (result?.success) { closeModal('testimoniModal'); await loadAllData(true); showToast(id ? 'Testimoni berhasil diperbarui!' : 'Testimoni berhasil disimpan!'); } });
     document.getElementById('partFotoInput').addEventListener('change', (e) => { if (e.target.files[0]) handleUpload(e.target.files[0], 'part'); });
     document.getElementById('cabangFotoInput').addEventListener('change', (e) => { if (e.target.files[0]) handleUpload(e.target.files[0], 'cabang'); });
@@ -710,39 +888,57 @@ async function apiPost(action, payload = {}) { try { const res = await fetch(CON
 
 async function loadAllData(silent = false) {
     if (!silent) showToast('Memuat data...');
-    const [parts, cabang, testi] = await Promise.all([apiGet('getParts'), apiGet('getCabang'), apiGet('getTestimoni')]);
+    const [parts, cabang, testi, kategoriFromApi] = await Promise.all([apiGet('getParts'), apiGet('getCabang'), apiGet('getTestimoni'), apiGet('getKategori')]);
     allParts = parts || []; allCabang = cabang || []; allTestimoni = testi || [];
+    // Kalau backend belum punya endpoint getKategori, pakai daftar default + kategori yang sudah tersimpan di memori sebelumnya
+    allKategori = (kategoriFromApi && kategoriFromApi.length) ? kategoriFromApi : (allKategori.length ? allKategori : CONFIG.KATEGORI_DEFAULT.slice());
     document.getElementById('statParts').textContent = allParts.length;
     document.getElementById('statCabang').textContent = allCabang.length;
     document.getElementById('statTestimoni').textContent = allTestimoni.length;
-    renderParts(); renderCabang(); renderTestimoni();
+    refreshKategoriDropdowns();
+    renderParts(); renderCabang(); renderTestimoni(); renderKategori();
     renderCharts(); renderWidgets();
     if (!silent) showToast('Data dimuat!');
 }
 
 function refreshAll() { loadAllData(); }
 
+function refreshKategoriDropdowns() {
+    const filterEl = document.getElementById('filterKategori');
+    const partEl = document.getElementById('partKategori');
+    const currentFilter = filterEl.value;
+    const currentPart = partEl.value;
+    filterEl.innerHTML = '<option value="all">Semua</option>' + allKategori.map(k => `<option value="${k.key}">${k.label}</option>`).join('');
+    partEl.innerHTML = allKategori.map(k => `<option value="${k.key}">${k.label}</option>`).join('');
+    if ([...filterEl.options].some(o => o.value === currentFilter)) filterEl.value = currentFilter;
+    if ([...partEl.options].some(o => o.value === currentPart)) partEl.value = currentPart;
+}
+
 // ============================================
 // CHARTS
 // ============================================
 let chartKategoriInstance = null;
 let chartTestimoniInstance = null;
+let chartRatingInstance = null;
+let chartAvgRatingInstance = null;
 function renderCharts() {
     if (typeof Chart === 'undefined') return;
     const ctxKategori = document.getElementById('chartKategori');
     const ctxTestimoni = document.getElementById('chartTestimoni');
+    const ctxRating = document.getElementById('chartRating');
+    const ctxAvgRating = document.getElementById('chartAvgRating');
     if (!ctxKategori || !ctxTestimoni) return;
 
     const counts = {};
-    CONFIG.KATEGORI.forEach(k => counts[k.key] = 0);
+    allKategori.forEach(k => counts[k.key] = 0);
     allParts.forEach(p => { counts[p.kategori] = (counts[p.kategori] || 0) + 1; });
 
     if (chartKategoriInstance) chartKategoriInstance.destroy();
     chartKategoriInstance = new Chart(ctxKategori, {
         type: 'bar',
         data: {
-            labels: CONFIG.KATEGORI.map(k => k.label),
-            datasets: [{ data: CONFIG.KATEGORI.map(k => counts[k.key] || 0), backgroundColor: '#C8102E', borderRadius: 8, maxBarThickness: 32 }]
+            labels: allKategori.map(k => k.label),
+            datasets: [{ data: allKategori.map(k => counts[k.key] || 0), backgroundColor: '#C8102E', borderRadius: 8, maxBarThickness: 32 }]
         },
         options: {
             responsive: true, maintainAspectRatio: false,
@@ -766,6 +962,59 @@ function renderCharts() {
             plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 11 }, color: '#6C6A63' } } }
         }
     });
+
+    // Distribusi rating (1-5 bintang)
+    if (ctxRating) {
+        const ratingCounts = [1, 2, 3, 4, 5].map(r => allTestimoni.filter(t => Number(t.rating) === r).length);
+        if (chartRatingInstance) chartRatingInstance.destroy();
+        chartRatingInstance = new Chart(ctxRating, {
+            type: 'bar',
+            data: {
+                labels: ['1 ★', '2 ★', '3 ★', '4 ★', '5 ★'],
+                datasets: [{ data: ratingCounts, backgroundColor: '#D89B2E', borderRadius: 8, maxBarThickness: 32 }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { beginAtZero: true, ticks: { precision: 0, font: { size: 10.5 }, color: '#6C6A63' }, grid: { color: '#EFEDE6' } },
+                    y: { grid: { display: false }, ticks: { font: { size: 11 }, color: '#6C6A63' } }
+                }
+            }
+        });
+    }
+
+    // Rata-rata rating keseluruhan (gauge sederhana pakai doughnut)
+    if (ctxAvgRating) {
+        const total = allTestimoni.length;
+        const avg = total ? (allTestimoni.reduce((s, t) => s + (Number(t.rating) || 0), 0) / total) : 0;
+        const avgClamped = Math.max(0, Math.min(5, avg));
+        if (chartAvgRatingInstance) chartAvgRatingInstance.destroy();
+        chartAvgRatingInstance = new Chart(ctxAvgRating, {
+            type: 'doughnut',
+            data: { labels: ['Rata-rata', 'Sisa'], datasets: [{ data: [avgClamped, 5 - avgClamped], backgroundColor: ['#1F8A3B', '#E6E3DA'], borderWidth: 0 }] },
+            options: {
+                responsive: true, maintainAspectRatio: false, cutout: '72%', rotation: -90, circumference: 180,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: false }
+                }
+            },
+            plugins: [{
+                id: 'avgRatingLabel',
+                afterDraw(chart) {
+                    const { ctx, chartArea } = chart;
+                    ctx.save();
+                    ctx.font = "700 22px 'Barlow Condensed', sans-serif";
+                    ctx.fillStyle = '#17181C';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(avg.toFixed(1) + ' / 5', (chartArea.left + chartArea.right) / 2, chartArea.bottom - 6);
+                    ctx.restore();
+                }
+            }]
+        });
+    }
 }
 
 // ============================================
@@ -817,7 +1066,15 @@ function renderParts() {
     const filtered = allParts.filter(p => (!q || (p.nama||'').toLowerCase().includes(q) || (p.kode||'').toLowerCase().includes(q)) && (kat === 'all' || p.kategori === kat));
     const tbody = document.getElementById('partsTableBody');
     if (!filtered.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px;">Tidak ada data</td></tr>'; return; }
-    tbody.innerHTML = filtered.map(p => `<tr><td>${p.id}</td><td><div class="thumb"><img src="${getImageUrl(p.img)}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23f2f2f5%22/%3E%3C/svg%3E'"></div></td><td><strong>${p.nama}</strong></td><td>${p.kode}</td><td><span class="badge badge-active">${p.kategori}</span></td><td><button class="action-btn edit-btn" onclick="editPart(${p.id})">Edit</button><button class="action-btn delete-btn" onclick="deletePart(${p.id})">Hapus</button></td></tr>`).join('');
+    tbody.innerHTML = filtered.map(p => `<tr><td>${p.id}</td><td><div class="thumb"><img src="${getImageUrl(p.img)}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23f2f2f5%22/%3E%3C/svg%3E'"></div></td><td><strong>${p.nama}</strong></td><td>${p.kode}</td><td><span class="badge badge-active">${(allKategori.find(k=>k.key===p.kategori)||{}).label || p.kategori}</span></td><td><button class="action-btn edit-btn" onclick="editPart(${p.id})">Edit</button><button class="action-btn delete-btn" onclick="deletePart(${p.id})">Hapus</button></td></tr>`).join('');
+}
+function renderKategori() {
+    const tbody = document.getElementById('kategoriTableBody');
+    if (!allKategori.length) { tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:40px;">Tidak ada data</td></tr>'; return; }
+    tbody.innerHTML = allKategori.map(k => {
+        const jumlah = allParts.filter(p => p.kategori === k.key).length;
+        return `<tr><td><code>${k.key}</code></td><td><strong>${k.label}</strong></td><td>${jumlah}</td><td><button class="action-btn edit-btn" onclick="editKategori('${k.key}')">Edit</button><button class="action-btn delete-btn" onclick="deleteKategori('${k.key}', ${jumlah})">Hapus</button></td></tr>`;
+    }).join('');
 }
 function renderCabang() {
     const tbody = document.getElementById('cabangTableBody');
@@ -834,10 +1091,34 @@ function renderTestimoni() {
 // MODALS & CRUD
 // ============================================
 function openPartModal(id = null) { document.getElementById('partForm').reset(); document.getElementById('partFotoPreview').innerHTML = ''; if (id) { const p = allParts.find(x => x.id == id); document.getElementById('partModalTitle').textContent = 'Edit Part'; document.getElementById('partId').value = p.id; document.getElementById('partNama').value = p.nama; document.getElementById('partKode').value = p.kode; document.getElementById('partKategori').value = p.kategori; document.getElementById('partKompatibel').value = p.kompatibel; document.getElementById('partImg').value = p.img; document.getElementById('partDeskripsi').value = p.deskripsi; if (p.img) document.getElementById('partFotoPreview').innerHTML = `<img src="${getImageUrl(p.img)}" class="preview-img">`; } else { document.getElementById('partModalTitle').textContent = 'Tambah Part'; } document.getElementById('partModal').classList.add('show'); }
+function openKategoriModal(key = null) {
+    document.getElementById('kategoriForm').reset();
+    document.getElementById('kategoriOldKey').value = '';
+    document.getElementById('kategoriKey').disabled = false;
+    if (key) {
+        const k = allKategori.find(x => x.key === key);
+        if (!k) return;
+        document.getElementById('kategoriModalTitle').textContent = 'Edit Kategori';
+        document.getElementById('kategoriOldKey').value = k.key;
+        document.getElementById('kategoriKey').value = k.key;
+        document.getElementById('kategoriKey').disabled = true; // key tidak diubah agar part lama tidak "yatim"
+        document.getElementById('kategoriLabel').value = k.label;
+    } else {
+        document.getElementById('kategoriModalTitle').textContent = 'Tambah Kategori';
+    }
+    document.getElementById('kategoriModal').classList.add('show');
+}
 function openCabangModal(id = null) { document.getElementById('cabangForm').reset(); document.getElementById('cabangFotoPreview').innerHTML = ''; if (id) { const c = allCabang.find(x => x.id == id); document.getElementById('cabangModalTitle').textContent = 'Edit Cabang'; document.getElementById('cabangId').value = c.id; document.getElementById('cabangNama').value = c.nama; document.getElementById('cabangArea').value = c.area; document.getElementById('cabangJam').value = c.jam; document.getElementById('cabangBuka').value = c.buka; document.getElementById('cabangTutup').value = c.tutup; document.getElementById('cabangWa').value = c.wa; document.getElementById('cabangMaps').value = c.maps; document.getElementById('cabangImg').value = c.img; if (c.img) document.getElementById('cabangFotoPreview').innerHTML = `<img src="${getImageUrl(c.img)}" class="preview-img">`; } else { document.getElementById('cabangModalTitle').textContent = 'Tambah Cabang'; } document.getElementById('cabangModal').classList.add('show'); }
 function openTestimoniModal(id = null) { document.getElementById('testimoniForm').reset(); if (id) { const t = allTestimoni.find(x => x.id == id); document.getElementById('testimoniModalTitle').textContent = 'Edit Testimoni'; document.getElementById('testimoniId').value = t.id; document.getElementById('testimoniNama').value = t.nama; document.getElementById('testimoniMeta').value = t.meta; document.getElementById('testimoniRating').value = t.rating; document.getElementById('testimoniText').value = t.text; document.getElementById('testimoniAktif').value = t.aktif; } else { document.getElementById('testimoniModalTitle').textContent = 'Tambah Testimoni'; } document.getElementById('testimoniModal').classList.add('show'); }
-function editPart(id) { openPartModal(id); } function editCabang(id) { openCabangModal(id); } function editTestimoni(id) { openTestimoniModal(id); }
+function editPart(id) { openPartModal(id); } function editCabang(id) { openCabangModal(id); } function editTestimoni(id) { openTestimoniModal(id); } function editKategori(key) { openKategoriModal(key); }
 async function deletePart(id) { if (confirm('Hapus part ini?')) { const result = await apiPost('deletePart', { id }); if (result?.success) { await loadAllData(true); showToast('Part berhasil dihapus!'); } } }
+async function deleteKategori(key, jumlahPart) {
+    if (jumlahPart > 0) { showToast(`Tidak bisa dihapus, masih dipakai oleh ${jumlahPart} part`, 'error'); return; }
+    if (!confirm('Hapus kategori ini?')) return;
+    const result = await apiPost('deleteKategori', { id: key });
+    if (result?.success) { await loadAllData(true); showToast('Kategori berhasil dihapus!'); }
+    else if (!result) { allKategori = allKategori.filter(k => k.key !== key); refreshKategoriDropdowns(); renderKategori(); renderCharts(); showToast('Kategori dihapus sementara (backend belum mendukung)', 'error'); }
+}
 async function deleteCabang(id) { if (confirm('Hapus cabang ini?')) { const result = await apiPost('deleteCabang', { id }); if (result?.success) { await loadAllData(true); showToast('Cabang berhasil dihapus!'); } } }
 async function deleteTestimoni(id) { if (confirm('Hapus testimoni ini?')) { const result = await apiPost('deleteTestimoni', { id }); if (result?.success) { await loadAllData(true); showToast('Testimoni berhasil dihapus!'); } } }
 function closeModal(id) { document.getElementById(id).classList.remove('show'); }
